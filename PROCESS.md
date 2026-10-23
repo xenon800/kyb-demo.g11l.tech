@@ -78,3 +78,33 @@ The 24-hour target still holds in `shadow` mode: the checks run in minutes, and 
 A static page can't write live into the GitHub repo, and I deliberately did not set up a separate SQL or Notion database just to show that I can connect one. I also considered a shared Google Sheet as a stand-in and rejected it: a sheet is editable, so it is not an audit store, and writing to it from a public page would mean exposing a write endpoint anyone could call. That would demonstrate the opposite of auditability.
 
 What the prototype does instead: the audit trail of each session is shown live in the compliance view, hash-chained, and exportable as JSON. Example logs for both clients are in `audit/`. In production, the same events go to append-only storage (see `audit/README.md`).
+
+## 5. Build plan (written before any UI code)
+
+Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.
+
+### Architecture
+- Static site, plain HTML/CSS/JS, no build step. Hosted on Cloudflare Pages at `kyb-demo.g11l.tech`.
+- `ruleset.json` is loaded at runtime. Nothing about rules is hard-coded in the UI.
+- `engine.js` is a pure function: `evaluate(case, ruleset) → decision + full trace`. The UI, the compliance view and the audit snapshot script all use the same engine, so they can't drift apart.
+- The engine is tested from the command line against both mock clients before any UI exists.
+
+### Screens
+1. **Header:** prototype banner (mock data, built by Gerrit Schnell for Lunar Rails), case selector: Client A, Client B, or an editable custom case.
+2. **Client view:** stepper (Company, Ownership & UBOs, Expected activity, Documents, Review & submit), then a status page that tells the client honestly what happens next: trading within 24h, or which extra information is needed and why.
+3. **Live checks panel:** each input triggers the matching simulated check (Sumsub, registry, screening, KYT), clearly labelled as simulated.
+4. **Compliance view:** case summary, risk score breakdown, which rule decided and why, analyst actions (confirm, request info, escalate, reject) with a mandatory reason, audit trail with hash-chain verification and JSON export.
+5. **Ruleset tab:** the active ruleset rendered as tables, with its version. Parameters can be changed in the demo to show the effect (e.g. PEP → reject), and the change itself is written to the audit trail.
+6. **"How I built this" tab:** this log, rendered.
+
+### Non-functional
+- `noindex` three ways: meta tag, `robots.txt`, `X-Robots-Tag` header.
+- Works on mobile. No real personal data, no external API calls, no trackers.
+
+### Acceptance criteria (checked before submission)
+- Client A → `approve`, awaiting analyst confirmation (`shadow` mode), inside 24h.
+- Client B → `escalate` via the PEP rule (H4); risk score high even without the PEP.
+- Switching `pep_outcome` to `reject` changes Client B's recommendation, and the change is audited.
+- No path leads to an automatic rejection.
+- Audit chain verifies; editing an exported event breaks verification.
+- Ruleset, compliance view and justification state the same rules.
