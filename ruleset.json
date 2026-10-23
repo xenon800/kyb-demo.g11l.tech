@@ -25,7 +25,7 @@
     "client_eta": {
       "awaiting_confirmation": "within 24 hours of submission",
       "in_review": "within 1 business day",
-      "edd": "usually 3–5 business days",
+      "edd": "3–5 business days",
       "awaiting_client": "as soon as we receive the items below"
     },
     "edd_documents": ["source_of_wealth", "source_of_funds_declaration", "bank_statements_3m", "financial_statements"]
@@ -85,7 +85,7 @@
     { "id": "C4", "step": "ownership", "name": "Adverse media screening", "automated": true, "simulated_provider": "Sumsub AML screening" },
     { "id": "C5", "step": "activity", "name": "Wallet screening of the client's settlement addresses", "automated": true, "simulated_provider": "Chainalysis KYT / Elliptic" },
     { "id": "C6", "step": "documents", "name": "Document completeness against the required set", "automated": true, "simulated_provider": "Rule engine" },
-    { "id": "C7", "step": "ownership", "name": "Ownership resolved to natural persons, effective ownership calculated", "automated": "partial", "simulated_provider": "Rule engine; analyst verifies holding registers where public data is limited" }
+    { "id": "C7", "step": "ownership", "name": "Ownership resolved to natural persons, effective ownership calculated", "automated": "partial", "simulated_provider": "Rule engine", "manual_step": "Analyst verifies holding registers where public registry data is limited" }
   ],
 
   "risk_factors": [

@@ -1,0 +1,432 @@
+{
+  "format": "kyb-demo-audit/1",
+  "case_id": "CASE-B-0001",
+  "exported_at": "2026-10-23T09:02:24.000Z",
+  "event_count": 15,
+  "verification": {
+    "ok": true,
+    "count": 15,
+    "head_hash": "sha256:5fe29570e04d626933f3e3a526092e73baec3093961200d74836873b87dab58d"
+  },
+  "events": [
+    {
+      "event_id": "evt_000001",
+      "timestamp_utc": "2026-10-23T08:00:00.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "client:applicant",
+      "action": "application.started",
+      "inputs_hash": "sha256:138df58f43709c0c3948ea3cca8aff055b31151e0660101bda070d9a2dca9b8c",
+      "result": "started",
+      "reason": "Client B: Saffron Dunes General Trading FZCO",
+      "details": null,
+      "prev_event_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "sha256:a9866f7527abcb472163fc2eb2aa07f22b65ed0f9d576d2ed79a03fad13156bc"
+    },
+    {
+      "event_id": "evt_000002",
+      "timestamp_utc": "2026-10-23T08:01:33.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C2",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "manual",
+      "reason": "Limited public registry data for a holding: analyst verifies the submitted register",
+      "details": {
+        "check": "Corporate registry lookup and data match",
+        "provider": "Sumsub KYB / registry API, simulated",
+        "items": [
+          {
+            "label": "Saffron Dunes General Trading FZCO",
+            "result": "match"
+          },
+          {
+            "label": "Meridian Peak Holdings Ltd.",
+            "result": "limited"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:a9866f7527abcb472163fc2eb2aa07f22b65ed0f9d576d2ed79a03fad13156bc",
+      "hash": "sha256:43af39c1394c038738484044a537b1a36bb3865f96546c3ed643b2b28e79d32b"
+    },
+    {
+      "event_id": "evt_000003",
+      "timestamp_utc": "2026-10-23T08:03:06.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C7",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "pass",
+      "reason": "Resolved to 2 natural people; 3 people in scope",
+      "details": {
+        "check": "Ownership resolved to natural persons, effective ownership calculated",
+        "provider": "Rule engine",
+        "items": [
+          {
+            "label": "Daniel Okafor",
+            "result": "70% effective"
+          },
+          {
+            "label": "Priya Raman",
+            "result": "30% effective"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:43af39c1394c038738484044a537b1a36bb3865f96546c3ed643b2b28e79d32b",
+      "hash": "sha256:0b697e399a447c72e469c3106acc6049932fab26d4a459d000efdbd348d09fb2"
+    },
+    {
+      "event_id": "evt_000004",
+      "timestamp_utc": "2026-10-23T08:03:09.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C1",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "pass",
+      "reason": "3 people verified",
+      "details": {
+        "check": "ID document + liveness for every person in scope",
+        "provider": "Sumsub KYC, simulated",
+        "items": [
+          {
+            "label": "Daniel Okafor",
+            "result": "pass"
+          },
+          {
+            "label": "Priya Raman",
+            "result": "pass"
+          },
+          {
+            "label": "Marco Bellandi",
+            "result": "pass"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:0b697e399a447c72e469c3106acc6049932fab26d4a459d000efdbd348d09fb2",
+      "hash": "sha256:3591cbaa655ffbfded683bfe7c3918590fdfe62267761991a6828dd148040244"
+    },
+    {
+      "event_id": "evt_000005",
+      "timestamp_utc": "2026-10-23T08:03:12.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C3",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "flag",
+      "reason": "PEP: Marco Bellandi",
+      "details": {
+        "check": "Sanctions and PEP screening: company, holdings, persons in scope",
+        "provider": "Sumsub AML screening / World-Check, simulated",
+        "items": [
+          {
+            "label": "Company and holdings",
+            "result": "clear"
+          },
+          {
+            "label": "Daniel Okafor",
+            "result": "clear"
+          },
+          {
+            "label": "Priya Raman",
+            "result": "clear"
+          },
+          {
+            "label": "Marco Bellandi",
+            "result": "PEP"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:3591cbaa655ffbfded683bfe7c3918590fdfe62267761991a6828dd148040244",
+      "hash": "sha256:da0b83157d2c815450237dec361a63d19ab1a70ffd904beb557b41078a1aca8a"
+    },
+    {
+      "event_id": "evt_000006",
+      "timestamp_utc": "2026-10-23T08:03:15.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C4",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "pass",
+      "reason": "No relevant adverse media",
+      "details": {
+        "check": "Adverse media screening",
+        "provider": "Sumsub AML screening, simulated",
+        "items": []
+      },
+      "prev_event_hash": "sha256:da0b83157d2c815450237dec361a63d19ab1a70ffd904beb557b41078a1aca8a",
+      "hash": "sha256:3d0848cf297c86c471da56b2668528d91afe103368bd6a50f70f69622226443d"
+    },
+    {
+      "event_id": "evt_000007",
+      "timestamp_utc": "2026-10-23T08:04:48.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C5",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "pass",
+      "reason": "2 addresses screened, low risk exposure",
+      "details": {
+        "check": "Wallet screening of the client's settlement addresses",
+        "provider": "Chainalysis KYT / Elliptic, simulated",
+        "items": [
+          {
+            "label": "USDT (TRON) T-mock-client-b-0001",
+            "result": "low risk"
+          },
+          {
+            "label": "BTC bc1q-mock-client-b-0002",
+            "result": "low risk"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:3d0848cf297c86c471da56b2668528d91afe103368bd6a50f70f69622226443d",
+      "hash": "sha256:8f4871928575ca974023cf6dd701b35abc775ab983a1e6066c7245a3ff05f852"
+    },
+    {
+      "event_id": "evt_000008",
+      "timestamp_utc": "2026-10-23T08:06:21.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C6",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "flag",
+      "reason": "2 of 14 required documents missing",
+      "details": {
+        "check": "Document completeness against the required set",
+        "provider": "Rule engine",
+        "items": [
+          {
+            "label": "Certificate of incorporation",
+            "result": "provided"
+          },
+          {
+            "label": "Commercial registry extract (max. 3 months old)",
+            "result": "provided"
+          },
+          {
+            "label": "Articles / memorandum of association",
+            "result": "provided"
+          },
+          {
+            "label": "Register of shareholders",
+            "result": "provided"
+          },
+          {
+            "label": "Register of directors",
+            "result": "provided"
+          },
+          {
+            "label": "Proof of registered address",
+            "result": "provided"
+          },
+          {
+            "label": "Board resolution or POA for the authorised signatory",
+            "result": "provided"
+          },
+          {
+            "label": "Holding company: certificate of incorporation",
+            "result": "provided"
+          },
+          {
+            "label": "Holding company: register of members",
+            "result": "provided"
+          },
+          {
+            "label": "Holding company: register of directors",
+            "result": "provided"
+          },
+          {
+            "label": "Company bank statements (last 3 months)",
+            "result": "provided"
+          },
+          {
+            "label": "Source of funds declaration",
+            "result": "provided"
+          },
+          {
+            "label": "Latest annual financial statements",
+            "result": "missing"
+          },
+          {
+            "label": "Source of wealth evidence for the beneficial owners",
+            "result": "missing"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:8f4871928575ca974023cf6dd701b35abc775ab983a1e6066c7245a3ff05f852",
+      "hash": "sha256:2e5945692d87b4e8bfd290dd678d82fabb5578e41be73fc57da7182275386430"
+    },
+    {
+      "event_id": "evt_000009",
+      "timestamp_utc": "2026-10-23T08:07:21.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "client:applicant",
+      "action": "application.submitted",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "submitted",
+      "reason": null,
+      "details": null,
+      "prev_event_hash": "sha256:2e5945692d87b4e8bfd290dd678d82fabb5578e41be73fc57da7182275386430",
+      "hash": "sha256:52a2588eb10882b9042be4d8400788da6666a50022d19c548ac8ba530ca75e30"
+    },
+    {
+      "event_id": "evt_000010",
+      "timestamp_utc": "2026-10-23T08:07:22.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "risk.scored",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "90 (high)",
+      "reason": "R1 +15, R2 +20, R3 +30, R5 +25",
+      "details": {
+        "factors": [
+          {
+            "id": "R1",
+            "factor": "Holding layer between client and beneficial owners",
+            "points_defined": 15,
+            "units": 1,
+            "points": 15,
+            "matched": true
+          },
+          {
+            "id": "R2",
+            "factor": "Holding in a low-transparency jurisdiction",
+            "points_defined": 20,
+            "units": 1,
+            "points": 20,
+            "matched": true
+          },
+          {
+            "id": "R3",
+            "factor": "PEP among owners, directors or signatories",
+            "points_defined": 30,
+            "units": 1,
+            "points": 30,
+            "matched": true
+          },
+          {
+            "id": "R5",
+            "factor": "Expected volume tier V3",
+            "points_defined": 25,
+            "units": 1,
+            "points": 25,
+            "matched": true
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:52a2588eb10882b9042be4d8400788da6666a50022d19c548ac8ba530ca75e30",
+      "hash": "sha256:d317164915802f7dd6553e3379b5e3f1ca4cc5d990746343a34bae8c3d1408ff"
+    },
+    {
+      "event_id": "evt_000011",
+      "timestamp_utc": "2026-10-23T08:07:23.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "rules.evaluated",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "escalate",
+      "reason": "H4: PEP identified (declared or found in screening)",
+      "details": {
+        "hard_rule_matches": [
+          "H4"
+        ],
+        "precondition_matches": [
+          "A1",
+          "A2"
+        ],
+        "decided_by": "human",
+        "automated_final": false
+      },
+      "prev_event_hash": "sha256:d317164915802f7dd6553e3379b5e3f1ca4cc5d990746343a34bae8c3d1408ff",
+      "hash": "sha256:3f531f4208423a0b23a15f1f1a1a217730dc53b69103ef0b2c4dbf128b1b57cb"
+    },
+    {
+      "event_id": "evt_000012",
+      "timestamp_utc": "2026-10-23T08:07:24.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "case.routed",
+      "inputs_hash": "sha256:a7a9893524e75d320cc9ee53cd503d53b9690c150485bc3bd3e5227cbbb731db",
+      "result": "edd",
+      "reason": "Queue: MLRO",
+      "details": null,
+      "prev_event_hash": "sha256:3f531f4208423a0b23a15f1f1a1a217730dc53b69103ef0b2c4dbf128b1b57cb",
+      "hash": "sha256:b6c4394262db14961cc9800ca88c5f00e0c0709c2a9b381bc2ab85aadf3c6e9b"
+    },
+    {
+      "event_id": "evt_000013",
+      "timestamp_utc": "2026-10-23T08:07:24.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "client.notified",
+      "inputs_hash": null,
+      "result": "Your application needs an enhanced review",
+      "reason": "Template message; no screening results or rule IDs are shared with the client",
+      "details": {
+        "template": "edd",
+        "items": [
+          "Latest annual financial statements",
+          "Source of wealth evidence for the beneficial owners"
+        ]
+      },
+      "prev_event_hash": "sha256:b6c4394262db14961cc9800ca88c5f00e0c0709c2a9b381bc2ab85aadf3c6e9b",
+      "hash": "sha256:0d8645c4a403a52bcf3c42642216d869d4b6ec1d7441b6d14f8a1a7b23c11c25"
+    },
+    {
+      "event_id": "evt_000014",
+      "timestamp_utc": "2026-10-23T09:02:24.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "mlro:demo-mlro",
+      "action": "decision.request_info",
+      "inputs_hash": null,
+      "result": "awaiting_client",
+      "reason": "EDD opened for PEP director and BVI holding. Requesting financial statements and source of wealth before review.",
+      "details": {
+        "from_status": "edd",
+        "to_status": "awaiting_client",
+        "system_recommendation": "escalate",
+        "deciding_rule": "H4",
+        "requested_items": [
+          "Latest annual financial statements",
+          "Source of wealth evidence for the beneficial owners"
+        ]
+      },
+      "prev_event_hash": "sha256:0d8645c4a403a52bcf3c42642216d869d4b6ec1d7441b6d14f8a1a7b23c11c25",
+      "hash": "sha256:39b96974c82ea9b91a575b296350b343bdcc0ca52ddd4dea645bae877f929dc4"
+    },
+    {
+      "event_id": "evt_000015",
+      "timestamp_utc": "2026-10-23T09:02:24.000Z",
+      "case_id": "CASE-B-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "client.notified",
+      "inputs_hash": null,
+      "result": "We need a few more items",
+      "reason": "Template message; no screening results or rule IDs are shared with the client",
+      "details": {
+        "template": "awaiting_client",
+        "items": [
+          "Latest annual financial statements",
+          "Source of wealth evidence for the beneficial owners"
+        ]
+      },
+      "prev_event_hash": "sha256:39b96974c82ea9b91a575b296350b343bdcc0ca52ddd4dea645bae877f929dc4",
+      "hash": "sha256:5fe29570e04d626933f3e3a526092e73baec3093961200d74836873b87dab58d"
+    }
+  ],
+  "note": "Demo snapshot generated by scripts/generate-audit.mjs with ruleset 1.0.0. Mock data only."
+}

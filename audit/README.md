@@ -10,12 +10,14 @@ Every action in an onboarding case is written as an event: automated checks, rul
 | `timestamp_utc` | `2026-10-23T13:05:12Z` | When it happened |
 | `case_id` | `CASE-A-0001` | Which onboarding |
 | `ruleset_version` | `1.0.0` | Which rules applied at that moment |
-| `actor` | `system` / `analyst:jdoe` | Who decided: system or a named person |
-| `action` | `check.sanctions_screening` | What happened |
+| `actor` | `system` / `analyst:demo-analyst` | Who acted: the system or a named person |
+| `action` | `check.C3`, `decision.confirm_approval` | What happened |
 | `inputs_hash` | `sha256:…` | Fingerprint of the data the decision was based on |
-| `result` | `potential_match` | Outcome |
-| `reason` | `H3` | Rule or free-text justification |
+| `result` | `flag`, `approved` | Outcome |
+| `reason` | `H3: Potential sanctions match` | Rule, or the person's mandatory written reason |
+| `details` | `{ "requested_items": [...] }` | Structured context: check items, risk factors, requested documents |
 | `prev_event_hash` | `sha256:…` | Links to the previous event (tamper evidence) |
+| `hash` | `sha256:…` | Hash of this whole event, including the previous hash |
 
 ## Tamper evidence
 
@@ -23,7 +25,12 @@ Events are append-only and hash-chained: each event includes the hash of the one
 
 ## What is stored in this repo
 
-The files in this folder are **demo snapshots** generated from the mock clients in the prototype. In the live prototype, the audit trail of a session is shown in the compliance view and can be exported as JSON.
+The files in this folder are **demo snapshots** generated from the mock clients by `scripts/generate-audit.mjs`, with a fixed clock so they are reproducible:
+
+- `client-a.json`: automated checks, approval recommended, confirmed by an analyst, trading enabled.
+- `client-b.json`: automated checks, escalated to EDD by the PEP rule, MLRO requests financial statements and source of wealth.
+
+In the live prototype, the audit trail of a session is shown in the compliance view and can be exported as JSON. Any export can be checked with `node scripts/verify-audit.mjs <file>`; changing a single character in an event makes verification fail at that event.
 
 ## In production
 

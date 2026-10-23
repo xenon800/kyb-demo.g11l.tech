@@ -1,0 +1,342 @@
+{
+  "format": "kyb-demo-audit/1",
+  "case_id": "CASE-A-0001",
+  "exported_at": "2026-10-23T10:21:24.000Z",
+  "event_count": 16,
+  "verification": {
+    "ok": true,
+    "count": 16,
+    "head_hash": "sha256:37c912b32484c0142bce2a1a656a3f68aeec83a0aeecba3288ac5a996d2669f8"
+  },
+  "events": [
+    {
+      "event_id": "evt_000001",
+      "timestamp_utc": "2026-10-23T08:00:00.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "client:applicant",
+      "action": "application.started",
+      "inputs_hash": "sha256:a03ecf852e1d7a2581841dc05f47994ec09ecb5646dd651db638baeaa0cc61a6",
+      "result": "started",
+      "reason": "Client A: Kestrel Bay Imports Inc.",
+      "details": null,
+      "prev_event_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "sha256:807806736594988b8e8558d2d501f50fa0578873c93f9ddec110813a6df4fc2e"
+    },
+    {
+      "event_id": "evt_000002",
+      "timestamp_utc": "2026-10-23T08:01:33.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C2",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "Registry data matches the application",
+      "details": {
+        "check": "Corporate registry lookup and data match",
+        "provider": "Sumsub KYB / registry API, simulated",
+        "items": [
+          {
+            "label": "Kestrel Bay Imports Inc.",
+            "result": "match"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:807806736594988b8e8558d2d501f50fa0578873c93f9ddec110813a6df4fc2e",
+      "hash": "sha256:fadd6a50c02fd492c4582a711fbe5c14be53724f89a0fb5f0591384e6b0ab30b"
+    },
+    {
+      "event_id": "evt_000003",
+      "timestamp_utc": "2026-10-23T08:03:06.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C7",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "Resolved to 1 natural person; 1 person in scope",
+      "details": {
+        "check": "Ownership resolved to natural persons, effective ownership calculated",
+        "provider": "Rule engine",
+        "items": [
+          {
+            "label": "Emily Tremblay",
+            "result": "100% effective"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:fadd6a50c02fd492c4582a711fbe5c14be53724f89a0fb5f0591384e6b0ab30b",
+      "hash": "sha256:fd0f5153865b38aae8d59ff99f32b7f8e176a89410a430a6213476142a55de34"
+    },
+    {
+      "event_id": "evt_000004",
+      "timestamp_utc": "2026-10-23T08:03:09.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C1",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "1 person verified",
+      "details": {
+        "check": "ID document + liveness for every person in scope",
+        "provider": "Sumsub KYC, simulated",
+        "items": [
+          {
+            "label": "Emily Tremblay",
+            "result": "pass"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:fd0f5153865b38aae8d59ff99f32b7f8e176a89410a430a6213476142a55de34",
+      "hash": "sha256:63fa00a751818eb35d056096b59475b5d4979ae0041e14eca842a33e37277a33"
+    },
+    {
+      "event_id": "evt_000005",
+      "timestamp_utc": "2026-10-23T08:03:12.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C3",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "No sanctions or PEP matches",
+      "details": {
+        "check": "Sanctions and PEP screening: company, holdings, persons in scope",
+        "provider": "Sumsub AML screening / World-Check, simulated",
+        "items": [
+          {
+            "label": "Company and holdings",
+            "result": "clear"
+          },
+          {
+            "label": "Emily Tremblay",
+            "result": "clear"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:63fa00a751818eb35d056096b59475b5d4979ae0041e14eca842a33e37277a33",
+      "hash": "sha256:64d7a0712103f27842ecedacbdbbe0d1471486b0908802ef5bc2d2a9568ddee5"
+    },
+    {
+      "event_id": "evt_000006",
+      "timestamp_utc": "2026-10-23T08:03:15.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C4",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "No relevant adverse media",
+      "details": {
+        "check": "Adverse media screening",
+        "provider": "Sumsub AML screening, simulated",
+        "items": []
+      },
+      "prev_event_hash": "sha256:64d7a0712103f27842ecedacbdbbe0d1471486b0908802ef5bc2d2a9568ddee5",
+      "hash": "sha256:c032ccb3935d6e8520ea6b296548b77598f93a84ec30673bc3491d577cddf1ed"
+    },
+    {
+      "event_id": "evt_000007",
+      "timestamp_utc": "2026-10-23T08:04:48.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C5",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "1 address screened, low risk exposure",
+      "details": {
+        "check": "Wallet screening of the client's settlement addresses",
+        "provider": "Chainalysis KYT / Elliptic, simulated",
+        "items": [
+          {
+            "label": "BTC bc1q-mock-client-a-0001",
+            "result": "low risk"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:c032ccb3935d6e8520ea6b296548b77598f93a84ec30673bc3491d577cddf1ed",
+      "hash": "sha256:8028dfa815b32da94c2e3944f937f4ee4b615764a2baaeea439cdb96baf14332"
+    },
+    {
+      "event_id": "evt_000008",
+      "timestamp_utc": "2026-10-23T08:06:21.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "check.C6",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "pass",
+      "reason": "All 7 required documents provided",
+      "details": {
+        "check": "Document completeness against the required set",
+        "provider": "Rule engine",
+        "items": [
+          {
+            "label": "Certificate of incorporation",
+            "result": "provided"
+          },
+          {
+            "label": "Commercial registry extract (max. 3 months old)",
+            "result": "provided"
+          },
+          {
+            "label": "Articles / memorandum of association",
+            "result": "provided"
+          },
+          {
+            "label": "Register of shareholders",
+            "result": "provided"
+          },
+          {
+            "label": "Register of directors",
+            "result": "provided"
+          },
+          {
+            "label": "Proof of registered address",
+            "result": "provided"
+          },
+          {
+            "label": "Board resolution or POA for the authorised signatory",
+            "result": "provided"
+          }
+        ]
+      },
+      "prev_event_hash": "sha256:8028dfa815b32da94c2e3944f937f4ee4b615764a2baaeea439cdb96baf14332",
+      "hash": "sha256:7866ffe455310c23345ae86ad9ede3d52616d99e1c3cfcb128be3c2dba1d0ec9"
+    },
+    {
+      "event_id": "evt_000009",
+      "timestamp_utc": "2026-10-23T08:07:21.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "client:applicant",
+      "action": "application.submitted",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "submitted",
+      "reason": null,
+      "details": null,
+      "prev_event_hash": "sha256:7866ffe455310c23345ae86ad9ede3d52616d99e1c3cfcb128be3c2dba1d0ec9",
+      "hash": "sha256:2c45b51b93394da90563ec1c32eb459f619fb51273b2838b956aa8fff297402d"
+    },
+    {
+      "event_id": "evt_000010",
+      "timestamp_utc": "2026-10-23T08:07:22.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "risk.scored",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "0 (low)",
+      "reason": "No risk factors",
+      "details": {
+        "factors": []
+      },
+      "prev_event_hash": "sha256:2c45b51b93394da90563ec1c32eb459f619fb51273b2838b956aa8fff297402d",
+      "hash": "sha256:7ead4ee3e3039fb0b7fce7818a849a53f2d80d4b1409580d0a160d29c9cd0df2"
+    },
+    {
+      "event_id": "evt_000011",
+      "timestamp_utc": "2026-10-23T08:07:23.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "rules.evaluated",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "approve",
+      "reason": "BAND:low: Risk score 0 is in the low band",
+      "details": {
+        "hard_rule_matches": [],
+        "precondition_matches": [],
+        "decided_by": "shadow",
+        "automated_final": false
+      },
+      "prev_event_hash": "sha256:7ead4ee3e3039fb0b7fce7818a849a53f2d80d4b1409580d0a160d29c9cd0df2",
+      "hash": "sha256:cfa946adfbbb853847d34a612b3639858500759b1c13d07dcdc809ef73ae6835"
+    },
+    {
+      "event_id": "evt_000012",
+      "timestamp_utc": "2026-10-23T08:07:24.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "case.routed",
+      "inputs_hash": "sha256:5ba424db9d5e848c887857511acdcd0e80cd5e855737357cd2f2b1023a84a9db",
+      "result": "awaiting_confirmation",
+      "reason": "Queue: Onboarding analyst",
+      "details": null,
+      "prev_event_hash": "sha256:cfa946adfbbb853847d34a612b3639858500759b1c13d07dcdc809ef73ae6835",
+      "hash": "sha256:a6875f427f3a895fe94d1f887bb00ac22062f1a77eec53aed63f81594598a87a"
+    },
+    {
+      "event_id": "evt_000013",
+      "timestamp_utc": "2026-10-23T08:07:24.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "client.notified",
+      "inputs_hash": null,
+      "result": "Almost there",
+      "reason": "Template message; no screening results or rule IDs are shared with the client",
+      "details": {
+        "template": "awaiting_confirmation",
+        "items": []
+      },
+      "prev_event_hash": "sha256:a6875f427f3a895fe94d1f887bb00ac22062f1a77eec53aed63f81594598a87a",
+      "hash": "sha256:b9ad3196db770123f2a8cd35d4b45bdfe4f4e63c864aa0449142c5dd805bec0a"
+    },
+    {
+      "event_id": "evt_000014",
+      "timestamp_utc": "2026-10-23T10:21:24.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "analyst:demo-analyst",
+      "action": "decision.confirm_approval",
+      "inputs_hash": null,
+      "result": "approved",
+      "reason": "All checks green, registry data matches, single UBO verified. Approving for trading.",
+      "details": {
+        "from_status": "awaiting_confirmation",
+        "to_status": "approved",
+        "system_recommendation": "approve",
+        "deciding_rule": "BAND:low"
+      },
+      "prev_event_hash": "sha256:b9ad3196db770123f2a8cd35d4b45bdfe4f4e63c864aa0449142c5dd805bec0a",
+      "hash": "sha256:002b2ec9af8b631b91cd69f10f9d373d4b6490c85b5633f5bb7ec0991df1df0f"
+    },
+    {
+      "event_id": "evt_000015",
+      "timestamp_utc": "2026-10-23T10:21:24.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "trading.enabled",
+      "inputs_hash": null,
+      "result": "OTC trading enabled",
+      "reason": "Approved by analyst",
+      "details": null,
+      "prev_event_hash": "sha256:002b2ec9af8b631b91cd69f10f9d373d4b6490c85b5633f5bb7ec0991df1df0f",
+      "hash": "sha256:69c3547592cfc8f5768cbd9fa0833485ad79770c8681dcb6d92081430ee50c04"
+    },
+    {
+      "event_id": "evt_000016",
+      "timestamp_utc": "2026-10-23T10:21:24.000Z",
+      "case_id": "CASE-A-0001",
+      "ruleset_version": "1.0.0",
+      "actor": "system",
+      "action": "client.notified",
+      "inputs_hash": null,
+      "result": "You are ready to trade",
+      "reason": "Template message; no screening results or rule IDs are shared with the client",
+      "details": {
+        "template": "approved",
+        "items": []
+      },
+      "prev_event_hash": "sha256:69c3547592cfc8f5768cbd9fa0833485ad79770c8681dcb6d92081430ee50c04",
+      "hash": "sha256:37c912b32484c0142bce2a1a656a3f68aeec83a0aeecba3288ac5a996d2669f8"
+    }
+  ],
+  "note": "Demo snapshot generated by scripts/generate-audit.mjs with ruleset 1.0.0. Mock data only."
+}

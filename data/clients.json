@@ -3,7 +3,7 @@
   "A": {
     "case_id": "CASE-A-0001",
     "label": "Client A",
-    "summary": "Canadian company · simple ownership · normal volumes",
+    "summary": "a Canadian company with simple ownership and normal volumes",
     "submitted_at": "2026-10-23T10:00:00Z",
     "company": {
       "legal_name": "Kestrel Bay Imports Inc.",
@@ -86,7 +86,7 @@
   "B": {
     "case_id": "CASE-B-0001",
     "label": "Client B",
-    "summary": "UAE company · offshore holding · PEP director · high volumes",
+    "summary": "a UAE company held through an offshore holding, with a PEP director and high volumes",
     "submitted_at": "2026-10-23T10:00:00Z",
     "company": {
       "legal_name": "Saffron Dunes General Trading FZCO",

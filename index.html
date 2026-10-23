@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="Prototype of a corporate OTC onboarding flow with rule-based compliance decisions. Mock data only." />
+    <title>Onboarding desk: OTC onboarding prototype</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script type="module" src="assets/app.js"></script>
+  </head>
+  <body>
+    <p class="notice">
+      Prototype built by Gerrit Schnell for the Lunar Rails technical assessment. All companies and people are fictional, every check is
+      simulated, and nothing you do here leaves your browser.
+    </p>
+    <div class="app">
+      <aside class="sidebar" id="sidebar" aria-label="Cases"></aside>
+      <main class="main">
+        <nav class="tabs" id="tabs" aria-label="Views"></nav>
+        <div id="view" class="view" tabindex="-1">
+          <p class="loading">Loading the prototype…</p>
+        </div>
+      </main>
+    </div>
+    <noscript><p class="noscript">This prototype needs JavaScript to run the onboarding flow.</p></noscript>
+  </body>
+</html>

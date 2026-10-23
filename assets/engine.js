@@ -20,7 +20,7 @@ export const OUTCOME_LABELS = {
 export const STATUS_LABELS = {
   not_submitted: 'Not submitted',
   awaiting_confirmation: 'Awaiting analyst confirmation',
-  approved: 'Approved · trading enabled',
+  approved: 'Approved, trading enabled',
   in_review: 'Manual review',
   edd: 'Enhanced due diligence',
   pending_mlro_decision: 'MLRO decision required',
@@ -41,6 +41,7 @@ const KNOWN_OUTCOMES = Object.keys(OUTCOME_LABELS);
 // Small helpers
 
 const round2 = (n) => Math.round(n * 100) / 100;
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
 function monthsBetween(fromIso, toIso) {
@@ -308,7 +309,7 @@ function buildChecks(c) {
     ...meta('C7'),
     status: c.resolution.resolved ? 'pass' : 'flag',
     summary: c.resolution.resolved
-      ? `Resolved to ${c.persons.filter((x) => x.effective_pct > 0).length} natural person(s); ${c.inScope.length} in scope`
+      ? `Resolved to ${plural(c.persons.filter((x) => x.effective_pct > 0).length, 'natural person', 'natural people')}; ${plural(c.inScope.length, 'person', 'people')} in scope`
       : `Ownership not fully resolved: ${c.resolution.gaps.map((g) => `${g.unresolved_pct}% of ${g.name}`).join(', ')}`,
     items: c.persons
       .filter((x) => x.effective_pct > 0)
@@ -322,7 +323,7 @@ function buildChecks(c) {
     status: idItems.some((i) => i.result === 'fail') ? 'fail' : 'pass',
     summary: idItems.some((i) => i.result === 'fail')
       ? 'ID or liveness check failed for at least one person'
-      : `${idItems.length} person(s) verified`,
+      : `${plural(idItems.length, 'person', 'people')} verified`,
     items: idItems,
   });
 
@@ -339,7 +340,7 @@ function buildChecks(c) {
   checks.push({
     ...meta('C3'),
     status: c3status,
-    summary: c3parts.length ? c3parts.join(' · ') : 'No sanctions or PEP matches',
+    summary: c3parts.length ? c3parts.join('; ') : 'No sanctions or PEP matches',
     items: [
       { label: 'Company and holdings', result: sanctions === 'clear' ? 'clear' : sanctions.replace('_', ' ') },
       ...c.inScope.map((x) => ({
@@ -362,7 +363,7 @@ function buildChecks(c) {
   checks.push({
     ...meta('C5'),
     status: kyt === 'high' ? 'fail' : kyt === 'medium' ? 'flag' : 'pass',
-    summary: `${c.caseData.activity.wallets.length} address(es) screened, ${kyt} risk exposure`,
+    summary: `${plural(c.caseData.activity.wallets.length, 'address', 'addresses')} screened, ${kyt} risk exposure`,
     items: c.caseData.activity.wallets.map((w) => ({ label: `${w.asset} ${w.address}`, result: `${kyt} risk` })),
   });
 
@@ -561,7 +562,10 @@ export function clientMessage(result, ruleset, statusOverride) {
       return {
         tone: 'progress',
         title: 'Your application needs an enhanced review',
-        body: 'Based on the information provided, a compliance specialist will review your application. This takes ' + p.client_eta.edd + '. You can speed it up by preparing the items below.',
+        body:
+          'Based on the information provided, a compliance specialist will review your application. This usually takes ' +
+          p.client_eta.edd +
+          (eddOutstanding.length ? '. You can speed it up by preparing the items below.' : '. We will contact you if we need anything else.'),
         items: eddOutstanding,
         eta: p.client_eta.edd,
       };

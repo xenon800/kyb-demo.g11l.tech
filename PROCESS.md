@@ -90,7 +90,7 @@ Deciding structure, screens and acceptance criteria up front, so the first build
 - The engine is tested from the command line against both mock clients before any UI exists.
 
 ### Screens
-1. **Header:** prototype banner (mock data, built by Gerrit Schnell for Lunar Rails), case selector: Client A, Client B, or an editable custom case.
+1. **Header:** prototype banner (mock data, built by Gerrit Schnell for Lunar Rails), case selector: Client A, Client B, or an editable custom case (later dropped, see below).
 2. **Client view:** stepper (Company, Ownership & UBOs, Expected activity, Documents, Review & submit), then a status page that tells the client honestly what happens next: trading within 24h, or which extra information is needed and why.
 3. **Live checks panel:** each input triggers the matching simulated check (Sumsub, registry, screening, KYT), clearly labelled as simulated.
 4. **Compliance view:** case summary, risk score breakdown, which rule decided and why, analyst actions (confirm, request info, escalate, reject) with a mandatory reason, audit trail with hash-chain verification and JSON export.
@@ -111,3 +111,23 @@ I considered letting reviewers create their own application. I dropped it: with 
 - No path leads to an automatic rejection.
 - Audit chain verifies; editing an exported event breaks verification.
 - Ruleset, compliance view and justification state the same rules.
+
+## 6. What changed while building
+
+The plan held. These are the places where building it taught me something:
+
+- **Missing documents must not block a human review.** The first engine test failed on Client B with the PEP removed: it stopped at "documents missing" instead of escalating, because the document rule came first. That is the wrong priority: a high-risk case should reach the MLRO straight away and the documents should be requested alongside it. The document check became an *approval precondition* (A2): it can only stop an approval, never delay a review.
+- **Approval only on all-green checks.** A medium-risk wallet adds 15 points, which on its own keeps a clean client in the low band. Approving that automatically would be wrong, so a second precondition (A1) sends any flagged check to an analyst, even in the low band.
+- **What-if scenarios are not case history.** In the plan, every Rule Lab change was going to be written to the audit trail. While building it became clear that a hypothetical scenario does not belong in a client's case file. Scenario toggles are previews only; ruleset changes go through propose → second approver → new version, and every open case is re-evaluated and logged.
+- **Once a person routes a case, new rules can only make it stricter.** If an analyst escalated a case and a ruleset change would now approve it automatically, the case stays with the person handling it.
+- **Client messages are tested, not just written carefully.** A test sweeps 442,368 combinations of scenario and ruleset settings and checks that no rejection is ever automatic, nothing is approved outside the low band or without all-green checks, and no client message mentions screening, PEPs or rule IDs.
+- **No external requests at all.** Fonts are self-hosted and the security headers only allow the site's own files, so the "nothing leaves your browser" promise in the banner is enforced, not just stated.
+
+## 7. Acceptance check (23 Oct 2026)
+
+- [x] Client A → `approve` via the low risk band, awaiting analyst confirmation in `shadow` mode. Checks finish in seconds; the 24-hour target only depends on the analyst confirmation.
+- [x] Client B → `escalate` via H4 (PEP), score 90. Without the PEP: score 60, still `escalate`.
+- [x] `pep_outcome = reject` turns Client B into a reject *recommendation* that waits for the MLRO; the change is logged as proposed and approved, and open cases are re-evaluated.
+- [x] No automatic rejection in 442,368 tested combinations; the engine refuses a ruleset that would allow one.
+- [x] Audit chains verify in the browser and on the command line; the tamper test and an edited export both fail verification at the edited event.
+- [x] Ruleset tab, compliance view and `JUSTIFICATION.md` describe the same rules (all rendered from or checked against `ruleset.json`).
