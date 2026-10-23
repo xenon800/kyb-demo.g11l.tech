@@ -7,6 +7,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Ruleset changes 
 ## [Unreleased]
 
 ### Added
+- `CLAUDE.md` with working rules for this repo: changelog and process log for every change, tests and audit snapshots before committing, ruleset versioning and the guardrails that must not be weakened.
 - `wrangler.jsonc` and `.assetsignore` for deployment as a static Cloudflare Worker. The first deploy failed because Wrangler's auto-setup installed `node_modules` into the build folder and tried to upload them as website files.
 
 ## [1.0.0] - 2026-10-23
