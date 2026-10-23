@@ -73,3 +73,8 @@ The rollout is staged and controlled by one ruleset setting:
 | `full` | Auto-approved, periodic QA only | n/a |
 
 The 24-hour target still holds in `shadow` mode: the checks run in minutes, and confirming a clean low-risk case takes an analyst a few minutes within the same day. Full automation is the goal, but not straight after the first build.
+
+### 4.7 Audit trail: JSON export, no demo database
+A static page can't write live into the GitHub repo, and I deliberately did not set up a separate SQL or Notion database just to show that I can connect one. I also considered a shared Google Sheet as a stand-in and rejected it: a sheet is editable, so it is not an audit store, and writing to it from a public page would mean exposing a write endpoint anyone could call. That would demonstrate the opposite of auditability.
+
+What the prototype does instead: the audit trail of each session is shown live in the compliance view, hash-chained, and exportable as JSON. Example logs for both clients are in `audit/`. In production, the same events go to append-only storage (see `audit/README.md`).
