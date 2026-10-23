@@ -44,9 +44,9 @@ npm run audit:generate                           # regenerate audit/client-a.jso
 node scripts/verify-audit.mjs <exported.json>    # verify any audit trail exported from the site
 ```
 
-## Deploy on Cloudflare Pages
+## Deploy on Cloudflare
 
-Either upload the folder directly (without `.git`) as a Pages project, or connect this repository with no framework preset, an empty build command and `/` as the output directory. Then add `kyb-demo.g11l.tech` as a custom domain. After deploying, check the headers with `curl -I https://kyb-demo.g11l.tech`.
+The site runs as a static Cloudflare Worker connected to this repository; every push to `main` deploys. `wrangler.jsonc` serves the repository root as static assets, and `.assetsignore` keeps non-website files (scripts, `package.json`, `node_modules`) out of the upload. `_headers` sets the response headers. The custom domain `kyb-demo.g11l.tech` is attached to the Worker. After a deploy, check the headers with `curl -I https://kyb-demo.g11l.tech`.
 
 ## Keeping it out of search engines
 

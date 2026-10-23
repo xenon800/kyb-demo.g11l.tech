@@ -5,7 +5,7 @@
 - Plain HTML, CSS and JavaScript. No framework, no build step, no dependencies.
 - The decision engine and the hash-chained audit log are small JavaScript modules shared by the site and the command-line scripts, so the website, the tests and the audit snapshots always use the same logic.
 - Node.js for the tests (`npm test`) and to generate and verify the audit snapshots.
-- Hosted on Cloudflare Pages on a subdomain of my company domain, with `noindex` set three ways and strict security headers. Fonts are self-hosted, so the page makes no external requests and has no trackers.
+- Hosted on Cloudflare (a static Worker) on a subdomain of my company domain, with `noindex` set three ways and strict security headers. Fonts are self-hosted, so the page makes no external requests and has no trackers.
 - GitHub for the code, with a changelog for every change after submission.
 
 ## What I did myself

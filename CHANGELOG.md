@@ -6,7 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Ruleset changes 
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+- `wrangler.jsonc` and `.assetsignore` for deployment as a static Cloudflare Worker. The first deploy failed because Wrangler's auto-setup installed `node_modules` into the build folder and tried to upload them as website files.
 
 ## [1.0.0] - 2026-10-23
 

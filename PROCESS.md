@@ -84,7 +84,7 @@ What the prototype does instead: the audit trail of each session is shown live i
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.
 
 ### Architecture
-- Static site, plain HTML/CSS/JS, no build step. Hosted on Cloudflare Pages at `kyb-demo.g11l.tech`.
+- Static site, plain HTML/CSS/JS, no build step. Hosted on Cloudflare at `kyb-demo.g11l.tech`.
 - `ruleset.json` is loaded at runtime. Nothing about rules is hard-coded in the UI.
 - `engine.js` is a pure function: `evaluate(case, ruleset) → decision + full trace`. The UI, the compliance view and the audit snapshot script all use the same engine, so they can't drift apart.
 - The engine is tested from the command line against both mock clients before any UI exists.

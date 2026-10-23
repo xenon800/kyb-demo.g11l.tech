@@ -1,0 +1,11 @@
+// Cloudflare Workers deployment: a static-assets-only Worker, no server code.
+// Having this file in the repo stops Wrangler's auto-setup, which installed
+// node_modules into the build folder and tried to upload them as assets.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "kyb-demo-g11l-tech",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "."
+  }
+}

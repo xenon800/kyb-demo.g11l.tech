@@ -1,0 +1,12 @@
+# Files in the repo that are not part of the website (gitignore syntax).
+.git
+.github
+node_modules
+.wrangler
+.gitignore
+.assetsignore
+wrangler.jsonc
+package.json
+package-lock.json
+bun.lockb
+scripts
