@@ -1,0 +1,13 @@
+{
+  "name": "kyb-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "OTC corporate onboarding prototype (technical assessment). Static site, no dependencies.",
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/test-engine.mjs",
+    "audit:generate": "node scripts/generate-audit.mjs",
+    "audit:verify": "node scripts/verify-audit.mjs audit/client-a.json audit/client-b.json",
+    "serve": "python3 -m http.server 8080"
+  }
+}

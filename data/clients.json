@@ -1,0 +1,223 @@
+{
+  "_notice": "All companies, people, numbers, addresses and wallet addresses below are fictional mock data. Provider responses are simulated.",
+  "A": {
+    "case_id": "CASE-A-0001",
+    "label": "Client A",
+    "summary": "Canadian company · simple ownership · normal volumes",
+    "submitted_at": "2026-10-23T10:00:00Z",
+    "company": {
+      "legal_name": "Kestrel Bay Imports Inc.",
+      "jurisdiction": "CA",
+      "jurisdiction_name": "Canada (Ontario)",
+      "registration_number": "MOCK-ON-482913",
+      "incorporated": "2016-04-12",
+      "registered_address": "100 Example Street, Toronto, ON, Canada",
+      "industry": "Wholesale trade, consumer electronics",
+      "industry_risk": "standard",
+      "website": "kestrelbay.example"
+    },
+    "ownership": {
+      "holdings": [],
+      "persons": [
+        {
+          "id": "P1",
+          "name": "Emily Tremblay",
+          "nationality": "CA",
+          "residence": "CA",
+          "owns": [
+            {
+              "entity": "client",
+              "pct": 100
+            }
+          ],
+          "roles": [
+            "director",
+            "authorised_signatory"
+          ],
+          "pep_declared": false
+        }
+      ],
+      "nominee_or_bearer": false
+    },
+    "activity": {
+      "expected_monthly_volume_usd": 60000,
+      "typical_trade_usd": "10,000 – 20,000",
+      "frequency": "Weekly",
+      "assets": [
+        "BTC",
+        "USDC"
+      ],
+      "fiat": [
+        "CAD",
+        "USD"
+      ],
+      "purpose": "Treasury diversification and USDC settlements with overseas suppliers",
+      "source_of_funds": "Operating revenue of the company",
+      "wallets": [
+        {
+          "asset": "BTC",
+          "address": "bc1q-mock-client-a-0001",
+          "type": "Company self-custody"
+        }
+      ]
+    },
+    "documents": {
+      "certificate_of_incorporation": "provided",
+      "registry_extract": "provided",
+      "articles_of_association": "provided",
+      "shareholder_register": "provided",
+      "director_register": "provided",
+      "proof_of_address_company": "provided",
+      "authorised_signatory_poa": "provided"
+    },
+    "provider_responses": {
+      "registry": {
+        "client": "match"
+      },
+      "id_liveness": {
+        "P1": "pass"
+      },
+      "sanctions": "clear",
+      "pep_hits": [],
+      "adverse_media": "clear",
+      "kyt": "low"
+    }
+  },
+  "B": {
+    "case_id": "CASE-B-0001",
+    "label": "Client B",
+    "summary": "UAE company · offshore holding · PEP director · high volumes",
+    "submitted_at": "2026-10-23T10:00:00Z",
+    "company": {
+      "legal_name": "Saffron Dunes General Trading FZCO",
+      "jurisdiction": "AE",
+      "jurisdiction_name": "United Arab Emirates (Dubai free zone)",
+      "registration_number": "MOCK-DXB-77120",
+      "incorporated": "2021-02-08",
+      "registered_address": "Unit 1, Example Tower, Dubai, UAE",
+      "industry": "General trading, industrial commodities",
+      "industry_risk": "standard",
+      "website": "saffrondunes.example"
+    },
+    "ownership": {
+      "holdings": [
+        {
+          "id": "H1",
+          "name": "Meridian Peak Holdings Ltd.",
+          "jurisdiction": "VG",
+          "jurisdiction_name": "British Virgin Islands",
+          "owns": [
+            {
+              "entity": "client",
+              "pct": 100
+            }
+          ]
+        }
+      ],
+      "persons": [
+        {
+          "id": "P1",
+          "name": "Daniel Okafor",
+          "nationality": "GB",
+          "residence": "AE",
+          "owns": [
+            {
+              "entity": "H1",
+              "pct": 70
+            }
+          ],
+          "roles": [
+            "director",
+            "authorised_signatory"
+          ],
+          "pep_declared": false
+        },
+        {
+          "id": "P2",
+          "name": "Priya Raman",
+          "nationality": "IN",
+          "residence": "AE",
+          "owns": [
+            {
+              "entity": "H1",
+              "pct": 30
+            }
+          ],
+          "roles": [],
+          "pep_declared": false
+        },
+        {
+          "id": "P3",
+          "name": "Marco Bellandi",
+          "nationality": "IT",
+          "residence": "AE",
+          "owns": [],
+          "roles": [
+            "director"
+          ],
+          "pep_declared": true,
+          "pep_detail": "Former senior official at a state-owned enterprise (2014–2020)"
+        }
+      ],
+      "nominee_or_bearer": false
+    },
+    "activity": {
+      "expected_monthly_volume_usd": 4500000,
+      "typical_trade_usd": "250,000 – 750,000",
+      "frequency": "Several times per week",
+      "assets": [
+        "BTC",
+        "USDT"
+      ],
+      "fiat": [
+        "AED",
+        "USD"
+      ],
+      "purpose": "Settlement of cross-border commodity trades in USDT",
+      "source_of_funds": "Trading revenue of the operating company",
+      "wallets": [
+        {
+          "asset": "USDT (TRON)",
+          "address": "T-mock-client-b-0001",
+          "type": "Company self-custody"
+        },
+        {
+          "asset": "BTC",
+          "address": "bc1q-mock-client-b-0002",
+          "type": "Company self-custody"
+        }
+      ]
+    },
+    "documents": {
+      "certificate_of_incorporation": "provided",
+      "registry_extract": "provided",
+      "articles_of_association": "provided",
+      "shareholder_register": "provided",
+      "director_register": "provided",
+      "proof_of_address_company": "provided",
+      "authorised_signatory_poa": "provided",
+      "holding_certificate_of_incorporation#H1": "provided",
+      "holding_register_of_members#H1": "provided",
+      "holding_director_register#H1": "provided",
+      "bank_statements_3m": "provided",
+      "source_of_funds_declaration": "provided"
+    },
+    "provider_responses": {
+      "registry": {
+        "client": "match",
+        "H1": "limited"
+      },
+      "id_liveness": {
+        "P1": "pass",
+        "P2": "pass",
+        "P3": "pass"
+      },
+      "sanctions": "clear",
+      "pep_hits": [
+        "P3"
+      ],
+      "adverse_media": "clear",
+      "kyt": "low"
+    }
+  }
+}

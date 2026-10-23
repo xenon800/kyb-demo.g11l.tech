@@ -2,101 +2,145 @@
   "ruleset_id": "otc-corporate-onboarding",
   "version": "1.0.0",
   "effective_from": "2026-10-23",
-  "status": "draft — thresholds and lists to be confirmed by Compliance",
-  "owner": "Compliance (MLRO). Ops translates policy into this file; changes require a second approver.",
+  "status": "proposal: thresholds and lists to be confirmed by Compliance",
+  "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
 
   "parameters": {
     "ubo_ownership_threshold_pct": 25,
     "auto_approve_mode": "shadow",
     "auto_approve_mode_options": {
-      "shadow": "System decides, analyst confirms every approval before first trade",
-      "sample": "Auto-approved, a share of cases reviewed afterwards",
-      "full": "Auto-approved, periodic QA only"
+      "shadow": "System recommends, an analyst confirms every approval before the first trade",
+      "sample": "Auto-approved; a share of cases is reviewed afterwards",
+      "full": "Auto-approved; periodic QA only"
     },
+    "qa_sample_rate_pct": 10,
     "pep_outcome": "escalate",
     "pep_outcome_options": ["escalate", "reject"],
     "volume_tiers_usd_monthly": [
-      { "id": "V1", "max": 100000, "label": "< 100k", "additional_requirements": [] },
-      { "id": "V2", "max": 1000000, "label": "100k – 1M", "additional_requirements": ["bank_statements_3m", "source_of_funds_declaration"] },
-      { "id": "V3", "max": null, "label": "> 1M", "additional_requirements": ["bank_statements_3m", "source_of_funds_declaration", "financial_statements", "source_of_wealth"] }
+      { "id": "V1", "max": 100000, "label": "< USD 100k", "additional_documents": [] },
+      { "id": "V2", "max": 1000000, "label": "USD 100k – 1M", "additional_documents": ["bank_statements_3m", "source_of_funds_declaration"] },
+      { "id": "V3", "max": null, "label": "> USD 1M", "additional_documents": ["bank_statements_3m", "source_of_funds_declaration", "financial_statements", "source_of_wealth"] }
     ],
-    "risk_score_bands": {
-      "low": { "max": 29 },
-      "medium": { "max": 59 },
-      "high": { "max": null }
+    "risk_score_bands": { "low_max": 29, "medium_max": 59 },
+    "client_eta": {
+      "awaiting_confirmation": "within 24 hours of submission",
+      "in_review": "within 1 business day",
+      "edd": "usually 3–5 business days",
+      "awaiting_client": "as soon as we receive the items below"
     },
-    "review_sla_hours": { "low": 24, "medium": 24, "high": null }
+    "edd_documents": ["source_of_wealth", "source_of_funds_declaration", "bank_statements_3m", "financial_statements"]
   },
 
   "jurisdictions": {
-    "_note": "Assumption: Lunar Rails' own list is not public. Defaults below follow FATF 'call for action' and comprehensive sanctions programmes. Must be synced from the current official lists before use.",
+    "_note": "Lunar Rails' own list is not public, so these are assumptions. Defaults follow the FATF 'call for action' list and comprehensive sanctions programmes. In production these lists are synced from the official sources, never maintained by hand.",
     "prohibited": ["KP", "IR", "MM", "CU", "SY"],
     "high_risk_fatf_increased_monitoring": [],
+    "_note_increased_monitoring": "Intentionally empty in this prototype: the FATF list changes three times a year and a stale list is worse than none. It is loaded from the current FATF publication at deploy time.",
     "low_transparency_holding": ["VG", "KY", "SC", "BZ", "PA"]
   },
 
-  "base_documents": [
-    "certificate_of_incorporation",
-    "registry_extract",
-    "articles_of_association",
-    "shareholder_register",
-    "director_register",
-    "proof_of_address_company",
-    "authorised_signatory_poa",
-    "ubo_id_and_liveness"
-  ],
+  "documents": {
+    "catalog": {
+      "certificate_of_incorporation": "Certificate of incorporation",
+      "registry_extract": "Commercial registry extract (max. 3 months old)",
+      "articles_of_association": "Articles / memorandum of association",
+      "shareholder_register": "Register of shareholders",
+      "director_register": "Register of directors",
+      "proof_of_address_company": "Proof of registered address",
+      "authorised_signatory_poa": "Board resolution or POA for the authorised signatory",
+      "holding_certificate_of_incorporation": "Holding company: certificate of incorporation",
+      "holding_register_of_members": "Holding company: register of members",
+      "holding_director_register": "Holding company: register of directors",
+      "bank_statements_3m": "Company bank statements (last 3 months)",
+      "source_of_funds_declaration": "Source of funds declaration",
+      "financial_statements": "Latest annual financial statements",
+      "source_of_wealth": "Source of wealth evidence for the beneficial owners"
+    },
+    "base": [
+      "certificate_of_incorporation",
+      "registry_extract",
+      "articles_of_association",
+      "shareholder_register",
+      "director_register",
+      "proof_of_address_company",
+      "authorised_signatory_poa"
+    ],
+    "per_holding": [
+      "holding_certificate_of_incorporation",
+      "holding_register_of_members",
+      "holding_director_register"
+    ],
+    "_note": "Volume-based documents are defined in the volume tiers. ID and liveness of people are a check, not a document."
+  },
+
+  "persons_in_scope": {
+    "rule": "Every natural person with effective ownership at or above the UBO threshold, or control by other means, plus all directors and authorised signatories. If nobody reaches the threshold, the senior managing official.",
+    "effective_ownership": "Multiplied through every holding layer, e.g. 70% of a holding that owns 100% of the client = 70%."
+  },
 
   "checks": [
-    { "id": "C1", "name": "UBO & director ID + liveness", "automated": true, "simulated_provider": "Sumsub (KYC)" },
-    { "id": "C2", "name": "Corporate registry lookup & data match", "automated": true, "simulated_provider": "Sumsub (KYB) / registry API" },
-    { "id": "C3", "name": "Sanctions & PEP screening (entity, UBOs, directors)", "automated": true, "simulated_provider": "Sumsub AML screening / World-Check" },
-    { "id": "C4", "name": "Adverse media screening", "automated": true, "simulated_provider": "Sumsub AML screening" },
-    { "id": "C5", "name": "Wallet screening (client deposit/withdrawal addresses)", "automated": true, "simulated_provider": "Chainalysis KYT / Elliptic" },
-    { "id": "C6", "name": "Document completeness vs. required set", "automated": true, "simulated_provider": "internal rule engine" },
-    { "id": "C7", "name": "Ownership structure resolution to natural persons", "automated": "partial", "simulated_provider": "internal rule engine + analyst" }
+    { "id": "C1", "step": "ownership", "name": "ID document + liveness for every person in scope", "automated": true, "simulated_provider": "Sumsub KYC" },
+    { "id": "C2", "step": "company", "name": "Corporate registry lookup and data match", "automated": true, "simulated_provider": "Sumsub KYB / registry API" },
+    { "id": "C3", "step": "ownership", "name": "Sanctions and PEP screening: company, holdings, persons in scope", "automated": true, "simulated_provider": "Sumsub AML screening / World-Check" },
+    { "id": "C4", "step": "ownership", "name": "Adverse media screening", "automated": true, "simulated_provider": "Sumsub AML screening" },
+    { "id": "C5", "step": "activity", "name": "Wallet screening of the client's settlement addresses", "automated": true, "simulated_provider": "Chainalysis KYT / Elliptic" },
+    { "id": "C6", "step": "documents", "name": "Document completeness against the required set", "automated": true, "simulated_provider": "Rule engine" },
+    { "id": "C7", "step": "ownership", "name": "Ownership resolved to natural persons, effective ownership calculated", "automated": "partial", "simulated_provider": "Rule engine; analyst verifies holding registers where public data is limited" }
   ],
 
   "risk_factors": [
-    { "id": "R1", "factor": "Multi-layer ownership (holding between client and UBO)", "points": 15 },
-    { "id": "R2", "factor": "Holding in low-transparency jurisdiction", "points": 20 },
-    { "id": "R3", "factor": "PEP among UBOs, directors or signatories", "points": 30 },
-    { "id": "R4", "factor": "Expected volume tier V2", "points": 10 },
-    { "id": "R5", "factor": "Expected volume tier V3", "points": 25 },
-    { "id": "R6", "factor": "High-risk industry (MSB, gambling, unlicensed VASP)", "points": 25 },
-    { "id": "R7", "factor": "Company incorporated < 12 months ago", "points": 10 },
-    { "id": "R8", "factor": "Jurisdiction under FATF increased monitoring", "points": 25 },
-    { "id": "R9", "factor": "Adverse media hit (unconfirmed)", "points": 20 },
-    { "id": "R10", "factor": "Nominee directors or bearer shares", "points": 30 }
+    { "id": "R1", "factor": "Holding layer between client and beneficial owners", "points": 15, "per": "layer", "max": 30, "test": "ownership_layers" },
+    { "id": "R2", "factor": "Holding in a low-transparency jurisdiction", "points": 20, "test": "holding_low_transparency" },
+    { "id": "R3", "factor": "PEP among owners, directors or signatories", "points": 30, "test": "pep_present" },
+    { "id": "R4", "factor": "Expected volume tier V2", "points": 10, "test": "volume_tier", "tier": "V2" },
+    { "id": "R5", "factor": "Expected volume tier V3", "points": 25, "test": "volume_tier", "tier": "V3" },
+    { "id": "R6", "factor": "High-risk industry (MSB, gambling, unlicensed VASP)", "points": 25, "test": "industry_high_risk" },
+    { "id": "R7", "factor": "Company incorporated less than 12 months ago", "points": 10, "test": "company_younger_than_months", "months": 12 },
+    { "id": "R8", "factor": "Jurisdiction under FATF increased monitoring", "points": 25, "test": "increased_monitoring_jurisdiction" },
+    { "id": "R9", "factor": "Adverse media hit (unconfirmed)", "points": 20, "test": "adverse_media_hit" },
+    { "id": "R10", "factor": "Nominee directors or bearer shares", "points": 30, "test": "nominee_or_bearer" },
+    { "id": "R11", "factor": "Settlement wallet with medium risk exposure", "points": 15, "test": "kyt_medium" }
   ],
 
   "decision_rules": {
-    "_order": "Hard rules are evaluated first, top to bottom. The first match decides. If none match, the risk band decides.",
+    "_order": "1) Hard rules, top to bottom: the first match decides, all matches are shown. 2) Otherwise the risk band decides. 3) An approval additionally has to pass the approval preconditions. Missing items never block a human review; they are requested alongside it.",
     "hard_rules": [
-      { "id": "H1", "if": "jurisdiction of client, holding or any UBO in prohibited list", "outcome": "reject", "decided_by": "human", "note": "System recommends, MLRO confirms. No automatic rejection." },
-      { "id": "H2", "if": "confirmed sanctions match", "outcome": "reject", "decided_by": "human", "note": "Potential matches go to analyst first; only a confirmed true hit leads here." },
-      { "id": "H3", "if": "potential sanctions match (unconfirmed)", "outcome": "review", "decided_by": "human" },
-      { "id": "H4", "if": "PEP identified", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, senior management approval." },
-      { "id": "H5", "if": "required documents missing or UBOs not resolved to natural persons", "outcome": "pending_information", "decided_by": "system", "note": "Client is asked for the specific missing items. Not a rejection." },
-      { "id": "H6", "if": "registry data does not match submitted data", "outcome": "review", "decided_by": "human" },
-      { "id": "H7", "if": "wallet screening high risk", "outcome": "escalate", "decided_by": "human" }
+      { "id": "H1", "if": "Client, holding or a person in scope is based in a prohibited jurisdiction", "test": "prohibited_jurisdiction", "outcome": "reject", "decided_by": "human", "note": "The system recommends; the MLRO decides. There is no automatic rejection." },
+      { "id": "H2", "if": "Confirmed sanctions match", "test": "sanctions_confirmed", "outcome": "reject", "decided_by": "human", "note": "Reached only after an analyst has confirmed a potential match as a true hit." },
+      { "id": "H3", "if": "Potential sanctions match", "test": "sanctions_potential", "outcome": "review", "decided_by": "human", "note": "Analyst disposes the match: false positive or true hit." },
+      { "id": "H4", "if": "PEP identified (declared or found in screening)", "test": "pep_present", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, MLRO review, senior management approval." },
+      { "id": "H5", "if": "Settlement wallet with high risk exposure", "test": "kyt_high", "outcome": "escalate", "decided_by": "human" },
+      { "id": "H6", "if": "Registry data or a person's ID/liveness check does not match", "test": "verification_failed", "outcome": "review", "decided_by": "human" },
+      { "id": "H7", "if": "Adverse media hit", "test": "adverse_media_hit", "outcome": "review", "decided_by": "human" }
     ],
     "band_rules": [
       { "band": "low", "outcome": "approve", "decided_by": "param:auto_approve_mode" },
       { "band": "medium", "outcome": "review", "decided_by": "human" },
-      { "band": "high", "outcome": "escalate", "decided_by": "human", "note": "EDD by MLRO; outside the 24h target by design." }
+      { "band": "high", "outcome": "escalate", "decided_by": "human", "note": "EDD by the MLRO; outside the 24-hour target by design." }
+    ],
+    "approval_preconditions": [
+      { "id": "A1", "if": "Any automated check is flagged or needs a manual step", "test": "checks_need_attention", "outcome": "review", "decided_by": "human", "note": "Approval, and especially automatic approval, only on all-green checks." },
+      { "id": "A2", "if": "Required documents missing or ownership not resolved to natural persons", "test": "documents_incomplete", "outcome": "pending_information", "decided_by": "system", "note": "The client is asked for the specific items. Missing documents are never a reason to reject." }
     ]
   },
 
+  "guardrails": [
+    "A rejection is never automatic. The engine refuses any ruleset in which a reject outcome is not decided by a human.",
+    "Only the MLRO can reject a client or approve an escalated (EDD) case. Approving a PEP also needs recorded senior management approval.",
+    "A ruleset change needs a second approver and creates a new version; every decision records the version it was made under.",
+    "Client messages never disclose screening results or internal rule IDs (tipping-off risk)."
+  ],
+
   "never_automated": [
     "Rejecting a client",
-    "Disposition of a potential sanctions match",
+    "Deciding whether a potential sanctions match is a true hit",
     "Approving a PEP or any EDD case",
     "Overriding a risk score or a rule outcome",
-    "Changing this ruleset (requires second approver)"
+    "Changing this ruleset"
   ],
 
   "audit": {
-    "every_event_records": ["event_id", "timestamp_utc", "case_id", "ruleset_version", "actor (system | user id)", "action", "inputs_hash", "result", "reason / rule_id", "prev_event_hash"],
-    "storage": "Append-only. Events are hash-chained so any later edit breaks the chain and is detectable."
+    "every_event_records": ["event_id", "timestamp_utc", "case_id", "ruleset_version", "actor", "action", "inputs_hash", "result", "reason", "details", "prev_event_hash", "hash"],
+    "storage": "Append-only and hash-chained: each event includes the hash of the previous one, so any later edit is detectable."
   }
 }
