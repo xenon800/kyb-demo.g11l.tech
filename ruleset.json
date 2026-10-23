@@ -1,0 +1,102 @@
+{
+  "ruleset_id": "otc-corporate-onboarding",
+  "version": "1.0.0",
+  "effective_from": "2026-10-23",
+  "status": "draft — thresholds and lists to be confirmed by Compliance",
+  "owner": "Compliance (MLRO). Ops translates policy into this file; changes require a second approver.",
+
+  "parameters": {
+    "ubo_ownership_threshold_pct": 25,
+    "auto_approve_mode": "shadow",
+    "auto_approve_mode_options": {
+      "shadow": "System decides, analyst confirms every approval before first trade",
+      "sample": "Auto-approved, a share of cases reviewed afterwards",
+      "full": "Auto-approved, periodic QA only"
+    },
+    "pep_outcome": "escalate",
+    "pep_outcome_options": ["escalate", "reject"],
+    "volume_tiers_usd_monthly": [
+      { "id": "V1", "max": 100000, "label": "< 100k", "additional_requirements": [] },
+      { "id": "V2", "max": 1000000, "label": "100k – 1M", "additional_requirements": ["bank_statements_3m", "source_of_funds_declaration"] },
+      { "id": "V3", "max": null, "label": "> 1M", "additional_requirements": ["bank_statements_3m", "source_of_funds_declaration", "financial_statements", "source_of_wealth"] }
+    ],
+    "risk_score_bands": {
+      "low": { "max": 29 },
+      "medium": { "max": 59 },
+      "high": { "max": null }
+    },
+    "review_sla_hours": { "low": 24, "medium": 24, "high": null }
+  },
+
+  "jurisdictions": {
+    "_note": "Assumption: Lunar Rails' own list is not public. Defaults below follow FATF 'call for action' and comprehensive sanctions programmes. Must be synced from the current official lists before use.",
+    "prohibited": ["KP", "IR", "MM", "CU", "SY"],
+    "high_risk_fatf_increased_monitoring": [],
+    "low_transparency_holding": ["VG", "KY", "SC", "BZ", "PA"]
+  },
+
+  "base_documents": [
+    "certificate_of_incorporation",
+    "registry_extract",
+    "articles_of_association",
+    "shareholder_register",
+    "director_register",
+    "proof_of_address_company",
+    "authorised_signatory_poa",
+    "ubo_id_and_liveness"
+  ],
+
+  "checks": [
+    { "id": "C1", "name": "UBO & director ID + liveness", "automated": true, "simulated_provider": "Sumsub (KYC)" },
+    { "id": "C2", "name": "Corporate registry lookup & data match", "automated": true, "simulated_provider": "Sumsub (KYB) / registry API" },
+    { "id": "C3", "name": "Sanctions & PEP screening (entity, UBOs, directors)", "automated": true, "simulated_provider": "Sumsub AML screening / World-Check" },
+    { "id": "C4", "name": "Adverse media screening", "automated": true, "simulated_provider": "Sumsub AML screening" },
+    { "id": "C5", "name": "Wallet screening (client deposit/withdrawal addresses)", "automated": true, "simulated_provider": "Chainalysis KYT / Elliptic" },
+    { "id": "C6", "name": "Document completeness vs. required set", "automated": true, "simulated_provider": "internal rule engine" },
+    { "id": "C7", "name": "Ownership structure resolution to natural persons", "automated": "partial", "simulated_provider": "internal rule engine + analyst" }
+  ],
+
+  "risk_factors": [
+    { "id": "R1", "factor": "Multi-layer ownership (holding between client and UBO)", "points": 15 },
+    { "id": "R2", "factor": "Holding in low-transparency jurisdiction", "points": 20 },
+    { "id": "R3", "factor": "PEP among UBOs, directors or signatories", "points": 30 },
+    { "id": "R4", "factor": "Expected volume tier V2", "points": 10 },
+    { "id": "R5", "factor": "Expected volume tier V3", "points": 25 },
+    { "id": "R6", "factor": "High-risk industry (MSB, gambling, unlicensed VASP)", "points": 25 },
+    { "id": "R7", "factor": "Company incorporated < 12 months ago", "points": 10 },
+    { "id": "R8", "factor": "Jurisdiction under FATF increased monitoring", "points": 25 },
+    { "id": "R9", "factor": "Adverse media hit (unconfirmed)", "points": 20 },
+    { "id": "R10", "factor": "Nominee directors or bearer shares", "points": 30 }
+  ],
+
+  "decision_rules": {
+    "_order": "Hard rules are evaluated first, top to bottom. The first match decides. If none match, the risk band decides.",
+    "hard_rules": [
+      { "id": "H1", "if": "jurisdiction of client, holding or any UBO in prohibited list", "outcome": "reject", "decided_by": "human", "note": "System recommends, MLRO confirms. No automatic rejection." },
+      { "id": "H2", "if": "confirmed sanctions match", "outcome": "reject", "decided_by": "human", "note": "Potential matches go to analyst first; only a confirmed true hit leads here." },
+      { "id": "H3", "if": "potential sanctions match (unconfirmed)", "outcome": "review", "decided_by": "human" },
+      { "id": "H4", "if": "PEP identified", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, senior management approval." },
+      { "id": "H5", "if": "required documents missing or UBOs not resolved to natural persons", "outcome": "pending_information", "decided_by": "system", "note": "Client is asked for the specific missing items. Not a rejection." },
+      { "id": "H6", "if": "registry data does not match submitted data", "outcome": "review", "decided_by": "human" },
+      { "id": "H7", "if": "wallet screening high risk", "outcome": "escalate", "decided_by": "human" }
+    ],
+    "band_rules": [
+      { "band": "low", "outcome": "approve", "decided_by": "param:auto_approve_mode" },
+      { "band": "medium", "outcome": "review", "decided_by": "human" },
+      { "band": "high", "outcome": "escalate", "decided_by": "human", "note": "EDD by MLRO; outside the 24h target by design." }
+    ]
+  },
+
+  "never_automated": [
+    "Rejecting a client",
+    "Disposition of a potential sanctions match",
+    "Approving a PEP or any EDD case",
+    "Overriding a risk score or a rule outcome",
+    "Changing this ruleset (requires second approver)"
+  ],
+
+  "audit": {
+    "every_event_records": ["event_id", "timestamp_utc", "case_id", "ruleset_version", "actor (system | user id)", "action", "inputs_hash", "result", "reason / rule_id", "prev_event_hash"],
+    "storage": "Append-only. Events are hash-chained so any later edit breaks the chain and is detectable."
+  }
+}
