@@ -33,7 +33,7 @@ Before writing any rules, I listed what actually drives risk in KYB onboarding f
 - [x] PEP: reject by default, or escalate to EDD with senior approval? → see 4.1
 - [x] UBO threshold: which owners must be fully verified? → see 4.2
 - [x] Volume thresholds: where does automatic approval stop? → see 4.3
-- [ ] Excluded jurisdictions: is there a published Lunar Rails list?
+- [x] Excluded jurisdictions: is there a published Lunar Rails list? → see 4.8
 - [x] Client A: fully automatic approval, or a light human check before trading? → see 4.6
 
 ## 4. Decisions
@@ -78,6 +78,9 @@ The 24-hour target still holds in `shadow` mode: the checks run in minutes, and 
 A static page can't write live into the GitHub repo, and I deliberately did not set up a separate SQL or Notion database just to show that I can connect one. I also considered a shared Google Sheet as a stand-in and rejected it: a sheet is editable, so it is not an audit store, and writing to it from a public page would mean exposing a write endpoint anyone could call. That would demonstrate the opposite of auditability.
 
 What the prototype does instead: the audit trail of each session is shown live in the compliance view, hash-chained, and exportable as JSON. Example logs for both clients are in `audit/`. In production, the same events go to append-only storage (see `audit/README.md`).
+
+### 4.8 Excluded jurisdictions: no public list, so the list is a proposal (added 23 Oct 2026)
+I checked Lunar Rails' public website and Terms of Use. The terms only say that clients, their beneficial owners and directors must not be located in a jurisdiction where the services are restricted, and must not be on any sanctions list. No countries are named. So the prohibited list in the ruleset (North Korea, Iran, Myanmar, Cuba, Syria) and the low-transparency list are my proposal: the FATF call-for-action countries (North Korea, Iran, Myanmar) plus Cuba and Syria, which crypto firms commonly exclude because of sanctions exposure. Compliance replaces them with the internal list; it is one change in `ruleset.json`, with no code change.
 
 ## 5. Build plan (written before any UI code)
 

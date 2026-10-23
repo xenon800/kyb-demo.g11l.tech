@@ -2,13 +2,21 @@
 
 All notable changes to this prototype are recorded here, including anything changed after submission, so reviewers can see exactly what differs from the version they first opened.
 
-Format follows [Keep a Changelog](https://keepachangelog.com/). Ruleset changes are listed with the ruleset version they produce.
+Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `main` goes live, so every push with changes gets its own version: patch for fixes and wording, minor for new features or changed behaviour. The site version and the ruleset version (`ruleset.json`) are counted separately; ruleset changes are listed with the ruleset version they produce.
 
 ## [Unreleased]
+
+## [1.0.1] - 2026-10-23
+
+Changes after the first build, all live on the site.
 
 ### Added
 - `CLAUDE.md` with working rules for this repo: changelog and process log for every change, tests and audit snapshots before committing, ruleset versioning and the guardrails that must not be weakened.
 - `wrangler.jsonc` and `.assetsignore` for deployment as a static Cloudflare Worker. The first deploy failed because Wrangler's auto-setup installed `node_modules` into the build folder and tried to upload them as website files.
+
+### Changed
+- Closed the last open question in `PROCESS.md` (excluded jurisdictions). Lunar Rails' public Terms of Use refer to restricted jurisdictions and sanctions lists but name no countries, so the jurisdiction lists in the ruleset stay a proposal for Compliance to replace. Noted as decision 4.8. The ruleset itself is unchanged (still 1.0.0).
+- Versioning: every push that changes the site, the rules or the documents is released as its own version, because every push to `main` goes live. `[Unreleased]` only holds changes that have not been pushed yet.
 
 ## [1.0.0] - 2026-10-23
 

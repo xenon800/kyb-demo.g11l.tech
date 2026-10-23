@@ -4,7 +4,7 @@ OTC onboarding prototype for the Lunar Rails technical assessment, by Gerrit Sch
 
 ## Every change
 
-1. **Changelog first-class.** Add an entry under `## [Unreleased]` in `CHANGELOG.md` for every change that affects the site, the rules or the documents, in plain English: what changed and why. When a set of changes is released, move them into a dated version section. Reviewers use this to see what changed after submission.
+1. **Changelog first-class.** Add an entry under `## [Unreleased]` in `CHANGELOG.md` for every change that affects the site, the rules or the documents, in plain English: what changed and why. Every push to `main` goes live, so every push with such changes is released as its own dated version (patch for fixes and wording, minor for new features or changed behaviour); move the entries from `[Unreleased]` into it before pushing and leave `[Unreleased]` empty. The site version is separate from the ruleset version. Reviewers use this to see what changed after submission.
 2. **Decisions go into `PROCESS.md`.** If a change reflects a new decision or a lesson learned (not just a typo), add a short note to the log. Never rewrite earlier entries; append, or mark them as superseded.
 3. **Run the tests before committing:** `node scripts/test-engine.mjs` must pass (no failures).
 4. **If `ruleset.json`, `assets/engine.js` or `data/clients.json` changed:** run `node scripts/generate-audit.mjs`, then `node scripts/verify-audit.mjs audit/client-a.json audit/client-b.json`, and commit the regenerated snapshots.
