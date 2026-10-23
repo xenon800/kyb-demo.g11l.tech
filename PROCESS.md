@@ -34,7 +34,7 @@ Before writing any rules, I listed what actually drives risk in KYB onboarding f
 - [x] UBO threshold: which owners must be fully verified? → see 4.2
 - [x] Volume thresholds: where does automatic approval stop? → see 4.3
 - [ ] Excluded jurisdictions: is there a published Lunar Rails list?
-- [ ] Client A: fully automatic approval, or a light human check before trading?
+- [x] Client A: fully automatic approval, or a light human check before trading? → see 4.6
 
 ## 4. Decisions
 
@@ -60,3 +60,16 @@ If thresholds and outcomes must be adjustable, the rules have to live in one ver
 
 ### 4.5 No fabricated documents
 The prototype does not generate fake certificates, POAs or registry extracts. Uploads are simulated: a file name and a simulated check result, clearly marked as mock. Realistic-looking fake company documents would be the wrong thing to build, even for a demo.
+
+### 4.6 Auto-approval is earned, not switched on
+I would never release an automation into production that I haven't tested against real cases. So low-risk approvals start with a human confirming every system decision. This is manual work at first, but it is exactly where the errors in the rules show up.
+
+The rollout is staged and controlled by one ruleset setting:
+
+| Mode | What happens on a low-risk "approve" | Move on when |
+|---|---|---|
+| `shadow` (default) | System decides, an analyst confirms before trading | System and analyst agree consistently over an agreed number of cases |
+| `sample` | Auto-approved, a share of cases is reviewed afterwards | Sample reviews keep finding no errors |
+| `full` | Auto-approved, periodic QA only | n/a |
+
+The 24-hour target still holds in `shadow` mode: the checks run in minutes, and confirming a clean low-risk case takes an analyst a few minutes within the same day. Full automation is the goal, but not straight after the first build.
