@@ -30,8 +30,33 @@ Before writing any rules, I listed what actually drives risk in KYB onboarding f
 
 ## 3. Open questions to resolve
 
-- [ ] PEP: reject by default, or escalate to EDD with senior approval?
-- [ ] UBO threshold: which owners must be fully verified?
-- [ ] Volume thresholds: where does automatic approval stop?
+- [x] PEP: reject by default, or escalate to EDD with senior approval? → see 4.1
+- [x] UBO threshold: which owners must be fully verified? → see 4.2
+- [x] Volume thresholds: where does automatic approval stop? → see 4.3
 - [ ] Excluded jurisdictions: is there a published Lunar Rails list?
 - [ ] Client A: fully automatic approval, or a light human check before trading?
+
+## 4. Decisions
+
+### 4.1 PEP → escalate, not reject
+A PEP is not a prohibition under FATF standards. It triggers enhanced due diligence: source of funds and wealth, plus senior management approval. Some firms decide not to onboard PEPs at all, which is a valid risk-appetite choice. That is exactly why it lives in the ruleset as a single configurable outcome: `escalate` by default, switchable to `reject` if Compliance decides so.
+
+### 4.2 UBO threshold → 25 % or control
+Every natural person holding 25 % or more, or exercising control by other means, is fully verified, plus directors and authorised signatories. If nobody reaches 25 %, the senior managing official is verified instead. The threshold is a ruleset parameter.
+
+### 4.3 Volume → tiers, not a single cutoff
+My starting point was: bank statements from 100k monthly volume. I checked whether there is a regulatory figure for this. There isn't: regulators require a risk-based approach and leave the thresholds to the firm's risk appetite. So the numbers below are my proposal, to be set by Compliance:
+
+| Expected monthly volume | Requirement |
+|---|---|
+| < 100k | Standard KYB documents |
+| 100k to 1M | + bank statements, source of funds declaration |
+| > 1M | + financial statements, source of wealth, manual review |
+
+Combined with other risk factors (PEP, offshore holding, high-risk jurisdiction), a high volume escalates the case.
+
+### 4.4 The ruleset is configuration, not code
+If thresholds and outcomes must be adjustable, the rules have to live in one versioned ruleset that the flow reads. Every decision records the ruleset version it was made under, so an auditor can reconstruct why a client was approved even after the rules changed. A rule change itself should need a second approver (four-eyes).
+
+### 4.5 No fabricated documents
+The prototype does not generate fake certificates, POAs or registry extracts. Uploads are simulated: a file name and a simulated check result, clearly marked as mock. Realistic-looking fake company documents would be the wrong thing to build, even for a demo.
