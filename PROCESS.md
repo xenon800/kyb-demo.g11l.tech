@@ -82,6 +82,9 @@ What the prototype does instead: the audit trail of each session is shown live i
 ### 4.8 Excluded jurisdictions: no public list, so the list is a proposal (added 23 Oct 2026)
 I checked Lunar Rails' public website and Terms of Use. The terms only say that clients, their beneficial owners and directors must not be located in a jurisdiction where the services are restricted, and must not be on any sanctions list. No countries are named. So the prohibited list in the ruleset (North Korea, Iran, Myanmar, Cuba, Syria) and the low-transparency list are my proposal: the FATF call-for-action countries (North Korea, Iran, Myanmar) plus Cuba and Syria, which crypto firms commonly exclude because of sanctions exposure. Compliance replaces them with the internal list; it is one change in `ruleset.json`, with no code change.
 
+### 4.9 Path to production documented, not built (added 23 Oct 2026)
+I want this process to be something I can take live and extend, not a throwaway demo. I considered connecting the Sumsub sandbox now and decided against it for the submission: a prototype holding real API keys and handling real identity data would be a risk, not a feature. Instead the README describes the path to production: what is reused unchanged (ruleset, engine, audit chain, tests) and what has to be added (backend for secrets, provider adapters, webhooks, storage, sign-in, data protection, ruleset changes through pull requests). I can build a first version myself; before real client data goes through it, I would pair with an engineer.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.

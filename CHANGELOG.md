@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-10-23
+
+### Added
+- "Path to production" section in `README.md`: what carries over unchanged to a live system (ruleset, engine, audit chain, tests) and what has to be added (backend for API keys, Sumsub and blockchain analytics adapters, webhooks, storage, sign-in, data protection, ruleset changes through pull requests). Reasoning noted as decision 4.9 in `PROCESS.md`.
+
 ## [1.0.2] - 2026-10-23
 
 ### Changed

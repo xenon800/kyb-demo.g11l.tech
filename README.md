@@ -62,3 +62,24 @@ A crawler that respects `robots.txt` never fetches the page, so it never sees th
 - No uploads, no external API calls, no analytics. Everything runs in the browser and is gone on reload.
 - `_headers` sets a strict Content Security Policy (only the site's own files), `no-referrer`, `nosniff`, frame blocking and a restrictive permissions policy.
 - Fonts: Archivo and IBM Plex Mono, both under the SIL Open Font License (licences in `assets/fonts/`).
+
+## Path to production
+
+The prototype is built so the decision logic can be reused as it is. What changes for a live system is everything around it.
+
+**Reused without changes**
+- `ruleset.json` and `assets/engine.js`. The engine is a pure function: case data and ruleset in, decision and full trace out. It already runs outside the browser (the tests run it in Node.js), so it can run on a server unchanged.
+- `assets/audit.js`. The hash chain works the same on a server.
+- The tests, so the guardrails (no automatic rejection, no screening details in client messages) stay enforced as the system grows.
+
+**Added for a live system**
+1. **Backend.** Provider API keys must never reach the browser. A small server holds them as secrets, for example a Cloudflare Worker next to the current site, or a service in the existing stack.
+2. **Provider adapters.** Today the results of checks C1 to C7 come from `data/clients.json`. A live adapter maps the provider responses into the same format: Sumsub for company registry, ID, liveness, sanctions, PEP and adverse media screening; a blockchain analytics provider such as Chainalysis for wallet risk. The engine does not change.
+3. **Webhooks.** Verification results arrive asynchronously. A case waits for them and is re-evaluated when they arrive; the re-evaluation already exists, only the trigger is new.
+4. **Storage.** Cases in a database; audit events in append-only storage, so an event can be added but never changed or deleted.
+5. **Sign-in and roles.** Real accounts for analysts and the MLRO, so the second approver for a ruleset change is provably a different person.
+6. **Data protection.** Retention periods, hosting region and access logs for personal data and documents.
+7. **Ruleset changes through pull requests.** A change to `ruleset.json` is proposed as a pull request, approved by a second person and deployed as a new version, replacing the session-only lab versions.
+
+**How I would build it.** I can build a first version myself with AI support, starting with the Sumsub sandbox. Before it handles real client data, I would pair with an engineer on the security review, the data model and how it fits into the existing systems. In practice the rules and the engine would most likely move into the platform Lunar Rails already runs, rather than this prototype going live on its own.
+
