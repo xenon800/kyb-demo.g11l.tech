@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-10-23
+
+### Changed
+- `TOOLS.md` now lists the manual testing I did myself: both clients, as client and in the compliance view, on desktop and mobile, in several browsers and operating systems. The automated tests only cover the engine; how the site behaves on real devices was checked by hand.
+
 ## [1.0.1] - 2026-10-23
 
 Changes after the first build, all live on the site.

@@ -14,7 +14,8 @@
 - Set the core rules from my KYB and transaction monitoring work at Relai and Binance: tiered onboarding by complexity; Compliance owns which documents are required; complex cases always get a human review; a PEP escalates rather than being rejected outright, and that choice stays configurable; volume-based document requirements starting at USD 100k a month; and a configurable ruleset so policy can change without code.
 - Decided that auto-approval has to be earned (shadow, then sample, then full) before it is trusted.
 - Decided against a demo database (an honest JSON export beats a database nobody uses) and against a free-form test case with uploads (without real integrations it would look staged), and chose the noindex subdomain and the changelog.
-- Reviewed the rules, tested both clients and the edge cases in the Rule Lab, and deployed the site.
+- Tested both clients by hand, as client and in the compliance view, on desktop and mobile, in several browsers and operating systems.
+- Reviewed the rules, tested the edge cases in the Rule Lab, and deployed the site.
 
 ## What I used AI for
 
