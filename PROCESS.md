@@ -94,8 +94,11 @@ Deciding structure, screens and acceptance criteria up front, so the first build
 2. **Client view:** stepper (Company, Ownership & UBOs, Expected activity, Documents, Review & submit), then a status page that tells the client honestly what happens next: trading within 24h, or which extra information is needed and why.
 3. **Live checks panel:** each input triggers the matching simulated check (Sumsub, registry, screening, KYT), clearly labelled as simulated.
 4. **Compliance view:** case summary, risk score breakdown, which rule decided and why, analyst actions (confirm, request info, escalate, reject) with a mandatory reason, audit trail with hash-chain verification and JSON export.
-5. **Ruleset tab:** the active ruleset rendered as tables, with its version. Parameters can be changed in the demo to show the effect (e.g. PEP → reject), and the change itself is written to the audit trail.
+5. **Ruleset tab & Rule Lab:** the active ruleset rendered as tables, with its version, plus the what-if toggles and editable parameters described below.
 6. **"How I built this" tab:** this log, rendered.
+
+### Decision: "What-if" panel instead of a free custom case
+I considered letting reviewers create their own application. I dropped it: with no real Sumsub or screening connected, a free-form case with uploads would invite people to enter real names and documents, and a simulated "clear" result would make the whole flow look staged. Instead, the compliance view gets a **Rule Lab**: structured toggles on top of Client A or B (holding jurisdiction, PEP yes/no, volume tier, ownership layers, sanctions hit yes/no) plus editable ruleset parameters. It tests the rules, not a screening vendor, and every change is written to the audit trail.
 
 ### Non-functional
 - `noindex` three ways: meta tag, `robots.txt`, `X-Robots-Tag` header.
