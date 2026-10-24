@@ -4,6 +4,11 @@
     "case_id": "CASE-A-0001",
     "label": "Client A",
     "summary": "a Canadian company with simple ownership and normal volumes",
+    "contact": {
+      "name": "Emily Tremblay",
+      "email": "emily.tremblay@kestrelbay.example",
+      "role": "Director and authorised signatory"
+    },
     "submitted_at": "2026-10-23T10:00:00Z",
     "company": {
       "legal_name": "Kestrel Bay Imports Inc.",
@@ -87,6 +92,11 @@
     "case_id": "CASE-B-0001",
     "label": "Client B",
     "summary": "a UAE company held through an offshore holding, with a PEP director and high volumes",
+    "contact": {
+      "name": "Daniel Okafor",
+      "email": "daniel.okafor@saffrondunes.example",
+      "role": "Director and authorised signatory"
+    },
     "submitted_at": "2026-10-23T10:00:00Z",
     "company": {
       "legal_name": "Saffron Dunes General Trading FZCO",

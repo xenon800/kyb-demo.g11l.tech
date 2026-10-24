@@ -25,6 +25,14 @@ const providerLabel = (p) => (p === 'Rule engine' ? p : `${p}, simulated`);
 
 async function automatedPart(caseData, log, clk) {
   const ev = evaluate(caseData, ruleset);
+  const acc = ruleset.client_account;
+  const contact = caseData.contact;
+  await log.append({ actor: 'client:applicant', action: 'account.created', result: 'created', reason: `${contact.name}, ${contact.role}`, details: { sign_in: acc.sign_in }, inputs: { contact }, ruleset_version: V });
+  clk.advance(40);
+  await log.append({ actor: 'client:applicant', action: 'account.email_verified', result: 'verified', reason: 'Verification link opened (simulated)', ruleset_version: V });
+  clk.advance(5);
+  await log.append({ actor: 'client:applicant', action: 'account.consents_accepted', result: 'accepted', reason: acc.consents.map((x) => `${x.label} ${x.version}`).join(', '), details: { consents: acc.consents }, ruleset_version: V });
+  clk.advance(5);
   await log.append({ actor: 'client:applicant', action: 'application.started', result: 'started', reason: `${caseData.label}: ${caseData.company.legal_name}`, inputs: { company: caseData.company }, ruleset_version: V });
   for (const step of STEP_ORDER) {
     clk.advance(90);

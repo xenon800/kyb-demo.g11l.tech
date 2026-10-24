@@ -505,7 +505,7 @@ textarea {
 }
 .stepper li {
   flex: 1 1 0;
-  min-width: 92px;
+  min-width: 68px;
   border-top: 3px solid var(--rule);
   padding-top: 8px;
   font-size: var(--t-s);

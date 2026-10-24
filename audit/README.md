@@ -27,8 +27,8 @@ Events are append-only and hash-chained: each event includes the hash of the one
 
 The files in this folder are **demo snapshots** generated from the mock clients by `scripts/generate-audit.mjs`, with a fixed clock so they are reproducible:
 
-- `client-a.json`: automated checks, approval recommended, confirmed by an analyst, trading enabled.
-- `client-b.json`: automated checks, escalated to EDD by the PEP rule, MLRO requests financial statements and source of wealth.
+- `client-a.json`: account created with consents, automated checks, approval recommended, confirmed by an analyst, trading enabled.
+- `client-b.json`: account created with consents, automated checks, escalated to EDD by the PEP rule, MLRO requests financial statements and source of wealth.
 
 In the live prototype, the audit trail of a session is shown in the compliance view and can be exported as JSON. Any export can be checked with `node scripts/verify-audit.mjs <file>`; changing a single character in an event makes verification fail at that event.
 

@@ -29,7 +29,7 @@ function check(name, condition, detail = '') {
 }
 
 console.log('\nRuleset');
-check('ruleset v1.0.0 passes all guardrails', validateRuleset(ruleset).length === 0, validateRuleset(ruleset).join('; '));
+check(`ruleset v${ruleset.version} passes all guardrails`, validateRuleset(ruleset).length === 0, validateRuleset(ruleset).join('; '));
 
 console.log('\nClient A: Canadian company, simple ownership, normal volumes');
 const a = evaluate(clients.A, ruleset);

@@ -1,7 +1,7 @@
 {
   "ruleset_id": "otc-corporate-onboarding",
-  "version": "1.0.0",
-  "effective_from": "2026-10-23",
+  "version": "1.1.0",
+  "effective_from": "2026-10-24",
   "status": "proposal: thresholds and lists to be confirmed by Compliance",
   "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
 
@@ -70,12 +70,27 @@
       "holding_register_of_members",
       "holding_director_register"
     ],
+    "resubmission": {
+      "automated_requests": 1,
+      "then": "A business developer contacts the client personally",
+      "examples": ["Proof of address older than 90 days", "Registry extract older than 3 months", "Unsigned board resolution or POA"],
+      "_note": "When a document cannot be accepted, the client gets one automated email asking for the right document, with the reason. If the second upload still cannot be accepted, no further automated emails are sent; a business developer calls the client to sort it out."
+    },
     "_note": "Volume-based documents are defined in the volume tiers. ID and liveness of people are a check, not a document."
   },
 
   "persons_in_scope": {
     "rule": "Every natural person with effective ownership at or above the UBO threshold, or control by other means, plus all directors and authorised signatories. If nobody reaches the threshold, the senior managing official.",
     "effective_ownership": "Multiplied through every holding layer, e.g. 70% of a holding that owns 100% of the client = 70%."
+  },
+  "client_account": {
+    "required_before": "application",
+    "sign_in": "Email link plus two-factor authentication",
+    "consents": [
+      { "id": "terms", "label": "Terms of use", "version": "1.0" },
+      { "id": "privacy", "label": "Privacy notice", "version": "1.0" }
+    ],
+    "_note": "The client creates an account before the application. The same account is used to upload requested documents later, to follow the status and, once approved, to trade. Account creation, email verification and consents are written to the audit trail."
   },
 
   "checks": [

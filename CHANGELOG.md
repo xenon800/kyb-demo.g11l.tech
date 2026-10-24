@@ -6,6 +6,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-24
+
+Changes from my own review of the rules and the workflow.
+
+### Added
+- **Client account step.** The application now starts with creating an account (name, role, work email, consent to the terms of use and privacy notice). The same account is where the client later sends requested documents, follows the status and trades. Account creation, email verification and consents are written to the audit trail, and the status page shows who is signed in. No password field on purpose; production would use an email link plus two-factor authentication. See decision 4.10.
+- **Rule for documents that cannot be accepted:** one automated email with the reason; if the second upload still does not fit, a business developer calls the client. Shown to the client on the documents step and in the ruleset tab. Based on my experience at Relai Business, where outdated documents were the biggest delay. See decision 4.11.
+- `ruleset.json` **1.1.0**: new `client_account` section and `documents.resubmission` rule.
+
+### Changed
+- The stepper fits seven steps at desktop width without cutting off the last one.
+- `JUSTIFICATION.md` mentions the account step, the resubmission rule and the account events in the audit trail.
+- Audit snapshots in `audit/` regenerated with ruleset 1.1.0; they now start with the account events (19 and 18 events).
+
 ## [1.0.3] - 2026-10-23
 
 ### Added

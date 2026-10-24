@@ -31,6 +31,7 @@ const VIEWS = [
 
 const STEPS = [
   { id: 'overview', title: 'Before you start' },
+  { id: 'account', title: 'Account' },
   { id: 'company', title: 'Company' },
   { id: 'ownership', title: 'Ownership' },
   { id: 'activity', title: 'Expected activity' },
@@ -303,6 +304,8 @@ function newCase(key) {
     submitted: false,
     running: false,
     declared: false,
+    consented: false,
+    account: null,
     status: 'not_submitted',
     evaluation: null,
     log: new AuditLog(data.case_id),
@@ -325,6 +328,39 @@ function reevaluate(c) {
 
 async function logEvent(c, entry) {
   return c.log.append({ ruleset_version: state.ruleset.version, ...entry });
+}
+
+async function createAccount(c, { fast = false } = {}) {
+  if (c.account) return;
+  const a = state.ruleset.client_account;
+  const contact = c.data.contact;
+  c.running = true;
+  render();
+  const entry = { id: 'account', req: 'POST /accounts', provider: 'Platform', status: 'running', summary: 'Creating account…', at: new Date() };
+  c.feed.push(entry);
+  renderFeed();
+  await sleep(fast || reduceMotion ? 60 : 400);
+  await logEvent(c, {
+    actor: ACTORS.client,
+    action: 'account.created',
+    result: 'created',
+    reason: `${contact.name}, ${contact.role}`,
+    details: { sign_in: a.sign_in },
+    inputs: { contact },
+  });
+  await logEvent(c, { actor: ACTORS.client, action: 'account.email_verified', result: 'verified', reason: 'Verification link opened (simulated)' });
+  await logEvent(c, {
+    actor: ACTORS.client,
+    action: 'account.consents_accepted',
+    result: 'accepted',
+    reason: a.consents.map((x) => `${x.label} ${x.version}`).join(', '),
+    details: { consents: a.consents },
+  });
+  entry.status = 'pass';
+  entry.summary = `Account created, email verified, ${a.consents.length} consents recorded`;
+  renderFeed();
+  c.account = { email: contact.email, name: contact.name };
+  c.running = false;
 }
 
 async function startApplication(c) {
@@ -453,6 +489,8 @@ async function notifyClient(c) {
 
 async function runWholeJourney(c) {
   if (c.running) return;
+  c.consented = true;
+  await createAccount(c, { fast: true });
   await startApplication(c);
   for (const [i, s] of STEPS.entries()) {
     if (!['company', 'ownership', 'activity', 'documents'].includes(s.id)) continue;
@@ -833,6 +871,22 @@ function clientStep(c, step) {
         ${stepNav(c, { next: 'Start application', back: false })}
         <p class="faint mt-s">In a hurry? <button class="btn btn-quiet" data-action="autorun" ${c.running ? 'disabled' : ''}>Run the whole application in one go</button></p>`;
     }
+    case 'account': {
+      const a = rs.client_account;
+      const contact = d.contact;
+      const consents = a.consents.map((x) => `the ${x.label.toLowerCase()} (version ${esc(x.version)})`).join(' and ');
+      return `
+        <h2>Create your account</h2>
+        <p class="muted">You use this account to continue your application, send us anything we ask for later and, once approved, to trade.</p>
+        <dl class="fields">
+          ${field('Name', contact.name)}
+          ${field('Role', contact.role)}
+          ${field('Work email', contact.email)}
+        </dl>
+        <p class="hint mt">In production you sign in with a link sent to this email plus two-factor authentication. This demo has no password field on purpose, so nobody types a real password into a prototype.</p>
+        <label class="checkline mt"><input type="checkbox" data-bind="consent" ${c.consented ? 'checked' : ''}> I accept ${consents}.</label>
+        ${stepNav(c, { next: c.account ? 'Continue' : 'Create account', disabled: !c.consented })}`;
+    }
     case 'company':
       return `
         <h2>Company</h2>
@@ -951,7 +1005,14 @@ function clientDocuments(c, ev) {
     <h2>Documents</h2>
     <p class="muted">Only what applies to your company. Missing something? You can still continue; we will ask for it later.</p>
     ${html}
+    ${resubmissionHint()}
     ${stepNav(c)}`;
+}
+
+function resubmissionHint() {
+  const r = state.ruleset.documents.resubmission;
+  if (!r) return '';
+  return `<p class="hint mt">If we cannot accept a document, for example a proof of address older than 90 days, we email you once and tell you why. If the next one still does not fit, your account manager calls you to sort it out together.</p>`;
 }
 
 function clientStatus(c) {
@@ -961,6 +1022,7 @@ function clientStatus(c) {
     .map((t) => `<li class="${t.cls}"><span class="dot" aria-hidden="true"></span><span><span class="label">${esc(t.label)}</span>${t.sub ? `<br><span class="sub">${esc(cap(t.sub))}</span>` : ''}</span></li>`)
     .join('');
   return `
+    ${c.account ? `<p class="faint">Signed in as ${esc(c.account.email)}</p>` : ''}
     <div class="status-card ${tone}" role="status">
       <h2>${esc(m.title)}</h2>
       <p>${esc(m.body)}</p>
@@ -1538,7 +1600,13 @@ function viewRuleset() {
         <p class="muted">Every client</p><ul class="plain-list">${rs.documents.base.map((x) => `<li>${esc(cat[x])}</li>`).join('')}</ul>
         <p class="muted mt">Per holding company</p><ul class="plain-list">${rs.documents.per_holding.map((x) => `<li>${esc(cat[x])}</li>`).join('')}</ul>
         <p class="muted mt">Requested in enhanced due diligence</p><ul class="plain-list">${p.edd_documents.map((x) => `<li>${esc(cat[x])}</li>`).join('')}</ul>
+        ${rs.documents.resubmission ? `<p class="muted mt">When a document cannot be accepted</p><ul class="plain-list"><li>${esc(rs.documents.resubmission.automated_requests === 1 ? 'One automated email' : `${rs.documents.resubmission.automated_requests} automated emails`)} asking for the right document, with the reason</li><li>If it still cannot be accepted: ${esc(rs.documents.resubmission.then.charAt(0).toLowerCase() + rs.documents.resubmission.then.slice(1))}</li><li>Typical cases: ${esc(rs.documents.resubmission.examples.join('; '))}</li></ul>` : ''}
       </section>
+      ${rs.client_account ? `<section class="sheet"><h2>Client account</h2><div class="table-wrap"><table class="table"><tbody>
+        <tr><td>Created</td><td>Before the application; the same account is used for later uploads, status and trading</td></tr>
+        <tr><td>Sign-in</td><td>${esc(rs.client_account.sign_in)}</td></tr>
+        <tr><td>Consents recorded</td><td>${esc(rs.client_account.consents.map((x) => `${x.label} ${x.version}`).join(', '))}</td></tr>
+      </tbody></table></div></section>` : ''}
       <section class="sheet"><h2>Jurisdictions</h2>
         <div class="table-wrap"><table class="table"><tbody>
           <tr><td>Prohibited</td><td>${esc(rs.jurisdictions.prohibited.map(country).join(', '))}</td></tr>
@@ -1605,7 +1673,11 @@ document.addEventListener('click', async (e) => {
     case 'next': {
       if (c.running) return;
       const step = STEPS[c.step];
-      if (step.id === 'overview') await startApplication(c);
+      if (step.id === 'account') {
+        if (!c.consented) return;
+        await createAccount(c);
+        await startApplication(c);
+      }
       if (['company', 'ownership', 'activity', 'documents'].includes(step.id)) await runStep(c, step.id);
       if (step.id === 'review') {
         if (!c.declared) return;
@@ -1683,6 +1755,9 @@ document.addEventListener('change', (e) => {
   const c = cur();
   if (t.dataset.bind === 'declare') {
     c.declared = t.checked;
+    renderView();
+  } else if (t.dataset.bind === 'consent') {
+    c.consented = t.checked;
     renderView();
   } else if (t.dataset.bind === 'sm') {
     c.smApproval = t.checked;

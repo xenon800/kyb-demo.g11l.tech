@@ -21,7 +21,7 @@ One versioned ruleset (`ruleset.json`) is evaluated in a fixed order:
 
 ## What I automated and what I would never automate
 
-**Automated:** a document checklist tailored to the client's structure and volume, shown before they start; registry lookup; ID and liveness; sanctions, PEP and adverse media screening; wallet screening; effective ownership through holdings; scoring; routing; client messages.
+**Automated:** a document checklist tailored to the client's structure and volume, shown before they start; account creation with recorded consents; registry lookup; ID and liveness; sanctions, PEP and adverse media screening; wallet screening; effective ownership through holdings; scoring; routing; client messages, including one automated request for a corrected document. If the second upload still does not fit, a business developer calls the client instead of sending more emails.
 
 **Never automated:** rejecting a client, deciding whether a sanctions match is real, approving a PEP or EDD case, overriding a rule or a score, and changing the ruleset.
 
@@ -29,7 +29,7 @@ Auto-approval is earned, not switched on. It starts in shadow mode, where an ana
 
 ## How each decision is recorded
 
-Every check, rule evaluation, routing step, human decision (with a mandatory reason) and ruleset change is appended to a hash-chained log with timestamp, actor, ruleset version, result, reason and a fingerprint of the input data. Editing or deleting any event breaks the chain, and verification shows exactly where. Logs export as JSON; in production they go to append-only storage. A ruleset change needs a second approver and creates a new version, so every decision can be traced to the rules that applied at the time. Client messages never reveal screening results or rule IDs.
+Every account step (creation, email verification, consents), check, rule evaluation, routing step, human decision (with a mandatory reason) and ruleset change is appended to a hash-chained log with timestamp, actor, ruleset version, result, reason and a fingerprint of the input data. Editing or deleting any event breaks the chain, and verification shows exactly where. Logs export as JSON; in production they go to append-only storage. A ruleset change needs a second approver and creates a new version, so every decision can be traced to the rules that applied at the time. Client messages never reveal screening results or rule IDs.
 
 ## Assumptions
 
