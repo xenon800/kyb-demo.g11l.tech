@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-24
+
+### Changed
+- `PROCESS.md` 4.11: more precise wording of the Relai Business example. Outdated bills were typically more than three months old, sometimes one or two years.
+
 ## [1.1.0] - 2026-10-24
 
 Changes from my own review of the rules and the workflow.
