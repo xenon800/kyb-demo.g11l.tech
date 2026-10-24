@@ -134,8 +134,30 @@ export function ownershipResolution(caseData) {
 }
 
 /** Everyone who must pass ID, liveness and screening, with the reason why. */
+/**
+ * The ownership threshold from which owners are verified: the standard one, or the lower one
+ * when the structure is higher risk (low-transparency holding, high-risk jurisdiction, PEP involved).
+ * Based only on facts known before scoping, so it never depends on who ends up in scope.
+ */
+export function uboThreshold(caseData, ruleset) {
+  const p = ruleset.parameters;
+  const j = ruleset.jurisdictions;
+  const standard = { pct: p.ubo_ownership_threshold_pct, high_risk: false, reasons: [] };
+  if (p.ubo_ownership_threshold_high_risk_pct == null) return standard;
+  const holdings = caseData.ownership.holdings || [];
+  const listed = j.high_risk_fatf_increased_monitoring || [];
+  const persons = caseData.ownership.persons || [];
+  const pepHits = new Set(caseData.provider_responses?.pep_hits || []);
+  const reasons = [];
+  if (holdings.some((h) => (j.low_transparency_holding || []).includes(h.jurisdiction))) reasons.push('holding in a low-transparency jurisdiction');
+  const places = [caseData.company.jurisdiction, ...holdings.map((h) => h.jurisdiction), ...persons.map((x) => x.residence)];
+  if (places.some((c) => listed.includes(c))) reasons.push('high-risk jurisdiction involved');
+  if (persons.some((x) => x.pep_declared || pepHits.has(x.id))) reasons.push('PEP involved');
+  return reasons.length ? { pct: p.ubo_ownership_threshold_high_risk_pct, high_risk: true, reasons } : standard;
+}
+
 export function personsInScope(caseData, ruleset) {
-  const threshold = ruleset.parameters.ubo_ownership_threshold_pct;
+  const threshold = uboThreshold(caseData, ruleset).pct;
   const eff = effectiveOwnership(caseData).persons;
   const people = caseData.ownership.persons.map((p) => {
     const pct = eff[p.id] ?? 0;
@@ -230,6 +252,8 @@ export function validateRuleset(rs) {
   const p = rs?.parameters;
   if (!p) return ['Ruleset has no parameters.'];
 
+  if (p.ubo_ownership_threshold_high_risk_pct != null && !(p.ubo_ownership_threshold_high_risk_pct >= 1 && p.ubo_ownership_threshold_high_risk_pct <= p.ubo_ownership_threshold_pct))
+    e.push('The higher-risk UBO threshold must be between 1 percent and the standard threshold.');
   if (!(p.ubo_ownership_threshold_pct >= 1 && p.ubo_ownership_threshold_pct <= 100))
     e.push('UBO ownership threshold must be between 1 and 100 percent.');
   if (!Object.keys(p.auto_approve_mode_options || {}).includes(p.auto_approve_mode))
@@ -518,6 +542,7 @@ export function evaluate(caseData, ruleset) {
     volume_tier: tier,
     persons,
     persons_in_scope: inScope,
+    ubo_threshold: uboThreshold(caseData, rs),
     pep_persons: pepPersons.map((x) => ({ id: x.id, name: x.name, detail: x.pep_detail || null })),
     documents: docs,
     missing_documents: missingDocs,

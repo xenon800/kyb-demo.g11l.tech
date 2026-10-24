@@ -74,7 +74,8 @@
       "shareholder_register": "provided",
       "director_register": "provided",
       "proof_of_address_company": "provided",
-      "authorised_signatory_poa": "provided"
+      "authorised_signatory_poa": "provided",
+      "sanctions_questionnaire": "provided"
     },
     "provider_responses": {
       "registry": {
@@ -210,6 +211,7 @@
       "director_register": "provided",
       "proof_of_address_company": "provided",
       "authorised_signatory_poa": "provided",
+      "sanctions_questionnaire": "provided",
       "holding_certificate_of_incorporation#H1": "provided",
       "holding_register_of_members#H1": "provided",
       "holding_director_register#H1": "provided",

@@ -38,7 +38,7 @@ check('decided by the risk band (no hard rule matched)', a.decision.rule_id === 
 check('outcome approve', a.decision.outcome === 'approve');
 check('shadow mode: awaiting analyst confirmation, not final', a.decision.status === 'awaiting_confirmation' && !a.decision.automated_final);
 check('volume tier V1', a.volume_tier.id === 'V1');
-check('all 7 documents provided', a.documents.length === 7 && a.missing_documents.length === 0);
+check('all 8 documents provided (including the sanctions questionnaire)', a.documents.length === 8 && a.missing_documents.length === 0);
 check('one person in scope', a.persons_in_scope.length === 1);
 check('client is told: trading within 24 hours', a.client_message.body.includes('within 24 hours'));
 
@@ -74,7 +74,7 @@ const rsReject = setParameter(ruleset, 'parameters.pep_outcome', 'reject');
 const bReject = evaluate(clients.B, rsReject);
 check('pep_outcome = reject → Client B recommendation becomes reject', bReject.decision.outcome === 'reject');
 check('…but it is never final without the MLRO', bReject.decision.status === 'pending_mlro_decision' && !bReject.decision.automated_final);
-const rs50 = setParameter(ruleset, 'parameters.ubo_ownership_threshold_pct', 50);
+const rs50 = setParameter(setParameter(ruleset, 'parameters.ubo_ownership_threshold_pct', 50), 'parameters.ubo_ownership_threshold_high_risk_pct', 50);
 check('UBO threshold 50% → the 30% owner drops out of scope', personsInScope(clients.B, rs50).filter((p) => p.in_scope).length === 2);
 const rsFull = setParameter(ruleset, 'parameters.auto_approve_mode', 'full');
 const aFull = evaluate(clients.A, rsFull);
@@ -179,6 +179,15 @@ const bOld = JSON.parse(JSON.stringify(clients.B));
 bOld.ownership.persons.forEach((p) => (p.date_of_birth = '1950-01-01'));
 check('A4 only applies with a single owner (Client B has two)', !evaluate(bOld, ruleset).precondition_matches.some((m) => m.id === 'A4'));
 check('age alone never escalates or rejects', ['review'].includes(aOld.decision.outcome));
+
+console.log('\nRuleset 1.4 rules');
+check('Client A uses the standard 25% ownership threshold', a.ubo_threshold.pct === 25 && !a.ubo_threshold.high_risk);
+check('Client B uses the 10% threshold (BVI holding and PEP)', b.ubo_threshold.pct === 10 && b.ubo_threshold.reasons.length === 2, JSON.stringify(b.ubo_threshold));
+const aSyria = JSON.parse(JSON.stringify(clients.A));
+aSyria.ownership.persons[0].residence = 'SY';
+const evSyria = evaluate(aSyria, ruleset);
+check('Syria is no longer prohibited: a Syria-resident owner is escalated to EDD, not rejected', evSyria.decision.outcome === 'escalate' && !evSyria.hard_rule_matches.some((m) => m.id === 'H1'), `${evSyria.decision.outcome} ${evSyria.decision.rule_id}`);
+check('a high-risk jurisdiction also lowers the ownership threshold to 10%', evSyria.ubo_threshold.pct === 10);
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed ? 1 : 0);

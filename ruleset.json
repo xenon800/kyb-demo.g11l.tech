@@ -1,12 +1,13 @@
 {
   "ruleset_id": "otc-corporate-onboarding",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "effective_from": "2026-10-24",
   "status": "proposal: thresholds and lists to be confirmed by Compliance",
   "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
 
   "parameters": {
     "ubo_ownership_threshold_pct": 25,
+    "ubo_ownership_threshold_high_risk_pct": 10,
     "auto_approve_mode": "shadow",
     "auto_approve_mode_options": {
       "shadow": "System recommends, an analyst confirms every approval before the first trade",
@@ -32,10 +33,10 @@
   },
 
   "jurisdictions": {
-    "_note": "Lunar Rails' own list is not public, so these are assumptions. Defaults follow the FATF 'call for action' list and comprehensive sanctions programmes. In production these lists are synced from the official sources, never maintained by hand.",
-    "prohibited": ["KP", "IR", "MM", "CU", "SY"],
-    "high_risk_fatf_increased_monitoring": [],
-    "_note_increased_monitoring": "Intentionally empty in this prototype: the FATF list changes three times a year and a stale list is worse than none. It is loaded from the current FATF publication at deploy time.",
+    "_note": "Lunar Rails' own list is not public, so these are assumptions. Prohibited: the FATF 'call for action' countries plus Cuba (comprehensive US embargo). In production these lists are synced from the official sources, never maintained by hand.",
+    "prohibited": ["KP", "IR", "MM", "CU"],
+    "high_risk_fatf_increased_monitoring": ["SY"],
+    "_note_increased_monitoring": "Countries where EU law (high-risk third countries) or the FATF increased-monitoring list call for enhanced due diligence. Syria is listed as an example: its comprehensive US and EU sanctions were lifted in 2025 and 2026, but it remains on both lists. The full list changes several times a year and is loaded from the official publications at deploy time, never maintained by hand.",
     "low_transparency_holding": ["VG", "KY", "SC", "BZ", "PA"]
   },
 
@@ -48,6 +49,7 @@
       "director_register": "Register of directors",
       "proof_of_address_company": "Proof of registered address (max. 90 days old)",
       "authorised_signatory_poa": "Board resolution or POA for the authorised signatory",
+      "sanctions_questionnaire": "Sanctions questionnaire (business with sanctioned countries or parties)",
       "holding_certificate_of_incorporation": "Holding company: certificate of incorporation",
       "holding_register_of_members": "Holding company: register of members",
       "holding_director_register": "Holding company: register of directors",
@@ -63,7 +65,8 @@
       "shareholder_register",
       "director_register",
       "proof_of_address_company",
-      "authorised_signatory_poa"
+      "authorised_signatory_poa",
+      "sanctions_questionnaire"
     ],
     "per_holding": [
       "holding_certificate_of_incorporation",
@@ -80,7 +83,7 @@
   },
 
   "persons_in_scope": {
-    "rule": "Every natural person with effective ownership at or above the UBO threshold, or control by other means, plus all directors and authorised signatories. If nobody reaches the threshold, the senior managing official.",
+    "rule": "Every natural person with effective ownership at or above the UBO threshold (25%, or 10% when the structure is higher risk: a holding in a low-transparency jurisdiction, a high-risk jurisdiction, or a PEP involved), or control by other means, plus all directors and authorised signatories. If nobody reaches the threshold, the senior managing official.",
     "effective_ownership": "Multiplied through every holding layer, e.g. 70% of a holding that owns 100% of the client = 70%."
   },
   "client_account": {
@@ -96,7 +99,7 @@
   "checks": [
     { "id": "C1", "step": "ownership", "name": "ID document + liveness for every person in scope", "automated": true, "simulated_provider": "Sumsub KYC" },
     { "id": "C2", "step": "company", "name": "Corporate registry lookup and data match", "automated": true, "simulated_provider": "Sumsub KYB / registry API" },
-    { "id": "C3", "step": "ownership", "name": "Sanctions and PEP screening: company, holdings, persons in scope", "automated": true, "simulated_provider": "Sumsub AML screening / World-Check" },
+    { "id": "C3", "step": "ownership", "name": "Sanctions, terrorist-list and PEP screening: company, holdings, persons in scope", "automated": true, "simulated_provider": "Sumsub AML screening / World-Check" },
     { "id": "C4", "step": "ownership", "name": "Adverse media screening", "automated": true, "simulated_provider": "Sumsub AML screening" },
     { "id": "C5", "step": "activity", "name": "Wallet screening of the client's settlement addresses", "automated": true, "simulated_provider": "Chainalysis KYT / Elliptic" },
     { "id": "C6", "step": "documents", "name": "Document completeness against the required set", "automated": true, "simulated_provider": "Rule engine" },
@@ -111,7 +114,7 @@
     { "id": "R5", "factor": "Expected volume tier V3", "points": 25, "test": "volume_tier", "tier": "V3" },
     { "id": "R6", "factor": "High-risk industry (MSB, gambling, unlicensed VASP)", "points": 25, "test": "industry_high_risk" },
     { "id": "R7", "factor": "Company incorporated less than 12 months ago", "points": 10, "test": "company_younger_than_months", "months": 12 },
-    { "id": "R8", "factor": "Jurisdiction under FATF increased monitoring", "points": 25, "test": "increased_monitoring_jurisdiction" },
+    { "id": "R8", "factor": "Jurisdiction on the EU high-risk list or under FATF increased monitoring (EDD required)", "points": 60, "test": "increased_monitoring_jurisdiction" },
     { "id": "R9", "factor": "Adverse media hit (unconfirmed)", "points": 20, "test": "adverse_media_hit" },
     { "id": "R10", "factor": "Nominee directors or bearer shares", "points": 30, "test": "nominee_or_bearer" },
     { "id": "R11", "factor": "Settlement wallet with medium risk exposure", "points": 15, "test": "kyt_medium" }

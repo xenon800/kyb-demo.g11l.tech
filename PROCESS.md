@@ -125,6 +125,16 @@ The status page asked the client to prepare items for the enhanced review but on
 ### 4.18 Circle pattern instead of the rails pattern (added 24 Oct 2026, replaces the rails pattern from 4.13)
 The header of the client view used my own pattern of rails running to the horizon, which looked quite different from the header of the Lunar Rails website. Their background is the classic "flower of life", overlapping circles on a triangular grid, a centuries-old geometric motif. I drew that motif myself as a small repeating tile instead of copying their file, so the client view now matches their look while every asset on the site is still my own.
 
+### 4.19 Sharper sanctions and jurisdiction rules (added 24 Oct 2026, corrects the Syria part of 4.8)
+Going through the rules again with a sanctions and AML lens, I changed four things:
+
+- **Syria is no longer prohibited.** The comprehensive US and EU sanctions were lifted in 2025 and 2026, so my reasoning in 4.8 was out of date. Syria is still on the EU list of high-risk third countries and under FATF increased monitoring, where enhanced due diligence is required. It now sits on that list, and a jurisdiction on it scores 60 points, so it always leads to EDD (before, 25 points would have left it in the low band). Remaining targeted sanctions on individuals are caught by screening.
+- **Owners are verified from 10% in higher-risk structures** (a holding in a low-transparency jurisdiction, a high-risk jurisdiction, or a PEP involved), otherwise from 25%. The lower threshold depends only on facts known before scoping, so it cannot change itself. Client B already uses it; its outcome is unchanged because its owners hold 70% and 30%.
+- **Screening explicitly covers terrorist lists**, not only sanctions and PEP lists.
+- **A sanctions questionnaire is required from every client**, because sanctions evasion is one of the main risks for an OTC desk.
+
+What I considered and left out: a fourth "extreme" risk rating, with the UBO's age as a severe red flag. The extreme tier already exists as the hard rules that lead to a rejection recommendation, and I treat age as a reason for a protective call (4.15), not as a severe risk on its own.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.

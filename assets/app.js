@@ -188,6 +188,7 @@ const PARAM_CONTROLS = [
   { path: 'parameters.pep_outcome', label: 'Outcome when a PEP is found', type: 'select' },
   { path: 'parameters.auto_approve_mode', label: 'Approval of low-risk cases', type: 'select' },
   { path: 'parameters.ubo_ownership_threshold_pct', label: 'Verify owners from (% ownership)', type: 'number', min: 1, max: 100 },
+  { path: 'parameters.ubo_ownership_threshold_high_risk_pct', label: 'Verify owners from, higher-risk structures (%)', type: 'number', min: 1, max: 100 },
   { path: 'parameters.volume_tiers_usd_monthly.0.max', label: 'First volume tier ends at (USD per month)', type: 'number', min: 1 },
   { path: 'parameters.volume_tiers_usd_monthly.1.max', label: 'Second volume tier ends at (USD per month)', type: 'number', min: 1 },
   { path: 'parameters.risk_score_bands.low_max', label: 'Low risk band up to (points)', type: 'number', min: 0 },
@@ -945,7 +946,7 @@ function clientStep(c, step) {
         <ul class="checklist">${docs}</ul>
         <h3 class="mt">People</h3>
         <ul class="checklist">
-          <li>An ID document and a short selfie video for everyone who owns ${rs.parameters.ubo_ownership_threshold_pct}% or more, every director and every authorised signatory</li>
+          <li>An ID document and a short selfie video for everyone who owns ${rs.parameters.ubo_ownership_threshold_pct}% or more${rs.parameters.ubo_ownership_threshold_high_risk_pct != null ? ` (${rs.parameters.ubo_ownership_threshold_high_risk_pct}% or more for some ownership structures)` : ''}, every director and every authorised signatory</li>
         </ul>
         <h3 class="mt">Only if they apply to you</h3>
         <ul class="checklist">
@@ -992,7 +993,7 @@ function clientStep(c, step) {
     case 'ownership':
       return `
         <h2>Ownership</h2>
-        <p class="muted">We verify everyone who owns ${rs.parameters.ubo_ownership_threshold_pct}% or more, directly or through other companies, plus all directors and authorised signatories.</p>
+        <p class="muted">We verify everyone who owns ${ev.ubo_threshold.pct}% or more, directly or through other companies, plus all directors and authorised signatories.</p>
         ${structureDiagram(d, ev)}
         <div class="table-wrap"><table class="table">
           <thead><tr><th>Person</th><th>Role</th><th>Effective ownership</th><th>Verification</th><th>PEP declared</th></tr></thead>
@@ -1694,7 +1695,7 @@ function viewRuleset() {
         .map((f) => `<tr><td class="nowrap"><code>${esc(f.id)}</code></td><td>${esc(f.factor)}${f.per ? ` <span class="faint">(per ${esc(f.per)}, max ${f.max})</span>` : ''}</td><td class="num">${f.points}</td></tr>`)
         .join('')}</tbody></table></div></section>
       <section class="sheet"><h2>Parameters</h2><div class="table-wrap"><table class="table"><tbody>
-        <tr><td>Verify owners from</td><td>${p.ubo_ownership_threshold_pct}% effective ownership, or control by other means</td></tr>
+        <tr><td>Verify owners from</td><td>${p.ubo_ownership_threshold_pct}% effective ownership, or control by other means${p.ubo_ownership_threshold_high_risk_pct != null ? `; ${p.ubo_ownership_threshold_high_risk_pct}% when the structure is higher risk (holding in a low-transparency jurisdiction, high-risk jurisdiction or PEP involved)` : ''}</td></tr>
         <tr><td>Approval of low-risk cases</td><td><code>${esc(p.auto_approve_mode)}</code>: ${esc(p.auto_approve_mode_options[p.auto_approve_mode])}</td></tr>
         <tr><td>QA sample rate</td><td>${p.qa_sample_rate_pct}% (used in sample mode)</td></tr>
         <tr><td>When a PEP is found</td><td><code>${esc(p.pep_outcome)}</code> (options: ${esc(p.pep_outcome_options.join(', '))})</td></tr>
@@ -1714,7 +1715,7 @@ function viewRuleset() {
       <section class="sheet"><h2>Jurisdictions</h2>
         <div class="table-wrap"><table class="table"><tbody>
           <tr><td>Prohibited</td><td>${esc(rs.jurisdictions.prohibited.map(country).join(', '))}</td></tr>
-          <tr><td>FATF increased monitoring</td><td>${rs.jurisdictions.high_risk_fatf_increased_monitoring.length ? esc(rs.jurisdictions.high_risk_fatf_increased_monitoring.map(country).join(', ')) : '<span class="faint">Empty on purpose, see note</span>'}</td></tr>
+          <tr><td>High-risk (EU list, FATF increased monitoring): EDD</td><td>${rs.jurisdictions.high_risk_fatf_increased_monitoring.length ? esc(rs.jurisdictions.high_risk_fatf_increased_monitoring.map(country).join(', ')) : '<span class="faint">Empty on purpose, see note</span>'}</td></tr>
           <tr><td>Low-transparency holding locations</td><td>${esc(rs.jurisdictions.low_transparency_holding.map(country).join(', '))}</td></tr>
         </tbody></table></div>
         <p class="faint mt-s">${esc(rs.jurisdictions._note)} ${esc(rs.jurisdictions._note_increased_monitoring)}</p>

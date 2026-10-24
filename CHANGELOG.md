@@ -6,6 +6,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-10-24
+
+### Changed
+- `ruleset.json` **1.4.0**:
+  - **Syria moved from the prohibited list to the high-risk list.** Its comprehensive US and EU sanctions have been lifted, but it remains an EU high-risk third country and under FATF increased monitoring. The prohibited list is now North Korea, Iran, Myanmar and Cuba.
+  - **R8** covers the EU high-risk list and FATF increased monitoring and now scores 60 points, so a jurisdiction on it always leads to enhanced due diligence, as EU law requires.
+  - **Risk-based ownership threshold:** owners are verified from 10% when the structure is higher risk (holding in a low-transparency jurisdiction, high-risk jurisdiction or PEP involved), otherwise from 25%. New parameter `ubo_ownership_threshold_high_risk_pct`, also editable in the Rule Lab.
+  - **C3** is now "Sanctions, terrorist-list and PEP screening".
+  - **Sanctions questionnaire** added to the documents every client provides.
+- Client view, Ruleset tab and `JUSTIFICATION.md` show the 10% threshold, the terrorist-list screening and the high-risk jurisdictions.
+- Mock data: both clients have the sanctions questionnaire, so their outcomes are unchanged.
+- Four new tests (49 in total); audit snapshots regenerated with ruleset 1.4.0.
+
 ## [1.9.0] - 2026-10-24
 
 ### Changed

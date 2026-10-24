@@ -14,14 +14,14 @@ One versioned ruleset (`ruleset.json`) is evaluated in a fixed order:
 |---|---|---|
 | **Approve** | Score 0–29, all checks green, documents complete | System recommends, an analyst confirms (target: within 24 h) |
 | **Review** | Score 30–59, USD 1M or more a month, a single owner aged 60 or older (fraud-protection call), potential sanctions match, registry or ID mismatch, adverse media, any flagged check | Analyst, within 1 business day |
-| **Escalate** | PEP (including family members and close associates), score 60 or more, high-risk wallet | MLRO runs EDD; approval needs a recorded senior management sign-off |
+| **Escalate** | PEP (including family members and close associates), EU or FATF high-risk jurisdiction, score 60 or more, high-risk wallet | MLRO runs EDD; approval needs a recorded senior management sign-off |
 | **Reject** | Prohibited jurisdiction, confirmed sanctions match | MLRO only, never automatic; required reports are made, the client is not told why |
 
 **Client A** scores 0 and is approved once an analyst confirms. **Client B** escalates through the PEP rule; without the PEP it still scores 60 (BVI holding, one ownership layer, USD 1M or more a month).
 
 ## What I automated and what I would never automate
 
-**Automated:** a document checklist shown before the client starts and tailored to their structure and volume; account creation with recorded consents; registry lookup; ID and liveness; sanctions, PEP and adverse media screening; wallet screening; effective ownership through holdings; scoring; routing; client messages, including one automated request for a corrected document (if the next upload still does not fit, the account manager calls).
+**Automated:** a document checklist shown before the client starts and tailored to their structure and volume; account creation with recorded consents; registry lookup; ID and liveness for owners from 25% (10% in higher-risk structures), directors and signatories; sanctions, terrorist-list, PEP and adverse media screening; wallet screening; effective ownership through holdings; scoring; routing; client messages, including one automated request for a corrected document (if the next upload still does not fit, the account manager calls).
 
 **Never automated:** rejecting a client, deciding whether a sanctions match is real, approving a PEP or EDD case, overriding a rule or a score, and changing the ruleset.
 
