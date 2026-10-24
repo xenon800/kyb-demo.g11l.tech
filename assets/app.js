@@ -796,7 +796,7 @@ function viewClient() {
     <div class="view-head">
       <div>
         <h1>Open a corporate OTC account</h1>
-        <p>The client fills in the application. The internal panel shows what our systems do at the same time.</p>
+        <p>The client fills in the application. The internal panel shows what our systems do at the same time; the client never sees it.</p>
       </div>
     </div>
     <div class="client-grid">
@@ -812,7 +812,7 @@ function viewClient() {
 function feedPanel(c) {
   return `<details class="sheet feed-panel internal" data-feed ${state.feedOpen ? 'open' : ''}>
     <summary>
-      <span class="pane-label">Internal, never shown to the client</span>
+      <span class="pane-label">Internal</span>
       <span class="feed-head"><span class="feed-title">Automated checks</span><span class="feed-count" id="feed-count">${esc(feedSummary(c))}</span></span>
     </summary>
     <p>Simulated provider responses, logged to the audit trail as they arrive.</p>

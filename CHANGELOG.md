@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-10-24
+
+### Changed
+- The checks panel is labelled "Internal" instead of "Internal, never shown to the client", because the same panel also appears in the compliance view, where everything is internal. The client view's introduction now says that the client never sees this panel.
+
 ## [1.2.0] - 2026-10-24
 
 ### Changed
