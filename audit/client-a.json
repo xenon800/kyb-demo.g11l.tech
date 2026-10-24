@@ -3,18 +3,18 @@
   "case_id": "CASE-A-0001",
   "exported_at": "2026-10-23T10:22:14.000Z",
   "event_count": 19,
-  "head_hash": "sha256:71fc47f22c8fae36611ae7e2cffb532f9d80c1eb77834315d984963ae50dad8f",
+  "head_hash": "sha256:11cf71bbdcc6a2b16d6847205138318e31999e9a14d88838df63f167d4f9e963",
   "verification": {
     "ok": true,
     "count": 19,
-    "head_hash": "sha256:71fc47f22c8fae36611ae7e2cffb532f9d80c1eb77834315d984963ae50dad8f"
+    "head_hash": "sha256:11cf71bbdcc6a2b16d6847205138318e31999e9a14d88838df63f167d4f9e963"
   },
   "events": [
     {
       "event_id": "evt_000001",
       "timestamp_utc": "2026-10-23T08:00:00.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "client:applicant",
       "action": "account.created",
       "inputs_hash": "sha256:4cb8e958e78369c69e62926179b904b563e16e4d2eb325454f3aa17acd835905",
@@ -24,27 +24,27 @@
         "sign_in": "Email link plus two-factor authentication"
       },
       "prev_event_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "hash": "sha256:040a41480cc11fd3021b6ee6e80ee432fccc65ca8c7baffd358eab671bbb72e1"
+      "hash": "sha256:2bab42f3437de76dc3341a08aa82418c99176659adecc3e306854227186ec099"
     },
     {
       "event_id": "evt_000002",
       "timestamp_utc": "2026-10-23T08:00:40.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "client:applicant",
       "action": "account.email_verified",
       "inputs_hash": null,
       "result": "verified",
       "reason": "Verification link opened (simulated)",
       "details": null,
-      "prev_event_hash": "sha256:040a41480cc11fd3021b6ee6e80ee432fccc65ca8c7baffd358eab671bbb72e1",
-      "hash": "sha256:0a6d47b41dbdcb29a9e81c0d14b5d0461c15064f4846d128aebd70d605218f32"
+      "prev_event_hash": "sha256:2bab42f3437de76dc3341a08aa82418c99176659adecc3e306854227186ec099",
+      "hash": "sha256:65018319d62959a750004981e7c67a870aac7b05c4f0363c8100428dc0bc5cf3"
     },
     {
       "event_id": "evt_000003",
       "timestamp_utc": "2026-10-23T08:00:45.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "client:applicant",
       "action": "account.consents_accepted",
       "inputs_hash": null,
@@ -64,28 +64,28 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:0a6d47b41dbdcb29a9e81c0d14b5d0461c15064f4846d128aebd70d605218f32",
-      "hash": "sha256:2c945582120fbc759dd7447f26b522c33317711fd5f6d326647be2a5d1cf5d3c"
+      "prev_event_hash": "sha256:65018319d62959a750004981e7c67a870aac7b05c4f0363c8100428dc0bc5cf3",
+      "hash": "sha256:20f28b3016fcef59ddb7627ccb6779ed9654c1953249738d6c2784eb68d16d4f"
     },
     {
       "event_id": "evt_000004",
       "timestamp_utc": "2026-10-23T08:00:50.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "client:applicant",
       "action": "application.started",
       "inputs_hash": "sha256:a03ecf852e1d7a2581841dc05f47994ec09ecb5646dd651db638baeaa0cc61a6",
       "result": "started",
       "reason": "Client A: Kestrel Bay Imports Inc.",
       "details": null,
-      "prev_event_hash": "sha256:2c945582120fbc759dd7447f26b522c33317711fd5f6d326647be2a5d1cf5d3c",
-      "hash": "sha256:c359f4bf22a2ed543cc896add620545f6fdd8a49c712595be4a9e7ed4c081e5c"
+      "prev_event_hash": "sha256:20f28b3016fcef59ddb7627ccb6779ed9654c1953249738d6c2784eb68d16d4f",
+      "hash": "sha256:77c4bab9e7757058b2da204ba499800ca39cacb065792b93b85be0aace7191df"
     },
     {
       "event_id": "evt_000005",
       "timestamp_utc": "2026-10-23T08:02:23.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C2",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -101,14 +101,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:c359f4bf22a2ed543cc896add620545f6fdd8a49c712595be4a9e7ed4c081e5c",
-      "hash": "sha256:48ee371d1792681a13868bc556ec00ffd7975df1c91eccfb3ad8bb6d13c3ccb6"
+      "prev_event_hash": "sha256:77c4bab9e7757058b2da204ba499800ca39cacb065792b93b85be0aace7191df",
+      "hash": "sha256:a3ca52305deea2fb8352367c12bf60a328eb88aaa5dc24b408ecabea9bb0e017"
     },
     {
       "event_id": "evt_000006",
       "timestamp_utc": "2026-10-23T08:03:56.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C7",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -124,14 +124,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:48ee371d1792681a13868bc556ec00ffd7975df1c91eccfb3ad8bb6d13c3ccb6",
-      "hash": "sha256:134858837f56cb311d1a4e2840141dff70a581b92329b58b01da7d165dbbeb44"
+      "prev_event_hash": "sha256:a3ca52305deea2fb8352367c12bf60a328eb88aaa5dc24b408ecabea9bb0e017",
+      "hash": "sha256:0fa690e28f8c78f1608494de92dcf5ee79effb52c916da9f624d4c383ea08235"
     },
     {
       "event_id": "evt_000007",
       "timestamp_utc": "2026-10-23T08:03:59.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C1",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -147,14 +147,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:134858837f56cb311d1a4e2840141dff70a581b92329b58b01da7d165dbbeb44",
-      "hash": "sha256:d402d2240bf0d830c7dea4cc0d292136ac67dc99746de8adee7dd746d78f7af5"
+      "prev_event_hash": "sha256:0fa690e28f8c78f1608494de92dcf5ee79effb52c916da9f624d4c383ea08235",
+      "hash": "sha256:d1fe302c8946f7028cffca639816cde5020c49548274342194d9b5ec1efaa072"
     },
     {
       "event_id": "evt_000008",
       "timestamp_utc": "2026-10-23T08:04:02.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C3",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -174,14 +174,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:d402d2240bf0d830c7dea4cc0d292136ac67dc99746de8adee7dd746d78f7af5",
-      "hash": "sha256:e65380829bca462da50a9dac7b6052287df735172e4388dd1265222451e35a5a"
+      "prev_event_hash": "sha256:d1fe302c8946f7028cffca639816cde5020c49548274342194d9b5ec1efaa072",
+      "hash": "sha256:138d4dba77d89eaa6a42cf0b635e1d463bc120379943ed138e8daedfab10ab3f"
     },
     {
       "event_id": "evt_000009",
       "timestamp_utc": "2026-10-23T08:04:05.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C4",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -192,14 +192,14 @@
         "provider": "Sumsub AML screening, simulated",
         "items": []
       },
-      "prev_event_hash": "sha256:e65380829bca462da50a9dac7b6052287df735172e4388dd1265222451e35a5a",
-      "hash": "sha256:a734a6b84141b4354c5959c2261339d44232817038aabfcf0b494999df5d8156"
+      "prev_event_hash": "sha256:138d4dba77d89eaa6a42cf0b635e1d463bc120379943ed138e8daedfab10ab3f",
+      "hash": "sha256:f3a5c84c3589be5eed69e6f80d8f263d990555573e549ba7e50ab4474370852e"
     },
     {
       "event_id": "evt_000010",
       "timestamp_utc": "2026-10-23T08:05:38.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C5",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -215,14 +215,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:a734a6b84141b4354c5959c2261339d44232817038aabfcf0b494999df5d8156",
-      "hash": "sha256:79845481dc0d8beae8152305991813cca1ccb062624c3d47498d19da1daf81a8"
+      "prev_event_hash": "sha256:f3a5c84c3589be5eed69e6f80d8f263d990555573e549ba7e50ab4474370852e",
+      "hash": "sha256:f0b8229dbe7d37fa184a5ba31884c267eafda5f4629910c4a949f2dbed70ea11"
     },
     {
       "event_id": "evt_000011",
       "timestamp_utc": "2026-10-23T08:07:11.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "check.C6",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -261,33 +261,33 @@
             "result": "provided"
           },
           {
-            "label": "Sanctions questionnaire (business with sanctioned countries or parties)",
+            "label": "Sanctions questionnaire (completed in the application)",
             "result": "provided"
           }
         ]
       },
-      "prev_event_hash": "sha256:79845481dc0d8beae8152305991813cca1ccb062624c3d47498d19da1daf81a8",
-      "hash": "sha256:ab865d93d7ecab522cf10329913c317032f77f7d4d4c0e3b01aa2e948a95c59e"
+      "prev_event_hash": "sha256:f0b8229dbe7d37fa184a5ba31884c267eafda5f4629910c4a949f2dbed70ea11",
+      "hash": "sha256:918c1fbf43504923b040424ccdf3987c9df46a5893be96b2ba0a49915c611458"
     },
     {
       "event_id": "evt_000012",
       "timestamp_utc": "2026-10-23T08:08:11.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "client:applicant",
       "action": "application.submitted",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
       "result": "submitted",
       "reason": null,
       "details": null,
-      "prev_event_hash": "sha256:ab865d93d7ecab522cf10329913c317032f77f7d4d4c0e3b01aa2e948a95c59e",
-      "hash": "sha256:5c053cf2d06d4ba4f64888b70d364e618c9737e3b2afc59d74f494a78944b525"
+      "prev_event_hash": "sha256:918c1fbf43504923b040424ccdf3987c9df46a5893be96b2ba0a49915c611458",
+      "hash": "sha256:140d1cd57987e6a98812f72e503851cdc8a1d8cce593113d18d01d4062aa1906"
     },
     {
       "event_id": "evt_000013",
       "timestamp_utc": "2026-10-23T08:08:12.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "risk.scored",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -296,14 +296,14 @@
       "details": {
         "factors": []
       },
-      "prev_event_hash": "sha256:5c053cf2d06d4ba4f64888b70d364e618c9737e3b2afc59d74f494a78944b525",
-      "hash": "sha256:32f3030cd80cf610277ef32af0a0939f1e910132c0fdab8591c89e7d4480c84e"
+      "prev_event_hash": "sha256:140d1cd57987e6a98812f72e503851cdc8a1d8cce593113d18d01d4062aa1906",
+      "hash": "sha256:3e463e6a07a1c976e5033e3b0aac0ca4b4968f91a4e8313eb4bad1174cd37b5e"
     },
     {
       "event_id": "evt_000014",
       "timestamp_utc": "2026-10-23T08:08:13.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "rules.evaluated",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
@@ -315,28 +315,28 @@
         "decided_by": "shadow",
         "automated_final": false
       },
-      "prev_event_hash": "sha256:32f3030cd80cf610277ef32af0a0939f1e910132c0fdab8591c89e7d4480c84e",
-      "hash": "sha256:4760d74c1801a01f3fa8f5deedb04728d7579fd69d46f6aedfed528799bd0f49"
+      "prev_event_hash": "sha256:3e463e6a07a1c976e5033e3b0aac0ca4b4968f91a4e8313eb4bad1174cd37b5e",
+      "hash": "sha256:173e4ce91e85c9659c91c3e53e64ab0179a4645d4cc3fe56deab1b859fdfa7fc"
     },
     {
       "event_id": "evt_000015",
       "timestamp_utc": "2026-10-23T08:08:14.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "case.routed",
       "inputs_hash": "sha256:9e431613ecfa75c8e7afd5f74ac26750417e48faffebf1550bb12e416fade707",
       "result": "awaiting_confirmation",
       "reason": "Queue: Onboarding analyst",
       "details": null,
-      "prev_event_hash": "sha256:4760d74c1801a01f3fa8f5deedb04728d7579fd69d46f6aedfed528799bd0f49",
-      "hash": "sha256:e87d908771e564f1c1d23bf6263f8a51a658d401693a19d23c5945f772f7bc72"
+      "prev_event_hash": "sha256:173e4ce91e85c9659c91c3e53e64ab0179a4645d4cc3fe56deab1b859fdfa7fc",
+      "hash": "sha256:f127447cbfa6ad2df36f9cdd5a1ae038b77cd207e56e28881270aedf33ceeafd"
     },
     {
       "event_id": "evt_000016",
       "timestamp_utc": "2026-10-23T08:08:14.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "client.notified",
       "inputs_hash": null,
@@ -346,14 +346,14 @@
         "template": "awaiting_confirmation",
         "items": []
       },
-      "prev_event_hash": "sha256:e87d908771e564f1c1d23bf6263f8a51a658d401693a19d23c5945f772f7bc72",
-      "hash": "sha256:bc39eeb3a9799b1b8dfaa827a779c1d70df04468082380bfa1653b1e1c3a8aa5"
+      "prev_event_hash": "sha256:f127447cbfa6ad2df36f9cdd5a1ae038b77cd207e56e28881270aedf33ceeafd",
+      "hash": "sha256:c540eff88a88c9e43a1f6fe712a49df5e55d1acf526cc0aaa2188b53883364d4"
     },
     {
       "event_id": "evt_000017",
       "timestamp_utc": "2026-10-23T10:22:14.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "analyst:demo-analyst",
       "action": "decision.confirm_approval",
       "inputs_hash": null,
@@ -365,28 +365,28 @@
         "system_recommendation": "approve",
         "deciding_rule": "BAND:low"
       },
-      "prev_event_hash": "sha256:bc39eeb3a9799b1b8dfaa827a779c1d70df04468082380bfa1653b1e1c3a8aa5",
-      "hash": "sha256:0780a28730a41b78c12dbb17b2c70c64db9fc471be4c63a2d95102c52377266d"
+      "prev_event_hash": "sha256:c540eff88a88c9e43a1f6fe712a49df5e55d1acf526cc0aaa2188b53883364d4",
+      "hash": "sha256:d29b22ae217c124b2386243a0365bb0235399dce14626c9db87372f7945e4030"
     },
     {
       "event_id": "evt_000018",
       "timestamp_utc": "2026-10-23T10:22:14.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "trading.enabled",
       "inputs_hash": null,
       "result": "OTC trading enabled",
       "reason": "Approved by analyst",
       "details": null,
-      "prev_event_hash": "sha256:0780a28730a41b78c12dbb17b2c70c64db9fc471be4c63a2d95102c52377266d",
-      "hash": "sha256:7dbbef2fa0193f28f18c9d2c6a1988694aa09af01741485105aa3662cf200c9b"
+      "prev_event_hash": "sha256:d29b22ae217c124b2386243a0365bb0235399dce14626c9db87372f7945e4030",
+      "hash": "sha256:696c92ca3525a684018072d33aaad15c8e69b36aad263ab646abf5568dbedbe5"
     },
     {
       "event_id": "evt_000019",
       "timestamp_utc": "2026-10-23T10:22:14.000Z",
       "case_id": "CASE-A-0001",
-      "ruleset_version": "1.4.0",
+      "ruleset_version": "1.4.1",
       "actor": "system",
       "action": "client.notified",
       "inputs_hash": null,
@@ -396,9 +396,9 @@
         "template": "approved",
         "items": []
       },
-      "prev_event_hash": "sha256:7dbbef2fa0193f28f18c9d2c6a1988694aa09af01741485105aa3662cf200c9b",
-      "hash": "sha256:71fc47f22c8fae36611ae7e2cffb532f9d80c1eb77834315d984963ae50dad8f"
+      "prev_event_hash": "sha256:696c92ca3525a684018072d33aaad15c8e69b36aad263ab646abf5568dbedbe5",
+      "hash": "sha256:11cf71bbdcc6a2b16d6847205138318e31999e9a14d88838df63f167d4f9e963"
     }
   ],
-  "note": "Demo snapshot generated by scripts/generate-audit.mjs with ruleset 1.4.0. Mock data only."
+  "note": "Demo snapshot generated by scripts/generate-audit.mjs with ruleset 1.4.1. Mock data only."
 }

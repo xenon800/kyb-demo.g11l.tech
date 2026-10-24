@@ -6,6 +6,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.10.1] - 2026-10-24
+
+### Changed
+- The sanctions questionnaire is shown as a form the client completes in the application, not as an uploaded PDF: "Completed" instead of a mock file name, "Fill in (mock)" instead of "Attach mock file".
+- `ruleset.json` **1.4.1** (wording): label "Sanctions questionnaire (completed in the application)" and a new `forms` list with a note on what the questionnaire asks.
+
 ## [1.10.0] - 2026-10-24
 
 ### Changed

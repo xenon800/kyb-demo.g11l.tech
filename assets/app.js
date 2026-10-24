@@ -1075,6 +1075,8 @@ function structureDiagram(d, ev) {
   return html;
 }
 
+const isForm = (doc) => (state.ruleset.documents.forms || []).includes(doc);
+
 function clientDocuments(c, ev) {
   const groups = [
     ['company', 'Company documents', ''],
@@ -1088,8 +1090,8 @@ function clientDocuments(c, ev) {
       return `<div class="doc-group"><h3>${title}</h3>${note ? `<p>${note}</p>` : ''}<ul class="doclist">${docs
         .map(
           (d) => `<li>
-          <span>${esc(d.label)}${d.status === 'provided' ? `<br><span class="file">${esc(d.doc.replace(/_/g, '-'))}.pdf, mock file</span>` : ''}</span>
-          ${d.status === 'provided' ? badge('Uploaded', 's-approve') : `<button class="btn btn-secondary btn-small" data-action="attach" data-key="${esc(d.key)}" ${c.running ? 'disabled' : ''}>Attach mock file</button>`}
+          <span>${esc(d.label)}${d.status === 'provided' && !isForm(d.doc) ? `<br><span class="file">${esc(d.doc.replace(/_/g, '-'))}.pdf, mock file</span>` : ''}</span>
+          ${d.status === 'provided' ? badge(isForm(d.doc) ? 'Completed' : 'Uploaded', 's-approve') : `<button class="btn btn-secondary btn-small" data-action="attach" data-key="${esc(d.key)}" ${c.running ? 'disabled' : ''}>${isForm(d.doc) ? 'Fill in (mock)' : 'Attach mock file'}</button>`}
         </li>`,
         )
         .join('')}</ul></div>`;

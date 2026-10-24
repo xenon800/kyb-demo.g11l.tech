@@ -1,6 +1,6 @@
 {
   "ruleset_id": "otc-corporate-onboarding",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "effective_from": "2026-10-24",
   "status": "proposal: thresholds and lists to be confirmed by Compliance",
   "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
@@ -49,7 +49,7 @@
       "director_register": "Register of directors",
       "proof_of_address_company": "Proof of registered address (max. 90 days old)",
       "authorised_signatory_poa": "Board resolution or POA for the authorised signatory",
-      "sanctions_questionnaire": "Sanctions questionnaire (business with sanctioned countries or parties)",
+      "sanctions_questionnaire": "Sanctions questionnaire (completed in the application)",
       "holding_certificate_of_incorporation": "Holding company: certificate of incorporation",
       "holding_register_of_members": "Holding company: register of members",
       "holding_director_register": "Holding company: register of directors",
@@ -68,6 +68,8 @@
       "authorised_signatory_poa",
       "sanctions_questionnaire"
     ],
+    "forms": ["sanctions_questionnaire"],
+    "_note_forms": "Forms the client fills in within the application rather than uploading a file. The sanctions questionnaire asks about business, owners, customers and suppliers connected to sanctioned countries or parties.",
     "per_holding": [
       "holding_certificate_of_incorporation",
       "holding_register_of_members",
