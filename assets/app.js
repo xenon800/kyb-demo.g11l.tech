@@ -590,6 +590,57 @@ function requestOptions(c) {
   return opts;
 }
 
+/** Documents the client can still send: missing required ones, plus EDD documents while in EDD. */
+function outstandingDocs(c) {
+  const ev = c.evaluation || reevaluate(c);
+  const list = ev.missing_documents.map((d) => ({ key: d.key, label: d.label }));
+  if (c.status === 'edd') {
+    const cat = state.ruleset.documents.catalog;
+    for (const doc of state.ruleset.parameters.edd_documents) {
+      const provided = ev.documents.some((d) => d.doc === doc && d.status === 'provided') || c.data.documents[doc] === 'provided';
+      if (!provided && !list.some((x) => x.key === doc)) list.push({ key: doc, label: cat[doc] || doc });
+    }
+  }
+  return list;
+}
+
+/** The client uploads what is outstanding at any time until the case is closed. */
+async function uploadOutstanding() {
+  const c = cur();
+  if (c.running || c.final) return;
+  if (c.clientRequest) {
+    for (const d of outstandingDocs(c)) if (!c.clientRequest.items.some((i) => i.key === d.key)) c.clientRequest.items.push(d);
+    return provideRequestedItems();
+  }
+  const docs = outstandingDocs(c);
+  if (!docs.length) return;
+  c.running = true;
+  for (const d of docs) {
+    c.data.documents[d.key] = 'provided';
+    await logEvent(c, { actor: ACTORS.client, action: 'document.received', result: 'provided', reason: d.label, inputs: { document: d.key } });
+  }
+  const from = c.status;
+  const ev = reevaluate(c);
+  await logEvent(c, { actor: ACTORS.system, action: 'rules.re_evaluated', result: ev.decision.outcome, reason: `${ev.decision.rule_id}: ${ev.decision.rule_text}`, inputs: c.data });
+  let next = from;
+  if (from === 'awaiting_client' && !c.humanRouted) next = ev.decision.status;
+  else if ((STATUS_RANK[ev.decision.status] ?? 0) > (STATUS_RANK[from] ?? 0)) next = ev.decision.status;
+  c.status = next;
+  await logEvent(c, {
+    actor: ACTORS.system,
+    action: 'case.routed',
+    result: next,
+    reason: next === from ? 'Documents received; the case stays with the person handling it' : 'Documents received; case moves on',
+  });
+  if (next !== from && !c.humanRouted && ev.decision.automated_final) {
+    await logEvent(c, { actor: ACTORS.system, action: 'trading.enabled', result: 'OTC trading enabled', reason: decidedByText(ev.decision) });
+    c.final = { by: 'system', status: 'approved' };
+  }
+  await notifyClient(c);
+  c.running = false;
+  render();
+}
+
 async function provideRequestedItems() {
   const c = cur();
   if (!c.clientRequest || c.running) return;
@@ -1069,7 +1120,7 @@ function clientStatus(c) {
       <h2>${esc(m.title)}</h2>
       <p>${esc(m.body)}</p>
       ${m.items?.length ? `<ul>${m.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}
-      ${c.status === 'awaiting_client' && c.clientRequest ? `<div class="btn-row mt"><button class="btn" data-action="provide" ${c.running ? 'disabled' : ''}>Upload the requested items (mock)</button></div>` : ''}
+      ${!c.final && (c.clientRequest || outstandingDocs(c).length) ? `<div class="btn-row mt"><button class="btn" data-action="provide" ${c.running ? 'disabled' : ''}>${c.running ? 'Uploading…' : 'Upload these documents (mock)'}</button></div>` : ''}
     </div>
     <ol class="timeline">${tl}</ol>
     <div class="demo-note mt"><p>The client never sees screening results or rule IDs. To see why the case went this way, open the <a href="#compliance/${c.key}">compliance view</a>.</p></div>`;
@@ -1762,7 +1813,7 @@ document.addEventListener('click', async (e) => {
       await attachDocument(t.dataset.key);
       break;
     case 'provide':
-      await provideRequestedItems();
+      await uploadOutstanding();
       break;
     case 'role':
       state.role = t.dataset.role;

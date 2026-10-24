@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-10-24
+
+### Added
+- **The client can upload outstanding documents at any time until the case is closed**, not only after an analyst asks. The status page shows "Upload these documents (mock)" whenever something is missing, including the documents the client is asked to prepare for an enhanced review. A case being handled by a person stays with that person; a case that was only waiting for the client moves on. Every upload and the re-evaluation are written to the audit trail. See decision 4.17.
+
+### Fixed
+- When the system (not an analyst) was waiting for a missing document, the client had no way to upload it.
+
 ## [1.7.0] - 2026-10-24
 
 ### Added

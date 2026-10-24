@@ -119,6 +119,9 @@ This is also where I stop adding rules for now. The prototype has grown with eac
 ### 4.16 The analyst can recommend approval, not only rejection (added 24 Oct 2026)
 Going through an EDD case as analyst, I noticed the only recommendation on offer was rejection. That is lopsided: in practice the analyst prepares the enhanced due diligence (source of funds and wealth, ownership, a short memo) and recommends either way, and the MLRO decides. The analyst can now also recommend approval with a written reason. The case stays with the MLRO, the recommendation is logged and shown to the MLRO, and it needs complete documents like an approval does. Only the MLRO approves an EDD case, as before.
 
+### 4.17 The client can send outstanding documents at any time (added 24 Oct 2026)
+The status page asked the client to prepare items for the enhanced review but only offered an upload once an analyst had requested something. When the system itself was waiting for a missing document, there was no upload at all. That contradicts the point of showing the checklist up front. Now the client can upload whatever is outstanding at any time until the case is closed. The case stays with the person handling it; if it was only waiting for the client, it moves on, and the upload is logged like every other step.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.
