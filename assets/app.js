@@ -1676,11 +1676,15 @@ function viewRuleset() {
       <section class="sheet">
         <h2>How a decision is made</h2>
         <ol class="plain-list">
+          <li>Automated checks collect the facts (below). Rules never call a provider; they only read check results.</li>
           <li>Hard rules are checked top to bottom. The first match decides; every match is shown.</li>
           <li>If no hard rule matches, the risk score decides: low ${esc('≤')} ${p.risk_score_bands.low_max}, medium ${esc('≤')} ${p.risk_score_bands.medium_max}, high above.</li>
           <li>An approval must also pass the approval preconditions. Missing items never block a human review; they are requested alongside it.</li>
         </ol>
       </section>
+      <section class="sheet"><h2>Automated checks</h2><p class="muted">Checks collect the facts, rules decide.</p><div class="table-wrap"><table class="table"><thead><tr><th>Check</th><th>What it checks</th><th>Source</th></tr></thead><tbody>${rs.checks
+        .map((k) => `<tr><td class="nowrap"><code>${esc(k.id)}</code></td><td>${esc(k.name)}${k.manual_step ? `<br><span class="faint">Manual step: ${esc(k.manual_step)}</span>` : ''}</td><td>${esc(providerLabel(k.simulated_provider))}</td></tr>`)
+        .join('')}</tbody></table></div></section>
       <section class="sheet"><h2>Hard rules</h2><div class="table-wrap"><table class="table"><thead><tr><th>Rule</th><th>If</th><th>Outcome</th><th>Decided by</th></tr></thead><tbody>${ruleRows(rs.decision_rules.hard_rules)}</tbody></table></div></section>
       <section class="sheet"><h2>Risk bands</h2><div class="table-wrap"><table class="table"><thead><tr><th>Band</th><th>Score</th><th>Outcome</th><th>Decided by</th></tr></thead><tbody>${rs.decision_rules.band_rules
         .map(

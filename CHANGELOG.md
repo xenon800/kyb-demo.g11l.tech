@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-10-24
+
+### Added
+- **Ruleset tab lists the automated checks C1 to C7** (what each checks and its source, simulated provider or rule engine), before the hard rules, so the whole chain from facts to decision is in one place. Before, the checks were only visible in the compliance view and in `ruleset.json`, although the changelog and the rules refer to them by ID.
+
 ## [1.10.1] - 2026-10-24
 
 ### Changed
