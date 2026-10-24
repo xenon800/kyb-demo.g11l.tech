@@ -21,7 +21,7 @@ One versioned ruleset (`ruleset.json`) is evaluated in a fixed order:
 
 ## What I automated and what I would never automate
 
-**Automated:** a document checklist shown before the client starts and tailored to their structure and volume; account creation with recorded consents; registry lookup; ID and liveness; sanctions, PEP and adverse media screening; wallet screening; effective ownership through holdings; scoring; routing; client messages, including one automated request for a corrected document (if the next upload still does not fit, a business developer calls).
+**Automated:** a document checklist shown before the client starts and tailored to their structure and volume; account creation with recorded consents; registry lookup; ID and liveness; sanctions, PEP and adverse media screening; wallet screening; effective ownership through holdings; scoring; routing; client messages, including one automated request for a corrected document (if the next upload still does not fit, the account manager calls).
 
 **Never automated:** rejecting a client, deciding whether a sanctions match is real, approving a PEP or EDD case, overriding a rule or a score, and changing the ruleset.
 

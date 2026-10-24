@@ -309,7 +309,7 @@ function buildChecks(c) {
     ...meta('C7'),
     status: c.resolution.resolved ? 'pass' : 'flag',
     summary: c.resolution.resolved
-      ? `Resolved to ${plural(c.persons.filter((x) => x.effective_pct > 0).length, 'natural person', 'natural people')}; ${plural(c.inScope.length, 'person', 'people')} in scope`
+      ? `Resolved to ${plural(c.persons.filter((x) => x.effective_pct > 0).length, 'natural person', 'natural persons')}; ${plural(c.inScope.length, 'person', 'people')} in scope`
       : `Ownership not fully resolved: ${c.resolution.gaps.map((g) => `${g.unresolved_pct}% of ${g.name}`).join(', ')}`,
     items: c.persons
       .filter((x) => x.effective_pct > 0)
@@ -430,7 +430,11 @@ export function evaluate(caseData, ruleset) {
   // Decision: hard rules first (first match decides), then the risk band.
   const hardMatches = rs.decision_rules.hard_rules
     .filter((r) => TESTS[r.test](ctx, r))
-    .map((r) => ({ id: r.id, if: r.if, outcome: resolveParam(r.outcome, params), decided_by: r.decided_by, note: r.note }));
+    .map((r) => {
+      const outcome = resolveParam(r.outcome, params);
+      // A rule can carry a different note per outcome (for example H4 when the PEP outcome is set to reject).
+      return { id: r.id, if: r.if, outcome, decided_by: r.decided_by, note: r.note_by_outcome?.[outcome] ?? r.note };
+    });
 
   let decision;
   if (hardMatches.length) {
@@ -554,7 +558,7 @@ export function clientMessage(result, ruleset, statusOverride) {
       return {
         tone: 'success',
         title: 'You are ready to trade',
-        body: 'Your OTC account is active. Your coverage contact will reach out to set up your first trade and confirm your settlement details.',
+        body: 'Your OTC account is active. Your account manager will reach out to set up your first trade and confirm your settlement details.',
         items: [],
         eta: 'now',
       };
@@ -563,7 +567,7 @@ export function clientMessage(result, ruleset, statusOverride) {
         tone: 'progress',
         title: 'Your application needs an enhanced review',
         body:
-          'Based on the information provided, a compliance specialist will review your application. This usually takes ' +
+          'Based on the information provided, our compliance team will review your application. This usually takes ' +
           p.client_eta.edd +
           (eddOutstanding.length ? '. You can speed it up by preparing the items below.' : '. We will contact you if we need anything else.'),
         items: eddOutstanding,
@@ -590,7 +594,7 @@ export function clientMessage(result, ruleset, statusOverride) {
         tone: 'progress',
         title: 'Your application is in review',
         body:
-          'A member of our team is reviewing your application. We will get back to you ' +
+          'Our onboarding team is reviewing your application. We will get back to you ' +
           p.client_eta.in_review +
           (missing.length ? '. In the meantime, please provide the items below.' : ' and tell you right away if we need anything.'),
         items: missing,
@@ -601,7 +605,7 @@ export function clientMessage(result, ruleset, statusOverride) {
       return {
         tone: 'progress',
         title: 'Your application is in review',
-        body: 'A member of our team is reviewing your application. We will get back to you ' + p.client_eta.in_review + ' and tell you right away if we need anything.',
+        body: 'Our onboarding team is reviewing your application. We will get back to you ' + p.client_eta.in_review + ' and tell you right away if we need anything.',
         items: [],
         eta: p.client_eta.in_review,
       };

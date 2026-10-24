@@ -228,7 +228,8 @@ const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const usd = (n) => 'USD ' + Number(n).toLocaleString('en-US');
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-const clock = (d) => d.toLocaleTimeString('en-GB', { hour12: false });
+// Times are shown in UTC everywhere, like the audit trail.
+const clock = (d) => d.toISOString().slice(11, 19) + 'Z';
 const cur = () => state.cases[state.caseKey];
 const country = (code) => COUNTRY_NAMES[code] || code;
 const getPath = (obj, path) => path.split('.').reduce((n, k) => (n == null ? n : n[k]), obj);
@@ -909,7 +910,8 @@ function clientStep(c, step) {
         </dl>
         <p class="muted mt">You sign in with a link sent to this email and a one-time code from your authenticator app.</p>
         <label class="checkline mt"><input type="checkbox" data-bind="consent" ${c.consented ? 'checked' : ''}> I accept ${consents}.</label>
-        ${stepNav(c, { next: c.account ? 'Continue' : 'Create account', disabled: !c.consented })}
+        ${stepError(c)}
+        ${stepNav(c, { next: c.account ? 'Continue' : 'Create account' })}
         <div class="demo-note mt"><p>There is no password field on purpose, so nobody types a real password into a prototype.</p></div>`;
     }
     case 'company':
@@ -975,10 +977,15 @@ function clientStep(c, step) {
         </dl>
         ${ev.missing_documents.length ? `<p class="hint mt">You can submit now. We will ask for the ${ev.missing_documents.length} outstanding document(s) as part of the review.</p>` : ''}
         <label class="checkline mt"><input type="checkbox" data-bind="declare" ${c.declared ? 'checked' : ''}> I confirm the information is complete and accurate, and that I am authorised to act for the company.</label>
-        ${stepNav(c, { next: 'Submit application', disabled: !c.declared })}`;
+        ${stepError(c)}
+        ${stepNav(c, { next: 'Submit application' })}`;
     default:
       return '';
   }
+}
+
+function stepError(c) {
+  return c.stepError ? `<p class="error mt-s" role="alert">${esc(c.stepError)}</p>` : '';
 }
 
 function field(label, value) {
@@ -1076,7 +1083,7 @@ function clientTimeline(status) {
     case 'rejected':
       return [...head, done('Review'), { cls: 'stop', label: 'Not approved' }];
     default:
-      return [...head, now('Review by our team', p.in_review), next('Decision')];
+      return [...head, now('Review by our onboarding team', p.in_review), next('Decision')];
   }
 }
 
@@ -1587,6 +1594,7 @@ function viewRuleset() {
   const outcome = (o) => (o.startsWith('param:') ? `${outcomeBadge(p[o.slice(6)])} <span class="faint">set by ${esc(o.slice(6))}</span>` : outcomeBadge(o));
   const ruleRows = (list) =>
     list
+      .map((r) => ({ ...r, note: r.note_by_outcome?.[r.outcome.startsWith('param:') ? p[r.outcome.slice(6)] : r.outcome] ?? r.note }))
       .map((r) => `<tr><td class="nowrap"><code>${esc(r.id)}</code></td><td>${esc(r.if)}${r.note ? `<br><span class="faint">${esc(r.note)}</span>` : ''}</td><td class="nowrap">${outcome(r.outcome)}</td><td>${decided(r)}</td></tr>`)
       .join('');
 
@@ -1708,19 +1716,31 @@ document.addEventListener('click', async (e) => {
       if (c.running) return;
       const step = STEPS[c.step];
       if (step.id === 'account') {
-        if (!c.consented) return;
+        if (!c.consented) {
+          c.stepError = 'Please accept the terms of use and the privacy notice to create your account.';
+          renderView();
+          return;
+        }
         await createAccount(c);
         await startApplication(c);
       }
       if (['company', 'ownership', 'activity', 'documents'].includes(step.id)) await runStep(c, step.id);
       if (step.id === 'review') {
-        if (!c.declared) return;
+        if (!c.declared) {
+          c.stepError = 'Please confirm the declaration above to submit your application.';
+          renderView();
+          return;
+        }
         await submitApplication(c);
-      } else c.step += 1;
+      } else {
+        c.stepError = null;
+        c.step += 1;
+      }
       render();
       break;
     }
     case 'back':
+      c.stepError = null;
       if (!c.running && c.step > 0) c.step -= 1;
       renderView();
       break;
@@ -1798,9 +1818,11 @@ document.addEventListener('change', (e) => {
   const c = cur();
   if (t.dataset.bind === 'declare') {
     c.declared = t.checked;
+    c.stepError = null;
     renderView();
   } else if (t.dataset.bind === 'consent') {
     c.consented = t.checked;
+    c.stepError = null;
     renderView();
   } else if (t.dataset.bind === 'request-item') {
     c.requestItems = t.checked ? [...new Set([...c.requestItems, t.value])] : c.requestItems.filter((k) => k !== t.value);

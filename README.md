@@ -59,7 +59,7 @@ A crawler that respects `robots.txt` never fetches the page, so it never sees th
 ## Security and privacy
 
 - All companies, people, registration numbers and wallet addresses are fictional.
-- No uploads, no external API calls, no analytics. Everything runs in the browser and is gone on reload.
+- No uploads, no external API calls, no analytics. Everything runs in the browser and is gone on reload. Cloudflare adds its own network error reporting headers (`report-to`, `nel`) to responses; the page itself makes no requests to other domains.
 - `_headers` sets a strict Content Security Policy (only the site's own files), `no-referrer`, `nosniff`, frame blocking and a restrictive permissions policy.
 - Fonts: Archivo and IBM Plex Mono, both under the SIL Open Font License (licences in `assets/fonts/`).
 - Look: colours inspired by the public Lunar Rails website; no logo, licensed fonts or illustrations. The rails pattern in `assets/rails.svg` is original.

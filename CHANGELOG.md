@@ -6,6 +6,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-10-24
+
+Second set of fixes from the independent review: wording, terms and small behaviour.
+
+### Changed
+- **One name per role:** "account manager" for the person who calls the client (replaces "business developer" and "coverage contact"), "onboarding team" for the analyst review and "compliance team" for the enhanced review, in client messages, the status timeline, the ruleset and `JUSTIFICATION.md`. "Natural people" is now "natural persons", as in the ruleset.
+- **Times in UTC everywhere:** the checks panel now shows UTC like the audit trail, so one event no longer has two different times on the same page.
+- **Account and submit steps:** clicking on without ticking the box now shows a short message instead of a disabled button with no explanation.
+- **Ruleset tab and compliance view:** when the PEP outcome is set to reject, H4 shows a matching note (the system recommends rejection, the MLRO decides) instead of the EDD note.
+- `ruleset.json` **1.2.1** (wording only): "Proof of registered address (max. 90 days old)", so the age limit the client hint mentions is visible in the checklist; account manager wording in the resubmission rule; outcome-specific note for H4.
+- README notes that Cloudflare adds its own error reporting headers, while the page itself makes no requests to other domains.
+- Audit snapshots regenerated with ruleset 1.2.1.
+
 ## [1.4.0] - 2026-10-24
 
 Fixes from an independent review of the rules and the audit trail (see decision 4.14).

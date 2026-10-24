@@ -1,6 +1,6 @@
 {
   "ruleset_id": "otc-corporate-onboarding",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "effective_from": "2026-10-24",
   "status": "proposal: thresholds and lists to be confirmed by Compliance",
   "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
@@ -46,7 +46,7 @@
       "articles_of_association": "Articles / memorandum of association",
       "shareholder_register": "Register of shareholders",
       "director_register": "Register of directors",
-      "proof_of_address_company": "Proof of registered address",
+      "proof_of_address_company": "Proof of registered address (max. 90 days old)",
       "authorised_signatory_poa": "Board resolution or POA for the authorised signatory",
       "holding_certificate_of_incorporation": "Holding company: certificate of incorporation",
       "holding_register_of_members": "Holding company: register of members",
@@ -72,9 +72,9 @@
     ],
     "resubmission": {
       "automated_requests": 1,
-      "then": "A business developer contacts the client personally",
+      "then": "The client's account manager calls the client personally",
       "examples": ["Proof of address older than 90 days", "Registry extract older than 3 months", "Unsigned board resolution or POA"],
-      "_note": "When a document cannot be accepted, the client gets one automated email asking for the right document, with the reason. If the second upload still cannot be accepted, no further automated emails are sent; a business developer calls the client to sort it out."
+      "_note": "When a document cannot be accepted, the client gets one automated email asking for the right document, with the reason. If the second upload still cannot be accepted, no further automated emails are sent; the client's account manager calls to sort it out."
     },
     "_note": "Volume-based documents are defined in the volume tiers. ID and liveness of people are a check, not a document."
   },
@@ -123,7 +123,7 @@
       { "id": "H1", "if": "Client, holding or a person in scope is based in a prohibited jurisdiction", "test": "prohibited_jurisdiction", "outcome": "reject", "decided_by": "human", "note": "The system recommends; the MLRO decides. There is no automatic rejection." },
       { "id": "H2", "if": "Confirmed sanctions match", "test": "sanctions_confirmed", "outcome": "reject", "decided_by": "human", "note": "Reached only after an analyst has confirmed a potential match as a true hit. No account is opened; the MLRO makes any report the law requires, and the client is not told the reason (no tipping-off)." },
       { "id": "H3", "if": "Potential sanctions match", "test": "sanctions_potential", "outcome": "review", "decided_by": "human", "note": "Analyst disposes the match: false positive or true hit." },
-      { "id": "H4", "if": "PEP, or a family member or close associate of a PEP, identified (declared or found in screening)", "test": "pep_present", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, MLRO review, senior management approval." },
+      { "id": "H4", "if": "PEP, or a family member or close associate of a PEP, identified (declared or found in screening)", "test": "pep_present", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, MLRO review, senior management approval.", "note_by_outcome": { "reject": "With this setting the system recommends rejection; the MLRO decides. There is no automatic rejection." } },
       { "id": "H5", "if": "Settlement wallet with high risk exposure", "test": "kyt_high", "outcome": "escalate", "decided_by": "human" },
       { "id": "H6", "if": "Registry data or a person's ID/liveness check does not match", "test": "verification_failed", "outcome": "review", "decided_by": "human" },
       { "id": "H7", "if": "Adverse media hit", "test": "adverse_media_hit", "outcome": "review", "decided_by": "human" }

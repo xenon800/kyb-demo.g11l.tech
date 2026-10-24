@@ -3,18 +3,18 @@
   "case_id": "CASE-B-0001",
   "exported_at": "2026-10-23T09:03:14.000Z",
   "event_count": 18,
-  "head_hash": "sha256:3d6ec3aa0e281684a50afe110952cfdda5e64b72dff302807a8d521db88ed367",
+  "head_hash": "sha256:dd9094dde20f9d3ddc6b7dbad73907d8d893f051d323902838fad2602e3b0e91",
   "verification": {
     "ok": true,
     "count": 18,
-    "head_hash": "sha256:3d6ec3aa0e281684a50afe110952cfdda5e64b72dff302807a8d521db88ed367"
+    "head_hash": "sha256:dd9094dde20f9d3ddc6b7dbad73907d8d893f051d323902838fad2602e3b0e91"
   },
   "events": [
     {
       "event_id": "evt_000001",
       "timestamp_utc": "2026-10-23T08:00:00.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "client:applicant",
       "action": "account.created",
       "inputs_hash": "sha256:39eac6fcd5c3cc48cd221528de71661d7e844182df13c71d5bc1e1ba68ef0c88",
@@ -24,27 +24,27 @@
         "sign_in": "Email link plus two-factor authentication"
       },
       "prev_event_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "hash": "sha256:8dce17ab5175b2f38a7b363f6a95a6e9b3fee09a4db668cbda8ba4966a734991"
+      "hash": "sha256:4b07f92b867b1ec91e29f369cb94cb486a664a1926d2723c4fb128311ade64e0"
     },
     {
       "event_id": "evt_000002",
       "timestamp_utc": "2026-10-23T08:00:40.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "client:applicant",
       "action": "account.email_verified",
       "inputs_hash": null,
       "result": "verified",
       "reason": "Verification link opened (simulated)",
       "details": null,
-      "prev_event_hash": "sha256:8dce17ab5175b2f38a7b363f6a95a6e9b3fee09a4db668cbda8ba4966a734991",
-      "hash": "sha256:e58d30dcd947589753cc5ea7d6764a191bf03588b54c159f526211d18166dcea"
+      "prev_event_hash": "sha256:4b07f92b867b1ec91e29f369cb94cb486a664a1926d2723c4fb128311ade64e0",
+      "hash": "sha256:a625e4e1f03b236372a16640418ff137329a8c854849b7ba4d4389ac04baafbf"
     },
     {
       "event_id": "evt_000003",
       "timestamp_utc": "2026-10-23T08:00:45.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "client:applicant",
       "action": "account.consents_accepted",
       "inputs_hash": null,
@@ -64,28 +64,28 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:e58d30dcd947589753cc5ea7d6764a191bf03588b54c159f526211d18166dcea",
-      "hash": "sha256:50bc4205ab78bb750a81fe5ad72ac60d327d6c3e57d3d07f205357c9ebfc6edd"
+      "prev_event_hash": "sha256:a625e4e1f03b236372a16640418ff137329a8c854849b7ba4d4389ac04baafbf",
+      "hash": "sha256:9321fa625c26db4b2da3426d9db55d70db4a49c20033f3b8cebd89a59535cfda"
     },
     {
       "event_id": "evt_000004",
       "timestamp_utc": "2026-10-23T08:00:50.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "client:applicant",
       "action": "application.started",
       "inputs_hash": "sha256:138df58f43709c0c3948ea3cca8aff055b31151e0660101bda070d9a2dca9b8c",
       "result": "started",
       "reason": "Client B: Saffron Dunes General Trading FZCO",
       "details": null,
-      "prev_event_hash": "sha256:50bc4205ab78bb750a81fe5ad72ac60d327d6c3e57d3d07f205357c9ebfc6edd",
-      "hash": "sha256:35346e248040ca98b763ed634291e4398498f1cf33b56a2ca406f3380b078d7a"
+      "prev_event_hash": "sha256:9321fa625c26db4b2da3426d9db55d70db4a49c20033f3b8cebd89a59535cfda",
+      "hash": "sha256:072af86ba39f1ad8607b65c5cdaf64c0c47651e79044370c029ab3233e039e5f"
     },
     {
       "event_id": "evt_000005",
       "timestamp_utc": "2026-10-23T08:02:23.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C2",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -105,19 +105,19 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:35346e248040ca98b763ed634291e4398498f1cf33b56a2ca406f3380b078d7a",
-      "hash": "sha256:84a6511a3c8b62296acf531025f0e3a4189615e2fa8c1cf5508fe5f2af5f4dd5"
+      "prev_event_hash": "sha256:072af86ba39f1ad8607b65c5cdaf64c0c47651e79044370c029ab3233e039e5f",
+      "hash": "sha256:3839a299f7daa6d5910ccfa54bfd381a6c91b5fe56c807f636fe894180d7f202"
     },
     {
       "event_id": "evt_000006",
       "timestamp_utc": "2026-10-23T08:03:56.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C7",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
       "result": "pass",
-      "reason": "Resolved to 2 natural people; 3 people in scope",
+      "reason": "Resolved to 2 natural persons; 3 people in scope",
       "details": {
         "check": "Ownership resolved to natural persons, effective ownership calculated",
         "provider": "Rule engine",
@@ -132,14 +132,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:84a6511a3c8b62296acf531025f0e3a4189615e2fa8c1cf5508fe5f2af5f4dd5",
-      "hash": "sha256:5d828931325f6ceea60b7dc8823b13647d5026c3aad00ac2d70dccf4ac180a1b"
+      "prev_event_hash": "sha256:3839a299f7daa6d5910ccfa54bfd381a6c91b5fe56c807f636fe894180d7f202",
+      "hash": "sha256:0f4e92a0d25ed254ec70840d2433f2c0218be6557c7fd6c1dbab945529aaa469"
     },
     {
       "event_id": "evt_000007",
       "timestamp_utc": "2026-10-23T08:03:59.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C1",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -163,14 +163,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:5d828931325f6ceea60b7dc8823b13647d5026c3aad00ac2d70dccf4ac180a1b",
-      "hash": "sha256:5621bc999fc5db90f14255715719ed809ddf15cc848ef06e7fbbcd3038e3fd1f"
+      "prev_event_hash": "sha256:0f4e92a0d25ed254ec70840d2433f2c0218be6557c7fd6c1dbab945529aaa469",
+      "hash": "sha256:cfde4da44e46b3fa4106ff71b8cdf88604a2ee6e06f5bd2531bbe71dcfd0f556"
     },
     {
       "event_id": "evt_000008",
       "timestamp_utc": "2026-10-23T08:04:02.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C3",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -198,14 +198,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:5621bc999fc5db90f14255715719ed809ddf15cc848ef06e7fbbcd3038e3fd1f",
-      "hash": "sha256:cdba0aee7d57e45d95cd5b553479d7929d275723576f5e518e449d3c1ba95356"
+      "prev_event_hash": "sha256:cfde4da44e46b3fa4106ff71b8cdf88604a2ee6e06f5bd2531bbe71dcfd0f556",
+      "hash": "sha256:a3f4413b23df460471046d3be5f00ad33567d494e4567547b566066b0d1f43eb"
     },
     {
       "event_id": "evt_000009",
       "timestamp_utc": "2026-10-23T08:04:05.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C4",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -216,14 +216,14 @@
         "provider": "Sumsub AML screening, simulated",
         "items": []
       },
-      "prev_event_hash": "sha256:cdba0aee7d57e45d95cd5b553479d7929d275723576f5e518e449d3c1ba95356",
-      "hash": "sha256:5d4469782128c7f27c8db54c97de2e4b4e84b75ddfc86ca38a7d85bf7b43f470"
+      "prev_event_hash": "sha256:a3f4413b23df460471046d3be5f00ad33567d494e4567547b566066b0d1f43eb",
+      "hash": "sha256:3a2611c26df03de69616456505abf332598eb3d5252f88295842ef5a4c483fd7"
     },
     {
       "event_id": "evt_000010",
       "timestamp_utc": "2026-10-23T08:05:38.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C5",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -243,14 +243,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:5d4469782128c7f27c8db54c97de2e4b4e84b75ddfc86ca38a7d85bf7b43f470",
-      "hash": "sha256:74da55418849535df691d68f4b5b434d83d83079382dcaf6a10b48be3d494774"
+      "prev_event_hash": "sha256:3a2611c26df03de69616456505abf332598eb3d5252f88295842ef5a4c483fd7",
+      "hash": "sha256:cfd585cdb6e622795eb037ff103bdb8674c1fe05568fc7b729dce478a265b0b8"
     },
     {
       "event_id": "evt_000011",
       "timestamp_utc": "2026-10-23T08:07:11.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "check.C6",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -281,7 +281,7 @@
             "result": "provided"
           },
           {
-            "label": "Proof of registered address",
+            "label": "Proof of registered address (max. 90 days old)",
             "result": "provided"
           },
           {
@@ -318,28 +318,28 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:74da55418849535df691d68f4b5b434d83d83079382dcaf6a10b48be3d494774",
-      "hash": "sha256:715179d4e52c31b113b8ead6b790a01501edcade2b9e56b44247297475a62de0"
+      "prev_event_hash": "sha256:cfd585cdb6e622795eb037ff103bdb8674c1fe05568fc7b729dce478a265b0b8",
+      "hash": "sha256:500a3f03248a86fd7885813cfcff9becb550645492b1056410744122cd2ee34c"
     },
     {
       "event_id": "evt_000012",
       "timestamp_utc": "2026-10-23T08:08:11.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "client:applicant",
       "action": "application.submitted",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
       "result": "submitted",
       "reason": null,
       "details": null,
-      "prev_event_hash": "sha256:715179d4e52c31b113b8ead6b790a01501edcade2b9e56b44247297475a62de0",
-      "hash": "sha256:78314c183ed3e6a7544c6affcff9477397a0488a11aac5d5d9a6bc702f52e0da"
+      "prev_event_hash": "sha256:500a3f03248a86fd7885813cfcff9becb550645492b1056410744122cd2ee34c",
+      "hash": "sha256:0e535796f6443dba594813468fd1b3ca9012e27a875243fbc52bd3ca6a3515e7"
     },
     {
       "event_id": "evt_000013",
       "timestamp_utc": "2026-10-23T08:08:12.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "risk.scored",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -381,14 +381,14 @@
           }
         ]
       },
-      "prev_event_hash": "sha256:78314c183ed3e6a7544c6affcff9477397a0488a11aac5d5d9a6bc702f52e0da",
-      "hash": "sha256:98e59195e7a7abad106cf9466475d98ff1a6e45c176c9caa632f770532355eb8"
+      "prev_event_hash": "sha256:0e535796f6443dba594813468fd1b3ca9012e27a875243fbc52bd3ca6a3515e7",
+      "hash": "sha256:b5d18d7af89c22be4190f4240380029a3f1fc028ca7ee3128e4b683c72128385"
     },
     {
       "event_id": "evt_000014",
       "timestamp_utc": "2026-10-23T08:08:13.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "rules.evaluated",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
@@ -406,28 +406,28 @@
         "decided_by": "human",
         "automated_final": false
       },
-      "prev_event_hash": "sha256:98e59195e7a7abad106cf9466475d98ff1a6e45c176c9caa632f770532355eb8",
-      "hash": "sha256:771b60b05d2d2d08224b85be6665f93b0871016068e623f174d9216ffb7881e2"
+      "prev_event_hash": "sha256:b5d18d7af89c22be4190f4240380029a3f1fc028ca7ee3128e4b683c72128385",
+      "hash": "sha256:2cce5b0ec9f48dfc04cf6f245f1fc696209c402778cf82ca55e29a036c56e231"
     },
     {
       "event_id": "evt_000015",
       "timestamp_utc": "2026-10-23T08:08:14.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "case.routed",
       "inputs_hash": "sha256:3e8548e73a212fe6265d8d71afea599a896b5e6545da76028e546d7d31d864a1",
       "result": "edd",
       "reason": "Queue: MLRO",
       "details": null,
-      "prev_event_hash": "sha256:771b60b05d2d2d08224b85be6665f93b0871016068e623f174d9216ffb7881e2",
-      "hash": "sha256:7f7ca308fa8f03fb26620263f6bcbcc71c9aa6727a62855146d7f26ea0e0ec5a"
+      "prev_event_hash": "sha256:2cce5b0ec9f48dfc04cf6f245f1fc696209c402778cf82ca55e29a036c56e231",
+      "hash": "sha256:aaf0440a45642dd1d63e1fcb8a63e27e594b0dd42512c8aba602b5d8fd0adafe"
     },
     {
       "event_id": "evt_000016",
       "timestamp_utc": "2026-10-23T08:08:14.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "client.notified",
       "inputs_hash": null,
@@ -440,14 +440,14 @@
           "Source of wealth evidence for the beneficial owners"
         ]
       },
-      "prev_event_hash": "sha256:7f7ca308fa8f03fb26620263f6bcbcc71c9aa6727a62855146d7f26ea0e0ec5a",
-      "hash": "sha256:5e92f77090521cf171b81b0b163959dc8663dddb3d850330a56c8f6f89678229"
+      "prev_event_hash": "sha256:aaf0440a45642dd1d63e1fcb8a63e27e594b0dd42512c8aba602b5d8fd0adafe",
+      "hash": "sha256:cd2639b9a6d31858b5da6dc0f6907747699ca0b0df9bf3d71d37b835ab4070a1"
     },
     {
       "event_id": "evt_000017",
       "timestamp_utc": "2026-10-23T09:03:14.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "mlro:demo-mlro",
       "action": "decision.request_info",
       "inputs_hash": null,
@@ -463,14 +463,14 @@
           "Source of wealth evidence for the beneficial owners"
         ]
       },
-      "prev_event_hash": "sha256:5e92f77090521cf171b81b0b163959dc8663dddb3d850330a56c8f6f89678229",
-      "hash": "sha256:91e7ad5cb64cfaa9763e586d86aac12f0a359cfba6d6ed3808c10faddb62eaed"
+      "prev_event_hash": "sha256:cd2639b9a6d31858b5da6dc0f6907747699ca0b0df9bf3d71d37b835ab4070a1",
+      "hash": "sha256:e0054989ca471e97cf18ab893ca91f5fc78227e5e729ba9076e4f345d36029fd"
     },
     {
       "event_id": "evt_000018",
       "timestamp_utc": "2026-10-23T09:03:14.000Z",
       "case_id": "CASE-B-0001",
-      "ruleset_version": "1.2.0",
+      "ruleset_version": "1.2.1",
       "actor": "system",
       "action": "client.notified",
       "inputs_hash": null,
@@ -483,9 +483,9 @@
           "Source of wealth evidence for the beneficial owners"
         ]
       },
-      "prev_event_hash": "sha256:91e7ad5cb64cfaa9763e586d86aac12f0a359cfba6d6ed3808c10faddb62eaed",
-      "hash": "sha256:3d6ec3aa0e281684a50afe110952cfdda5e64b72dff302807a8d521db88ed367"
+      "prev_event_hash": "sha256:e0054989ca471e97cf18ab893ca91f5fc78227e5e729ba9076e4f345d36029fd",
+      "hash": "sha256:dd9094dde20f9d3ddc6b7dbad73907d8d893f051d323902838fad2602e3b0e91"
     }
   ],
-  "note": "Demo snapshot generated by scripts/generate-audit.mjs with ruleset 1.2.0. Mock data only."
+  "note": "Demo snapshot generated by scripts/generate-audit.mjs with ruleset 1.2.1. Mock data only."
 }
