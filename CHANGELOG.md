@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-10-24
+
+### Changed
+- `JUSTIFICATION.md`: the summary of the approval preconditions now names all four, including the review for a single owner aged 60 or older (A4), which was only listed in the table.
+
 ## [1.8.0] - 2026-10-24
 
 ### Added

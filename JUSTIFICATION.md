@@ -8,7 +8,7 @@ One versioned ruleset (`ruleset.json`) is evaluated in a fixed order:
 
 1. **Hard rules**, top to bottom. The first match decides.
 2. **Risk score** from eleven weighted factors, such as holding layers, PEP, volume, industry and wallet risk.
-3. **Approval preconditions**: an approval also needs all-green checks, complete documents and, from USD 1M a month, a human review. Missing items are requested alongside any review; nobody approves without them.
+3. **Approval preconditions**: an approval also needs all-green checks and complete documents; from USD 1M a month, or with a single owner aged 60 or older, a person always reviews. Missing items are requested alongside any review; nobody approves without them.
 
 | Outcome | When | Who decides |
 |---|---|---|
