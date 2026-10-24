@@ -314,7 +314,7 @@ function newCase(key) {
     clientRequest: null,
     final: null,
     reasonDraft: '',
-    smApproval: false,
+    signOff: { name: '', role: '', date: new Date().toISOString().slice(0, 10), reference: '' },
     requestItems: [],
     actionError: null,
     verify: null,
@@ -514,8 +514,16 @@ async function performAction(actionId) {
     c.actionError = 'Add a reason of at least 15 characters. It is stored in the audit trail.';
     return renderView();
   }
-  if (a.needsSeniorApproval && !c.smApproval) {
-    c.actionError = 'Confirm that senior management approval is on file before approving an EDD case.';
+  const ha = state.ruleset.decision_rules.human_approval || {};
+  const missing = c.evaluation.missing_documents || [];
+  if (a.to === 'approved' && ha.requires_complete_documents && missing.length) {
+    c.actionError = `Approval is blocked until all required documents are in. Missing: ${missing.map((d) => d.label).join('; ')}. Request them from the client first.`;
+    return renderView();
+  }
+  const so = c.signOff;
+  const soFields = ha.senior_management_sign_off?.fields || [];
+  if (a.needsSeniorApproval && soFields.some((f) => !String(so[f] || '').trim())) {
+    c.actionError = 'Enter the senior management sign-off (name, role, date and reference of the approval) before approving an EDD case.';
     return renderView();
   }
   const options = requestOptions(c);
@@ -537,7 +545,7 @@ async function performAction(actionId) {
       to_status: a.to,
       system_recommendation: c.evaluation.decision.outcome,
       deciding_rule: c.evaluation.decision.rule_id,
-      senior_management_approval: a.needsSeniorApproval ? 'confirmed as on file (demo)' : undefined,
+      senior_management_sign_off: a.needsSeniorApproval ? Object.fromEntries(soFields.map((f) => [f, String(so[f]).trim()])) : undefined,
       requested_items: actionId === 'request_info' ? items.map((i) => i.label) : undefined,
     },
   });
@@ -551,7 +559,7 @@ async function performAction(actionId) {
   if (a.to === 'rejected') c.final = { by: 'mlro', status: 'rejected' };
   await notifyClient(c);
   c.reasonDraft = '';
-  c.smApproval = false;
+  c.signOff = { name: '', role: '', date: new Date().toISOString().slice(0, 10), reference: '' };
   c.requestItems = [];
   c.actionError = null;
   c.verify = null;
@@ -1337,14 +1345,19 @@ function actionsSection(c) {
     }
     ${
       available.some(([id]) => id === 'approve_edd')
-        ? `<label class="checkline mt-s"><input type="checkbox" data-bind="sm" ${c.smApproval ? 'checked' : ''}> Senior management approval is on file</label>`
+        ? `<fieldset class="signoff mt-s"><legend>Senior management sign-off (required to approve)</legend>
+            <label class="field">Name<input type="text" data-bind="so" data-key="name" value="${esc(c.signOff.name)}" placeholder="Who approved"></label>
+            <label class="field">Role<input type="text" data-bind="so" data-key="role" value="${esc(c.signOff.role)}" placeholder="For example Chief Executive Officer"></label>
+            <label class="field">Date<input type="date" data-bind="so" data-key="date" value="${esc(c.signOff.date)}"></label>
+            <label class="field">Reference<input type="text" data-bind="so" data-key="reference" value="${esc(c.signOff.reference)}" placeholder="Minutes or approval ID"></label>
+          </fieldset>`
         : ''
     }
     ${c.actionError ? `<p class="error mt-s" role="alert">${esc(c.actionError)}</p>` : ''}
     <div class="action-list">${available
       .map(([id, a]) => `<button class="${a.style}" data-action="act" data-id="${id}" ${c.running ? 'disabled' : ''}>${esc(a.label(c))}</button>`)
       .join('')}</div>
-    ${hidden.length ? `<p class="faint mt-s">Only the ${otherRole} can: ${hidden.map(([, a]) => esc(a.label(c).toLowerCase())).join(', ')}.</p>` : ''}
+    ${hidden.length ? `<p class="faint mt-s">Only the ${otherRole} can: ${hidden.map(([, a]) => esc(a.label(c).charAt(0).toLowerCase() + a.label(c).slice(1))).join(', ')}.</p>` : ''}
   </section>`;
 }
 
@@ -1603,6 +1616,10 @@ function viewRuleset() {
         )
         .join('')}</tbody></table></div></section>
       <section class="sheet"><h2>Approval preconditions</h2><div class="table-wrap"><table class="table"><thead><tr><th>Rule</th><th>If</th><th>Outcome</th><th>Decided by</th></tr></thead><tbody>${ruleRows(rs.decision_rules.approval_preconditions)}</tbody></table></div></section>
+      ${rs.decision_rules.human_approval ? `<section class="sheet"><h2>When a person approves</h2><ul class="plain-list">
+        ${rs.decision_rules.human_approval.requires_complete_documents ? '<li>Nobody approves a case while required documents are missing; they are requested from the client first.</li>' : ''}
+        ${rs.decision_rules.human_approval.senior_management_sign_off ? `<li>Approving an EDD case records the senior management sign-off: ${esc(rs.decision_rules.human_approval.senior_management_sign_off.fields.join(', '))}.</li>` : ''}
+      </ul></section>` : ''}
       <section class="sheet"><h2>Risk factors</h2><div class="table-wrap"><table class="table"><thead><tr><th>Factor</th><th></th><th>Points</th></tr></thead><tbody>${rs.risk_factors
         .map((f) => `<tr><td class="nowrap"><code>${esc(f.id)}</code></td><td>${esc(f.factor)}${f.per ? ` <span class="faint">(per ${esc(f.per)}, max ${f.max})</span>` : ''}</td><td class="num">${f.points}</td></tr>`)
         .join('')}</tbody></table></div></section>
@@ -1764,6 +1781,7 @@ document.addEventListener('input', (e) => {
   const t = e.target;
   const c = cur();
   if (t.dataset.bind === 'reason') c.reasonDraft = t.value;
+  if (t.dataset.bind === 'so') c.signOff[t.dataset.key] = t.value;
   if (t.dataset.bind === 'rs-reason') state.lab.reason = t.value;
 });
 
@@ -1784,8 +1802,6 @@ document.addEventListener('change', (e) => {
   } else if (t.dataset.bind === 'consent') {
     c.consented = t.checked;
     renderView();
-  } else if (t.dataset.bind === 'sm') {
-    c.smApproval = t.checked;
   } else if (t.dataset.bind === 'request-item') {
     c.requestItems = t.checked ? [...new Set([...c.requestItems, t.value])] : c.requestItems.filter((k) => k !== t.value);
   } else if (t.dataset.scenario) {

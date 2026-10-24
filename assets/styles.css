@@ -1198,6 +1198,7 @@ label.field {
 textarea,
 input[type='number'],
 input[type='text'],
+input[type='date'],
 select {
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius-s);
@@ -1209,6 +1210,25 @@ select {
 textarea {
   min-height: 78px;
   resize: vertical;
+}
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.85);
+}
+.signoff {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-s);
+  padding: 10px 12px 12px;
+  margin-left: 0;
+  margin-right: 0;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.signoff legend {
+  font-size: var(--t-s);
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0 4px;
 }
 .checkline {
   display: flex;

@@ -16,6 +16,7 @@
 - Decided against a demo database (an honest JSON export beats a database nobody uses) and against a free-form test case with uploads (without real integrations it would look staged), and chose the noindex subdomain and the changelog.
 - Tested both clients by hand, as client and in the compliance view, on desktop and mobile, in several browsers and operating systems.
 - Reviewed the rules, tested the edge cases in the Rule Lab, and deployed the site.
+- Did not rely on one model: ran smaller cross-checks with ChatGPT and Gemini along the way, and an independent review with a second AI agent (Hermes, by Nous Research) that had not seen the project. It walked through the live site, compared it with the repository and ran the tests. I decided which findings to fix; the fixes are listed in the changelog from version 1.4.0.
 
 ## What I used AI for
 

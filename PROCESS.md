@@ -97,6 +97,20 @@ Good onboarding flows keep text to a minimum, so I looked at where mine felt tex
 ### 4.13 Lunar Rails colours instead of a neutral design (added 24 Oct 2026, supersedes the earlier rule of no Lunar Rails colours)
 At the start I kept the prototype in a neutral design on purpose, so that a public onboarding form would not look like a real Lunar Rails page. On reflection, a prototype that already looks like it belongs to Lunar Rails makes it easier to picture it in their product, so I changed this: the site now uses a fixed dark theme with colours taken from their public website (near-black background, white text, Bitcoin orange for actions). What I did not take over: the logo, their display font (a licensed font) and the hero illustration (an animation built on a licensed stock graphic). The client view has an original line pattern of rails running to the horizon instead. The banner on every page still says that this is my prototype with fictional data, and the light and dark modes are gone because the look is fixed.
 
+### 4.14 Independent review: what it found and what I changed (added 24 Oct 2026)
+I had the finished prototype reviewed by a second AI agent (Hermes) that had not seen it, with a fixed brief: consistency, walkthrough of both clients, rule critique, client experience, style and layout. Two findings were real weaknesses, not cosmetics:
+
+- **A person could approve an EDD case with documents still missing**, and the senior management approval was only a checkbox. My approval preconditions only stopped the automated path. Now nobody approves while required documents are missing, and an EDD approval records who in senior management signed off, in which role, when, and the reference.
+- **The audit claim was too strong.** Deleting events from the end of an export left a valid, shorter chain. Exports now carry their event count and head hash, the verifier checks both, and the justification says plainly that a fully rewritten file is only caught against an anchored copy of the head hash.
+
+Further decisions from the review:
+- **USD 1M or more a month always gets a human review** (new precondition A3), as I had intended from the start (see 4.3); before, a client with no other risk factors stayed in the low band. A3 sits before A2 so that a missing document never delays that review.
+- **PEP scope includes family members and close associates.**
+- **Confirmed sanctions match:** during onboarding there are no client funds to freeze; the account is simply not opened. What still applies is reporting where the law requires it and not telling the client why. One sentence in the rule, no new process.
+- **Travel Rule and proof of wallet ownership** belong before the first deposit or withdrawal, not into onboarding. Mentioned, not built.
+- **Not changed:** nominee directors and bearer shares stay a 30-point risk factor. In practice they come with holding structures that already push a case into review or EDD, and a separate hard rule would be engineering for its own sake.
+- **Corrected the headline:** low risk trades within 24 hours, medium risk after a review within one business day. Before, the text promised 24 hours for both.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.

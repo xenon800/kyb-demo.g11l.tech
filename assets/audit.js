@@ -1,9 +1,13 @@
 // Append-only, hash-chained audit log.
 //
 // Every event stores the SHA-256 hash of the event before it. Changing or
-// deleting any past event breaks the chain from that point on, and
-// verifyChain() reports exactly where. Works in the browser and in Node 20+
-// (both provide crypto.subtle).
+// deleting an event breaks the chain from that point on, and verifyChain()
+// reports exactly where. Removing events from the end leaves a valid but
+// shorter chain, so an export also states its event count and head hash, and
+// verifyExport() checks both. Someone who rewrites the whole file, header
+// included, can only be caught by comparing the head hash with a copy kept
+// elsewhere (in production: anchored outside the log). Works in the browser
+// and in Node 20+ (both provide crypto.subtle).
 
 export const GENESIS_HASH = 'sha256:' + '0'.repeat(64);
 export const EXPORT_FORMAT = 'kyb-demo-audit/1';
@@ -65,12 +69,14 @@ export class AuditLog {
   }
 
   async export() {
+    const verification = await verifyChain(this.events);
     return {
       format: EXPORT_FORMAT,
       case_id: this.caseId,
       exported_at: this.clock().toISOString(),
       event_count: this.events.length,
-      verification: await verifyChain(this.events),
+      head_hash: verification.head_hash ?? null,
+      verification,
       events: this.events,
     };
   }
@@ -91,4 +97,22 @@ export async function verifyChain(events) {
     prev = hash;
   }
   return { ok: true, count: events.length, head_hash: prev };
+}
+
+/**
+ * Verify an exported audit file: the chain itself, plus the declared event
+ * count and head hash, so that events removed from the end are detected.
+ */
+export async function verifyExport(data) {
+  const events = data?.events || [];
+  const r = await verifyChain(events);
+  if (!r.ok) return r;
+  const declaredHead = data.head_hash ?? data.verification?.head_hash;
+  if (data.event_count !== events.length) {
+    return { ok: false, count: events.length, broken_at: 'end of file', reason: `The file declares ${data.event_count} events but contains ${events.length}` };
+  }
+  if (!declaredHead || declaredHead !== r.head_hash) {
+    return { ok: false, count: events.length, broken_at: 'end of file', reason: 'The last event does not match the declared head hash' };
+  }
+  return r;
 }

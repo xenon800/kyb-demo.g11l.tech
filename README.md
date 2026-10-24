@@ -1,6 +1,6 @@
 # KYB onboarding prototype for an OTC desk
 
-A working prototype of a corporate onboarding flow for an OTC desk, built by Gerrit Schnell for the Lunar Rails technical assessment: get a low- or medium-risk client trading-ready within 24 hours instead of up to 3 weeks. Mock data only.
+A working prototype of a corporate onboarding flow for an OTC desk, built by Gerrit Schnell for the Lunar Rails technical assessment: get a low-risk client trading-ready within 24 hours and a medium-risk client within one business day, instead of up to 3 weeks. Mock data only.
 
 Live: https://kyb-demo.g11l.tech
 

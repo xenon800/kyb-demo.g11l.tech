@@ -6,6 +6,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-10-24
+
+Fixes from an independent review of the rules and the audit trail (see decision 4.14).
+
+### Changed
+- `ruleset.json` **1.2.0**:
+  - New approval precondition **A3**: an expected volume of USD 1M or more a month always goes to a human review, even with a low risk score. It comes before A2, so a missing document never delays the review.
+  - New `human_approval` section: nobody approves a case while required documents are missing, and an EDD approval needs a senior management sign-off with name, role, date and reference.
+  - H4 and R3 now cover family members and close associates of PEPs.
+  - H2 note: after a confirmed sanctions match no account is opened, required reports are made and the client is not told the reason.
+  - Volume tiers are labelled "Under USD 100k", "USD 100k to under USD 1M" and "USD 1M or more", matching how the engine treats the boundaries.
+- **Compliance view:** approving is blocked while documents are missing, with a message naming them. The senior management checkbox is replaced by four fields (name, role, date, reference) that are written to the audit event. The list of actions for the other role no longer lowercases "MLRO".
+- **Ruleset tab:** new section "When a person approves".
+- **Audit:** exports now include `head_hash`; `verify-audit.mjs` checks the declared event count and head hash, so events removed from the end of a file are detected. Three new tests, plus three tests for A3 and the USD 1M boundary (41 in total).
+- **Wording:** README and `JUSTIFICATION.md` now say low risk within 24 hours and medium risk within one business day. The justification also covers A3, the PEP scope, the sign-off, the sanctions handling, the corrected audit claim, and that Travel Rule checks happen before the first deposit or withdrawal.
+- `TOOLS.md`: added the cross-checks with ChatGPT and Gemini and the independent review by a second agent.
+- Audit snapshots regenerated with ruleset 1.2.0.
+
 ## [1.3.0] - 2026-10-24
 
 ### Changed

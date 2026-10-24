@@ -30,7 +30,7 @@ The files in this folder are **demo snapshots** generated from the mock clients 
 - `client-a.json`: account created with consents, automated checks, approval recommended, confirmed by an analyst, trading enabled.
 - `client-b.json`: account created with consents, automated checks, escalated to EDD by the PEP rule, MLRO requests financial statements and source of wealth.
 
-In the live prototype, the audit trail of a session is shown in the compliance view and can be exported as JSON. Any export can be checked with `node scripts/verify-audit.mjs <file>`; changing a single character in an event makes verification fail at that event.
+In the live prototype, the audit trail of a session is shown in the compliance view and can be exported as JSON. Any export can be checked with `node scripts/verify-audit.mjs <file>`; changing a single character in an event makes verification fail at that event. Each export also states its event count and last (head) hash, and the verifier checks both, so removing events from the end is detected as well. Someone who rewrites the whole file, header included, can only be caught against a copy of the head hash kept elsewhere; that is what the external anchor below is for.
 
 ## In production
 

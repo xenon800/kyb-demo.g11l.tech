@@ -1,6 +1,6 @@
 {
   "ruleset_id": "otc-corporate-onboarding",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "effective_from": "2026-10-24",
   "status": "proposal: thresholds and lists to be confirmed by Compliance",
   "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
@@ -17,9 +17,9 @@
     "pep_outcome": "escalate",
     "pep_outcome_options": ["escalate", "reject"],
     "volume_tiers_usd_monthly": [
-      { "id": "V1", "max": 100000, "label": "< USD 100k", "additional_documents": [] },
-      { "id": "V2", "max": 1000000, "label": "USD 100k – 1M", "additional_documents": ["bank_statements_3m", "source_of_funds_declaration"] },
-      { "id": "V3", "max": null, "label": "> USD 1M", "additional_documents": ["bank_statements_3m", "source_of_funds_declaration", "financial_statements", "source_of_wealth"] }
+      { "id": "V1", "max": 100000, "label": "Under USD 100k", "additional_documents": [] },
+      { "id": "V2", "max": 1000000, "label": "USD 100k to under USD 1M", "additional_documents": ["bank_statements_3m", "source_of_funds_declaration"] },
+      { "id": "V3", "max": null, "label": "USD 1M or more", "additional_documents": ["bank_statements_3m", "source_of_funds_declaration", "financial_statements", "source_of_wealth"] }
     ],
     "risk_score_bands": { "low_max": 29, "medium_max": 59 },
     "client_eta": {
@@ -106,7 +106,7 @@
   "risk_factors": [
     { "id": "R1", "factor": "Holding layer between client and beneficial owners", "points": 15, "per": "layer", "max": 30, "test": "ownership_layers" },
     { "id": "R2", "factor": "Holding in a low-transparency jurisdiction", "points": 20, "test": "holding_low_transparency" },
-    { "id": "R3", "factor": "PEP among owners, directors or signatories", "points": 30, "test": "pep_present" },
+    { "id": "R3", "factor": "PEP (or a family member or close associate of one) among owners, directors or signatories", "points": 30, "test": "pep_present" },
     { "id": "R4", "factor": "Expected volume tier V2", "points": 10, "test": "volume_tier", "tier": "V2" },
     { "id": "R5", "factor": "Expected volume tier V3", "points": 25, "test": "volume_tier", "tier": "V3" },
     { "id": "R6", "factor": "High-risk industry (MSB, gambling, unlicensed VASP)", "points": 25, "test": "industry_high_risk" },
@@ -121,9 +121,9 @@
     "_order": "1) Hard rules, top to bottom: the first match decides, all matches are shown. 2) Otherwise the risk band decides. 3) An approval additionally has to pass the approval preconditions. Missing items never block a human review; they are requested alongside it.",
     "hard_rules": [
       { "id": "H1", "if": "Client, holding or a person in scope is based in a prohibited jurisdiction", "test": "prohibited_jurisdiction", "outcome": "reject", "decided_by": "human", "note": "The system recommends; the MLRO decides. There is no automatic rejection." },
-      { "id": "H2", "if": "Confirmed sanctions match", "test": "sanctions_confirmed", "outcome": "reject", "decided_by": "human", "note": "Reached only after an analyst has confirmed a potential match as a true hit." },
+      { "id": "H2", "if": "Confirmed sanctions match", "test": "sanctions_confirmed", "outcome": "reject", "decided_by": "human", "note": "Reached only after an analyst has confirmed a potential match as a true hit. No account is opened; the MLRO makes any report the law requires, and the client is not told the reason (no tipping-off)." },
       { "id": "H3", "if": "Potential sanctions match", "test": "sanctions_potential", "outcome": "review", "decided_by": "human", "note": "Analyst disposes the match: false positive or true hit." },
-      { "id": "H4", "if": "PEP identified (declared or found in screening)", "test": "pep_present", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, MLRO review, senior management approval." },
+      { "id": "H4", "if": "PEP, or a family member or close associate of a PEP, identified (declared or found in screening)", "test": "pep_present", "outcome": "param:pep_outcome", "decided_by": "human", "note": "EDD: source of funds and wealth, MLRO review, senior management approval." },
       { "id": "H5", "if": "Settlement wallet with high risk exposure", "test": "kyt_high", "outcome": "escalate", "decided_by": "human" },
       { "id": "H6", "if": "Registry data or a person's ID/liveness check does not match", "test": "verification_failed", "outcome": "review", "decided_by": "human" },
       { "id": "H7", "if": "Adverse media hit", "test": "adverse_media_hit", "outcome": "review", "decided_by": "human" }
@@ -135,13 +135,20 @@
     ],
     "approval_preconditions": [
       { "id": "A1", "if": "Any automated check is flagged or needs a manual step", "test": "checks_need_attention", "outcome": "review", "decided_by": "human", "note": "Approval, and especially automatic approval, only on all-green checks." },
+      { "id": "A3", "if": "Expected volume of USD 1M or more a month (tier V3)", "test": "volume_tier", "tier": "V3", "outcome": "review", "decided_by": "human", "note": "Volumes this high always get a human review, even with a low score. Listed before A2 so that a missing document never delays this review." },
       { "id": "A2", "if": "Required documents missing or ownership not resolved to natural persons", "test": "documents_incomplete", "outcome": "pending_information", "decided_by": "system", "note": "The client is asked for the specific items. Missing documents are never a reason to reject." }
-    ]
+    ],
+    "human_approval": {
+      "requires_complete_documents": true,
+      "senior_management_sign_off": { "required_for": "approve_edd", "fields": ["name", "role", "date", "reference"] },
+      "_note": "A person can approve only when all required documents are in. An EDD approval records who in senior management signed off, in which role, on which date, and the reference of that approval."
+    }
   },
 
   "guardrails": [
     "A rejection is never automatic. The engine refuses any ruleset in which a reject outcome is not decided by a human.",
-    "Only the MLRO can reject a client or approve an escalated (EDD) case. Approving a PEP also needs recorded senior management approval.",
+    "Only the MLRO can reject a client or approve an escalated (EDD) case. Approving an EDD case also needs recorded senior management sign-off (name, role, date, reference).",
+    "Nobody, human or system, approves a case while required documents are missing.",
     "A ruleset change needs a second approver and creates a new version; every decision records the version it was made under.",
     "Client messages never disclose screening results or internal rule IDs (tipping-off risk)."
   ],

@@ -10,7 +10,7 @@ import {
   personsInScope,
   RulesetError,
 } from '../assets/engine.js';
-import { AuditLog, verifyChain } from '../assets/audit.js';
+import { AuditLog, verifyChain, verifyExport } from '../assets/audit.js';
 
 const root = new URL('..', import.meta.url);
 const ruleset = JSON.parse(readFileSync(new URL('ruleset.json', root), 'utf8'));
@@ -148,6 +148,24 @@ check('editing an event breaks verification at that event', !v1.ok && v1.broken_
 const removed = JSON.parse(JSON.stringify(log.events)).filter((_, i) => i !== 1);
 const v2 = await verifyChain(removed);
 check('deleting an event breaks the chain', !v2.ok, JSON.stringify(v2));
+const exported = await log.export();
+check('an untouched export verifies with count and head hash', (await verifyExport(exported)).ok);
+const truncated = JSON.parse(JSON.stringify(exported));
+truncated.events = truncated.events.slice(0, -1);
+const v3 = await verifyExport(truncated);
+check('removing the last event of an export is detected', !v3.ok, JSON.stringify(v3));
+const lyingCount = JSON.parse(JSON.stringify(truncated));
+lyingCount.event_count = lyingCount.events.length;
+const v4 = await verifyExport(lyingCount);
+check('a truncated export with a corrected count still fails on the head hash', !v4.ok, JSON.stringify(v4));
+
+console.log('\nRuleset 1.2 rules');
+const aV3 = evaluate(applyScenario(clients.A, { volume: 2500000, documents: 'all' }, ruleset), ruleset);
+check('Client A at USD 2.5M a month goes to a human review via A3, not an approval', aV3.decision.outcome === 'review' && aV3.decision.rule_id === 'A3', `${aV3.decision.outcome} ${aV3.decision.rule_id}`);
+const aV3Doc = evaluate(applyScenario(clients.A, { volume: 2500000, documents: 'missing_one' }, ruleset), ruleset);
+check('a missing document does not delay the V3 review (A3 before A2)', aV3Doc.decision.rule_id === 'A3', aV3Doc.decision.rule_id);
+const aExactly1M = evaluate(applyScenario(clients.A, { volume: 1000000, documents: 'all' }, ruleset), ruleset);
+check('exactly USD 1M a month counts as V3 ("USD 1M or more")', aExactly1M.volume_tier.id === 'V3', aExactly1M.volume_tier.id);
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed ? 1 : 0);
