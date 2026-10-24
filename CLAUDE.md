@@ -20,7 +20,7 @@ OTC onboarding prototype for the Lunar Rails technical assessment, by Gerrit Sch
 ## Hard constraints
 
 - Mock data only. No real people or companies, no realistic fake documents (certificates, registry extracts, POAs).
-- Lunar Rails look, not Lunar Rails branding (decision 4.13 in `PROCESS.md`): the colours are inspired by their public website, as Gerrit decided. Never add their logo, product names as branding, their licensed fonts (for example Blenko) or their illustrations; the rails pattern in `assets/rails.svg` is original. The prototype banner stays visible on every page, so the site is clearly Gerrit's prototype "prepared for" Lunar Rails.
+- Lunar Rails look, not Lunar Rails branding (decision 4.13 in `PROCESS.md`): the colours are inspired by their public website, as Gerrit decided. Never add their logo, product names as branding, their licensed fonts (for example Blenko), their illustrations or their asset files; the circle pattern in `assets/circles.svg` is drawn here from the public-domain "flower of life" motif, not copied from their site. The prototype banner stays visible on every page, so the site is clearly Gerrit's prototype "prepared for" Lunar Rails.
 - No external requests: no CDNs, trackers, analytics or remote fonts. The Content Security Policy in `_headers` only allows the site's own files; keep it that way.
 - Keep `noindex` in all three places: meta tag in `index.html`, `X-Robots-Tag` in `_headers`, `robots.txt`.
 - Keep `wrangler.jsonc` and `.assetsignore`. Without them, Cloudflare's auto-setup uploads `node_modules` and the deploy fails. New non-website files go into `.assetsignore`.

@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-10-24
+
+### Changed
+- The header of the client view now uses a subtle pattern of overlapping circles that fades out to the right, closer to the header of the public Lunar Rails website. The pattern (`assets/circles.svg`) is drawn here from the public-domain "flower of life" motif; no file was copied from their site. The rails pattern (`assets/rails.svg`) is removed. See decision 4.18.
+
 ## [1.8.1] - 2026-10-24
 
 ### Changed

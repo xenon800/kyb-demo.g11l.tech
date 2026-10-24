@@ -122,6 +122,9 @@ Going through an EDD case as analyst, I noticed the only recommendation on offer
 ### 4.17 The client can send outstanding documents at any time (added 24 Oct 2026)
 The status page asked the client to prepare items for the enhanced review but only offered an upload once an analyst had requested something. When the system itself was waiting for a missing document, there was no upload at all. That contradicts the point of showing the checklist up front. Now the client can upload whatever is outstanding at any time until the case is closed. The case stays with the person handling it; if it was only waiting for the client, it moves on, and the upload is logged like every other step.
 
+### 4.18 Circle pattern instead of the rails pattern (added 24 Oct 2026, replaces the rails pattern from 4.13)
+The header of the client view used my own pattern of rails running to the horizon, which looked quite different from the header of the Lunar Rails website. Their background is the classic "flower of life", overlapping circles on a triangular grid, a centuries-old geometric motif. I drew that motif myself as a small repeating tile instead of copying their file, so the client view now matches their look while every asset on the site is still my own.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.

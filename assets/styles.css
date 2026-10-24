@@ -1,7 +1,8 @@
 /* Onboarding desk: OTC onboarding prototype
    Design notes
    - Fixed dark theme with colours inspired by the public Lunar Rails website (near-black, white text,
-     Bitcoin orange). No logo, no licensed fonts or illustrations; the line pattern is original.
+     Bitcoin orange). No logo, no licensed fonts or illustrations; the circle pattern is drawn here
+     from the public-domain "flower of life" motif.
    - Orange is reserved for things you can click. Status colours carry meaning.
    - Archivo (variable width) carries the personality: semi-condensed headings like file labels.
    - Monospace only for machine data: rule IDs, hashes, timestamps, API requests.
@@ -675,7 +676,10 @@ table.table,
 
 /* client view hero band with the original rails pattern */
 .client-hero {
-  background: url('rails.svg') center bottom / cover no-repeat;
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, 0) 35%, var(--paper) 100%),
+    url('circles.svg') left top / 72px auto repeat,
+    var(--paper);
   border: 1px solid var(--rule);
   border-radius: var(--radius-m);
   padding: 28px 24px 56px;
