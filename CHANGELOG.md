@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-24
+
+### Changed
+- **Client view split into what the client sees and what runs internally.** The application is labelled "What the client sees". The checks panel is labelled "Internal, never shown to the client", has its own dashed style and can be collapsed; its header shows a live summary (for example "4 done, all clear"). On phones and narrow screens it starts collapsed below the form, so the client part comes first. See decision 4.12.
+- Notes meant for reviewers (mock data, the "run in one go" shortcut, why there is no password field, where to see the reasons for a decision) are now marked as "Prototype note" and kept apart from the client's text.
+- The account step tells the client how sign-in works (email link and a one-time code); the explanation for reviewers moved into a prototype note.
+
 ## [1.1.1] - 2026-10-24
 
 ### Changed

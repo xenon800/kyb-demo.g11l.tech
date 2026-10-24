@@ -199,6 +199,7 @@ const DOC_PAGES = [
 // State
 
 const state = {
+  feedOpen: !window.matchMedia('(max-width: 1180px)').matches,
   ruleset: null,
   baseRuleset: null,
   rulesetLog: null,
@@ -795,11 +796,12 @@ function viewClient() {
     <div class="view-head">
       <div>
         <h1>Open a corporate OTC account</h1>
-        <p>This is the applicant's side. Each step triggers the automated checks on the right.</p>
+        <p>The client fills in the application. The internal panel shows what our systems do at the same time.</p>
       </div>
     </div>
     <div class="client-grid">
-      <section class="sheet" aria-label="Application">
+      <section class="sheet client-sheet" aria-label="What the client sees">
+        <p class="pane-label">What the client sees</p>
         <ol class="stepper">${stepper}</ol>
         <div class="step-body">${body}</div>
       </section>
@@ -808,11 +810,23 @@ function viewClient() {
 }
 
 function feedPanel(c) {
-  return `<aside class="sheet feed-panel" aria-label="Automated checks">
-    <h2>Automated checks</h2>
+  return `<details class="sheet feed-panel internal" data-feed ${state.feedOpen ? 'open' : ''}>
+    <summary>
+      <span class="pane-label">Internal, never shown to the client</span>
+      <span class="feed-head"><span class="feed-title">Automated checks</span><span class="feed-count" id="feed-count">${esc(feedSummary(c))}</span></span>
+    </summary>
     <p>Simulated provider responses, logged to the audit trail as they arrive.</p>
     <ol class="feed" id="feed" aria-live="polite">${feedItems(c)}</ol>
-  </aside>`;
+  </details>`;
+}
+
+function feedSummary(c) {
+  if (!c.feed.length) return 'Not started';
+  const running = c.feed.filter((f) => f.status === 'running').length;
+  const attention = c.feed.filter((f) => ['flag', 'fail', 'manual'].includes(f.status)).length;
+  if (running) return `${c.feed.length - running} done, ${running} running`;
+  if (attention) return `${c.feed.length} done, ${attention} need a look`;
+  return `${c.feed.length} done, all clear`;
 }
 
 function feedItems(c) {
@@ -835,6 +849,8 @@ function renderFeed() {
     f.innerHTML = feedItems(cur());
     scrollFeedToEnd();
   }
+  const n = document.getElementById('feed-count');
+  if (n) n.textContent = feedSummary(cur());
   renderSidebar();
 }
 
@@ -867,9 +883,9 @@ function clientStep(c, step) {
           <li>For expected volumes of ${compactUsd(rs.parameters.volume_tiers_usd_monthly[0].max)} a month or more: recent bank statements and a source of funds declaration</li>
           <li>For ${compactUsd(rs.parameters.volume_tiers_usd_monthly[1].max)} a month or more, also: financial statements and evidence of the owners' source of wealth</li>
         </ul>
-        <p class="hint mt">The form is prefilled with mock data for ${esc(d.label)}, ${esc(d.summary)}. It is read-only; to try other scenarios, use the <a href="#lab/${c.key}">Rule Lab</a>.</p>
         ${stepNav(c, { next: 'Start application', back: false })}
-        <p class="faint mt-s">In a hurry? <button class="btn btn-quiet" data-action="autorun" ${c.running ? 'disabled' : ''}>Run the whole application in one go</button></p>`;
+        <div class="demo-note mt"><p>The form is prefilled with mock data for ${esc(d.label)}, ${esc(d.summary)}. It is read-only; to try other scenarios, use the <a href="#lab/${c.key}">Rule Lab</a>.</p>
+        <p>In a hurry? <button class="btn btn-quiet" data-action="autorun" ${c.running ? 'disabled' : ''}>Run the whole application in one go</button></p></div>`;
     }
     case 'account': {
       const a = rs.client_account;
@@ -883,9 +899,10 @@ function clientStep(c, step) {
           ${field('Role', contact.role)}
           ${field('Work email', contact.email)}
         </dl>
-        <p class="hint mt">In production you sign in with a link sent to this email plus two-factor authentication. This demo has no password field on purpose, so nobody types a real password into a prototype.</p>
+        <p class="muted mt">You sign in with a link sent to this email and a one-time code from your authenticator app.</p>
         <label class="checkline mt"><input type="checkbox" data-bind="consent" ${c.consented ? 'checked' : ''}> I accept ${consents}.</label>
-        ${stepNav(c, { next: c.account ? 'Continue' : 'Create account', disabled: !c.consented })}`;
+        ${stepNav(c, { next: c.account ? 'Continue' : 'Create account', disabled: !c.consented })}
+        <div class="demo-note mt"><p>There is no password field on purpose, so nobody types a real password into a prototype.</p></div>`;
     }
     case 'company':
       return `
@@ -1030,7 +1047,7 @@ function clientStatus(c) {
       ${c.status === 'awaiting_client' && c.clientRequest ? `<div class="btn-row mt"><button class="btn" data-action="provide" ${c.running ? 'disabled' : ''}>Upload the requested items (mock)</button></div>` : ''}
     </div>
     <ol class="timeline">${tl}</ol>
-    <p class="hint mt">The applicant never sees screening results or rule IDs. To see why the case went this way, open the <a href="#compliance/${c.key}">compliance view</a>.</p>`;
+    <div class="demo-note mt"><p>The client never sees screening results or rule IDs. To see why the case went this way, open the <a href="#compliance/${c.key}">compliance view</a>.</p></div>`;
 }
 
 function clientTimeline(status) {
@@ -1749,6 +1766,14 @@ document.addEventListener('input', (e) => {
   if (t.dataset.bind === 'reason') c.reasonDraft = t.value;
   if (t.dataset.bind === 'rs-reason') state.lab.reason = t.value;
 });
+
+document.addEventListener(
+  'toggle',
+  (e) => {
+    if (e.target.matches?.('[data-feed]')) state.feedOpen = e.target.open;
+  },
+  true,
+);
 
 document.addEventListener('change', (e) => {
   const t = e.target;
