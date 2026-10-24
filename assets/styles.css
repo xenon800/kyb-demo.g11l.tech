@@ -455,6 +455,9 @@ textarea {
   color: var(--c);
 }
 
+.sheet > h2 + .hint {
+  margin: 0 0 12px;
+}
 .hint {
   border-left: 3px solid var(--accent);
   background: var(--accent-soft);

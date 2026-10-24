@@ -116,6 +116,9 @@ From Relai, where it was a big topic: older people are often the ones used in fr
 
 This is also where I stop adding rules for now. The prototype has grown with each review, and the point of the assessment is a clear set of rules, not the longest one.
 
+### 4.16 The analyst can recommend approval, not only rejection (added 24 Oct 2026)
+Going through an EDD case as analyst, I noticed the only recommendation on offer was rejection. That is lopsided: in practice the analyst prepares the enhanced due diligence (source of funds and wealth, ownership, a short memo) and recommends either way, and the MLRO decides. The analyst can now also recommend approval with a written reason. The case stays with the MLRO, the recommendation is logged and shown to the MLRO, and it needs complete documents like an approval does. Only the MLRO approves an EDD case, as before.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.

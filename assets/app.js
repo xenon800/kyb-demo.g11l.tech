@@ -103,6 +103,14 @@ const ACTIONS = {
     to: 'edd',
     style: 'btn btn-secondary',
   },
+  recommend_approval: {
+    label: () => 'Recommend approval to MLRO',
+    roles: ['analyst'],
+    from: ['edd'],
+    to: 'edd',
+    style: 'btn btn-secondary',
+    recommendsApproval: true,
+  },
   recommend_reject: {
     label: () => 'Recommend rejection to MLRO',
     roles: ['analyst'],
@@ -517,8 +525,8 @@ async function performAction(actionId) {
   }
   const ha = state.ruleset.decision_rules.human_approval || {};
   const missing = c.evaluation.missing_documents || [];
-  if (a.to === 'approved' && ha.requires_complete_documents && missing.length) {
-    c.actionError = `Approval is blocked until all required documents are in. Missing: ${missing.map((d) => d.label).join('; ')}. Request them from the client first.`;
+  if ((a.to === 'approved' || a.recommendsApproval) && ha.requires_complete_documents && missing.length) {
+    c.actionError = `An approval, or a recommendation to approve, needs all required documents. Missing: ${missing.map((d) => d.label).join('; ')}. Request them from the client first.`;
     return renderView();
   }
   const so = c.signOff;
@@ -548,8 +556,10 @@ async function performAction(actionId) {
       deciding_rule: c.evaluation.decision.rule_id,
       senior_management_sign_off: a.needsSeniorApproval ? Object.fromEntries(soFields.map((f) => [f, String(so[f]).trim()])) : undefined,
       requested_items: actionId === 'request_info' ? items.map((i) => i.label) : undefined,
+      note: a.recommendsApproval ? 'Recommendation only; the MLRO decides' : undefined,
     },
   });
+  if (a.recommendsApproval) c.recommendation = { outcome: 'approve', reason };
   c.status = a.to;
   c.humanRouted = true;
   if (actionId === 'request_info') c.clientRequest = { items, returnTo: from };
@@ -558,7 +568,7 @@ async function performAction(actionId) {
     c.final = { by: state.role, status: 'approved' };
   }
   if (a.to === 'rejected') c.final = { by: 'mlro', status: 'rejected' };
-  await notifyClient(c);
+  if (a.to !== from) await notifyClient(c);
   c.reasonDraft = '';
   c.signOff = { name: '', role: '', date: new Date().toISOString().slice(0, 10), reference: '' };
   c.requestItems = [];
@@ -1338,6 +1348,7 @@ function actionsSection(c) {
   const options = requestOptions(c);
   return `<section class="sheet">
     <h2>Decision</h2>
+    ${c.recommendation && c.status === 'edd' ? `<p class="hint">The analyst recommends approval: “${esc(c.recommendation.reason)}” The MLRO decides.</p>` : ''}
     <p class="muted">Act as</p>
     ${roleToggle}
     <label class="field">Reason (required, stored in the audit trail)

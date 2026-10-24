@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-24
+
+### Added
+- **Analyst can recommend approval of an EDD case to the MLRO**, not only rejection. The recommendation needs a reason and complete documents, is written to the audit trail and shown to the MLRO; the case stays with the MLRO, who still makes the decision. The client is not notified again, because nothing changes for them. See decision 4.16.
+
 ## [1.6.0] - 2026-10-24
 
 ### Added
