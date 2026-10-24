@@ -1296,7 +1296,7 @@ function peopleSection(ev) {
       <tbody>${ev.persons
         .map((p) => {
           const pep = ev.pep_persons.find((x) => x.id === p.id);
-          return `<tr><td>${esc(p.name)}<br><span class="faint">${esc(country(p.nationality))}, lives in ${esc(country(p.residence))}</span></td>
+          return `<tr><td>${esc(p.name)}<br><span class="faint">${p.date_of_birth ? `Born ${esc(p.date_of_birth.slice(0, 4))}, ` : ''}${esc(country(p.nationality))}, lives in ${esc(country(p.residence))}</span></td>
             <td>${p.in_scope ? esc(p.scope_reasons.join(', ')) : '<span class="faint">Not in scope</span>'}</td>
             <td class="num">${p.effective_pct}%</td>
             <td>${p.in_scope ? (pep ? badge('PEP', 's-escalate') + (pep.detail ? `<br><span class="faint">${esc(pep.detail)}</span>` : '') : 'Clear') : '<span class="faint">–</span>'}</td></tr>`;

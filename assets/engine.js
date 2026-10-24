@@ -212,6 +212,12 @@ const TESTS = {
   increased_monitoring_jurisdiction: (c) =>
     c.jurisdictions.some((j) => c.rs.jurisdictions.high_risk_fatf_increased_monitoring.includes(j)),
   nominee_or_bearer: (c) => !!c.caseData.ownership.nominee_or_bearer,
+  // A single beneficial owner at or above an age (fraud protection: a call with the owner, never an escalation by itself).
+  sole_ubo_aged_at_least: (c, f) => {
+    const ubos = c.persons.filter((p) => p.is_ubo);
+    if (ubos.length !== 1 || !ubos[0].date_of_birth) return false;
+    return Math.floor(monthsBetween(ubos[0].date_of_birth, c.asOf) / 12) >= f.years;
+  },
 };
 
 export const KNOWN_TESTS = Object.keys(TESTS);

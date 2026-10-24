@@ -1520,6 +1520,9 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .prose p,
 .prose ul,
 .prose ol,
+.prose code {
+  overflow-wrap: anywhere;
+}
 .prose .table-wrap,
 .prose pre {
   margin: 0 0 14px;
@@ -1604,7 +1607,18 @@ h3.mt {
     gap: 12px;
   }
   .caselist {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .case {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .tabs {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  .tab {
+    padding: 9px 10px 8px;
   }
   .side-h {
     display: none;
@@ -1623,7 +1637,12 @@ h3.mt {
   .docs-nav {
     position: static;
     grid-auto-flow: column;
+    grid-auto-columns: max-content;
     overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .docs-nav button {
+    white-space: nowrap;
   }
   .case-head .right {
     justify-items: start;

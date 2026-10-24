@@ -111,6 +111,11 @@ Further decisions from the review:
 - **Not changed:** nominee directors and bearer shares stay a 30-point risk factor. In practice they come with holding structures that already push a case into review or EDD, and a separate hard rule would be engineering for its own sake.
 - **Corrected the headline:** low risk trades within 24 hours, medium risk after a review within one business day. Before, the text promised 24 hours for both.
 
+### 4.15 A single owner aged 60 or older gets a call (added 24 Oct 2026)
+From Relai, where it was a big topic: older people are often the ones used in fraud, talked into fronting a company or an account through romance or investment scams, or directed by someone in the background. For a corporate client the signal is weaker than for a private client, so the rule is proportionate: a company with a single beneficial owner aged 60 or older always gets a human review, in which the account manager calls the owner alone and confirms they know what the company will trade, where the money comes from and that nobody else is directing them. Concerns go to the MLRO. Age alone never leads to an escalation or a rejection; that would be unequal treatment without a reason. The rule is approval precondition A4, so it can only stop an approval, never make a case stricter than review.
+
+This is also where I stop adding rules for now. The prototype has grown with each review, and the point of the assessment is a clear set of rules, not the longest one.
+
 ## 5. Build plan (written before any UI code)
 
 Deciding structure, screens and acceptance criteria up front, so the first build is close to final and later iterations are fine-tuning rather than rework. Rebuilding a UI because the structure was wrong is the most expensive kind of change, in time and in AI usage.

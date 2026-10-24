@@ -27,6 +27,7 @@
         {
           "id": "P1",
           "name": "Emily Tremblay",
+          "date_of_birth": "1981-04-12",
           "nationality": "CA",
           "residence": "CA",
           "owns": [
@@ -128,6 +129,7 @@
         {
           "id": "P1",
           "name": "Daniel Okafor",
+          "date_of_birth": "1976-09-03",
           "nationality": "GB",
           "residence": "AE",
           "owns": [
@@ -145,6 +147,7 @@
         {
           "id": "P2",
           "name": "Priya Raman",
+          "date_of_birth": "1984-02-21",
           "nationality": "IN",
           "residence": "AE",
           "owns": [
@@ -159,6 +162,7 @@
         {
           "id": "P3",
           "name": "Marco Bellandi",
+          "date_of_birth": "1963-11-30",
           "nationality": "IT",
           "residence": "AE",
           "owns": [],

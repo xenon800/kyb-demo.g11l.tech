@@ -167,5 +167,18 @@ check('a missing document does not delay the V3 review (A3 before A2)', aV3Doc.d
 const aExactly1M = evaluate(applyScenario(clients.A, { volume: 1000000, documents: 'all' }, ruleset), ruleset);
 check('exactly USD 1M a month counts as V3 ("USD 1M or more")', aExactly1M.volume_tier.id === 'V3', aExactly1M.volume_tier.id);
 
+console.log('\nRuleset 1.3 rules');
+const olderOwner = JSON.parse(JSON.stringify(clients.A));
+olderOwner.ownership.persons[0].date_of_birth = '1962-03-01';
+const aOld = evaluate(olderOwner, ruleset);
+check('a single owner aged 60 or older goes to a review via A4 (call by the account manager)', aOld.decision.outcome === 'review' && aOld.decision.rule_id === 'A4', `${aOld.decision.outcome} ${aOld.decision.rule_id}`);
+const justUnder = JSON.parse(JSON.stringify(clients.A));
+justUnder.ownership.persons[0].date_of_birth = '1966-12-01';
+check('a single owner aged 59 is not affected', evaluate(justUnder, ruleset).decision.rule_id !== 'A4');
+const bOld = JSON.parse(JSON.stringify(clients.B));
+bOld.ownership.persons.forEach((p) => (p.date_of_birth = '1950-01-01'));
+check('A4 only applies with a single owner (Client B has two)', !evaluate(bOld, ruleset).precondition_matches.some((m) => m.id === 'A4'));
+check('age alone never escalates or rejects', ['review'].includes(aOld.decision.outcome));
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed ? 1 : 0);

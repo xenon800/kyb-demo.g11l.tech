@@ -13,11 +13,11 @@ One versioned ruleset (`ruleset.json`) is evaluated in a fixed order:
 | Outcome | When | Who decides |
 |---|---|---|
 | **Approve** | Score 0–29, all checks green, documents complete | System recommends, an analyst confirms (target: within 24 h) |
-| **Review** | Score 30–59, USD 1M or more a month, potential sanctions match, registry or ID mismatch, adverse media, any flagged check | Analyst, within 1 business day |
+| **Review** | Score 30–59, USD 1M or more a month, a single owner aged 60 or older (fraud-protection call), potential sanctions match, registry or ID mismatch, adverse media, any flagged check | Analyst, within 1 business day |
 | **Escalate** | PEP (including family members and close associates), score 60 or more, high-risk wallet | MLRO runs EDD; approval needs a recorded senior management sign-off |
 | **Reject** | Prohibited jurisdiction, confirmed sanctions match | MLRO only, never automatic; required reports are made, the client is not told why |
 
-**Client A** scores 0 and is approved once an analyst confirms. **Client B** escalates through the PEP rule. Even without the PEP it scores 60 (BVI holding, one ownership layer, USD 1M or more a month) and would still escalate.
+**Client A** scores 0 and is approved once an analyst confirms. **Client B** escalates through the PEP rule; without the PEP it still scores 60 (BVI holding, one ownership layer, USD 1M or more a month).
 
 ## What I automated and what I would never automate
 

@@ -6,6 +6,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-10-24
+
+### Added
+- `ruleset.json` **1.3.0**: new approval precondition **A4**. A company with a single beneficial owner aged 60 or older always gets a human review: the account manager calls the owner alone to confirm they know what the company will trade, where the money comes from and that nobody else is directing them. Fraud protection, not a judgement on age; age alone never escalates or rejects. See decision 4.15.
+- Mock persons now have a date of birth (Client A and B are unaffected), and the compliance view shows the birth year in the people table.
+- Four new tests for A4 (45 in total).
+
+### Changed
+- **Phone layout:** the main tabs wrap onto a second line instead of being cut off, the docs navigation is a single scrollable line, the case cards in the sidebar can no longer push the page wider than the screen, and long inline code in the docs wraps. No view scrolls sideways at 390 px.
+- `JUSTIFICATION.md` lists A4 under review and stays at one page.
+- Audit snapshots regenerated with ruleset 1.3.0.
+
 ## [1.5.0] - 2026-10-24
 
 Second set of fixes from the independent review: wording, terms and small behaviour.

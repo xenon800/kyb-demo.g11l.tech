@@ -1,6 +1,6 @@
 {
   "ruleset_id": "otc-corporate-onboarding",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "effective_from": "2026-10-24",
   "status": "proposal: thresholds and lists to be confirmed by Compliance",
   "owner": "Compliance (MLRO) owns the policy. Operations translates it into this file. Every change needs a second approver and produces a new version.",
@@ -136,6 +136,7 @@
     "approval_preconditions": [
       { "id": "A1", "if": "Any automated check is flagged or needs a manual step", "test": "checks_need_attention", "outcome": "review", "decided_by": "human", "note": "Approval, and especially automatic approval, only on all-green checks." },
       { "id": "A3", "if": "Expected volume of USD 1M or more a month (tier V3)", "test": "volume_tier", "tier": "V3", "outcome": "review", "decided_by": "human", "note": "Volumes this high always get a human review, even with a low score. Listed before A2 so that a missing document never delays this review." },
+      { "id": "A4", "if": "The company has a single beneficial owner aged 60 or older", "test": "sole_ubo_aged_at_least", "years": 60, "outcome": "review", "decided_by": "human", "note": "Fraud protection, not a judgement on age: the account manager calls the owner alone to confirm they know what the company will trade, where the money comes from, and that nobody else is directing them. Concerns go to the MLRO. Age alone is never a reason to escalate or reject." },
       { "id": "A2", "if": "Required documents missing or ownership not resolved to natural persons", "test": "documents_incomplete", "outcome": "pending_information", "decided_by": "system", "note": "The client is asked for the specific items. Missing documents are never a reason to reject." }
     ],
     "human_approval": {
