@@ -1,7 +1,8 @@
 /* Onboarding desk: OTC onboarding prototype
    Design notes
-   - Cool ledger-paper desk, white sheets on top. Status colour is the only strong colour.
-   - Ink blue is reserved for things you can click.
+   - Fixed dark theme with colours inspired by the public Lunar Rails website (near-black, white text,
+     Bitcoin orange). No logo, no licensed fonts or illustrations; the line pattern is original.
+   - Orange is reserved for things you can click. Status colours carry meaning.
    - Archivo (variable width) carries the personality: semi-condensed headings like file labels.
    - Monospace only for machine data: rule IDs, hashes, timestamps, API requests.
    - The decision path is the one bold element; everything around it stays quiet. */
@@ -30,29 +31,29 @@
 }
 
 :root {
-  --paper: #edf0eb;
-  --sheet: #fcfdfb;
-  --sheet-2: #f5f7f3;
-  --ink: #1d2421;
-  --ink-2: #4d5853;
-  --ink-3: #78837d;
-  --rule: #d4dad3;
-  --rule-strong: #b3bdb5;
+  --paper: #0a0a0a;
+  --sheet: #131313;
+  --sheet-2: #1a1a1a;
+  --ink: #fafafa;
+  --ink-2: #bdbdbd;
+  --ink-3: #8a8a8a;
+  --rule: #272727;
+  --rule-strong: #3d3d3d;
 
-  --accent: #2a3c8c;
-  --accent-ink: #ffffff;
-  --accent-soft: #e4e8f6;
+  --accent: #f7931a;
+  --accent-ink: #0a0a0a;
+  --accent-soft: #2a1a08;
 
-  --approve: #1c7a4b;
-  --approve-soft: #e0efe5;
-  --review: #965d0a;
-  --review-soft: #f5ead4;
-  --escalate: #0d676c;
-  --escalate-soft: #d9ecea;
-  --pending: #536070;
-  --pending-soft: #e4e8ec;
-  --reject: #b42318;
-  --reject-soft: #f6dfdb;
+  --approve: #32d583;
+  --approve-soft: #0f2a1c;
+  --review: #fec84b;
+  --review-soft: #2b230d;
+  --escalate: #8f85f5;
+  --escalate-soft: #1d1a3a;
+  --pending: #9aa6b5;
+  --pending-soft: #1c2128;
+  --reject: #ff6b6f;
+  --reject-soft: #321415;
 
   --radius-s: 4px;
   --radius-m: 8px;
@@ -66,35 +67,9 @@
   --t-xl: 23px;
   --t-xxl: 31px;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #121614;
-    --sheet: #191e1c;
-    --sheet-2: #1f2522;
-    --ink: #e2e8e4;
-    --ink-2: #a9b4ae;
-    --ink-3: #7f8a85;
-    --rule: #2c3431;
-    --rule-strong: #3f4945;
-    --accent: #a4b3f3;
-    --accent-ink: #11173a;
-    --accent-soft: #232a49;
-    --approve: #63c38f;
-    --approve-soft: #16301f;
-    --review: #e2a84f;
-    --review-soft: #33270f;
-    --escalate: #56c4c7;
-    --escalate-soft: #0f2f2e;
-    --pending: #a8b4c1;
-    --pending-soft: #232a31;
-    --reject: #f08a7f;
-    --reject-soft: #3a1b17;
-    color-scheme: dark;
-  }
-}
 
 /* ---------- base ---------- */
 *,
@@ -377,7 +352,8 @@ textarea {
   text-decoration: none;
 }
 .btn:hover {
-  filter: brightness(1.08);
+  background: transparent;
+  color: var(--accent);
 }
 .btn[disabled] {
   opacity: 0.45;
@@ -390,6 +366,7 @@ textarea {
 }
 .btn-secondary:hover {
   background: var(--accent-soft);
+  color: var(--accent);
   filter: none;
 }
 .btn-danger {
@@ -691,6 +668,19 @@ table.table,
   font-family: var(--mono);
   font-size: var(--t-xs);
   color: var(--ink-3);
+}
+
+/* client view hero band with the original rails pattern */
+.client-hero {
+  background: url('rails.svg') center bottom / cover no-repeat;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-m);
+  padding: 28px 24px 56px;
+  margin-bottom: 18px;
+}
+.client-hero p {
+  color: var(--ink-2);
+  max-width: 60ch;
 }
 
 /* client and internal panes */

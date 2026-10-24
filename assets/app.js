@@ -793,7 +793,7 @@ function viewClient() {
   const stepper = STEPS.map((s, i) => `<li class="${i < c.step || done ? 'done' : i === c.step ? 'current' : ''}">${s.title}</li>`).join('');
   const body = done ? clientStatus(c) : clientStep(c, STEPS[c.step]);
   return `
-    <div class="view-head">
+    <div class="view-head client-hero">
       <div>
         <h1>Open a corporate OTC account</h1>
         <p>The client fills in the application. The internal panel shows what our systems do at the same time; the client never sees it.</p>

@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Every push to `m
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-24
+
+### Changed
+- **New look inspired by the public Lunar Rails website:** fixed dark theme (near-black background, white text in shades), Bitcoin orange for buttons and links, new status colours to match. Light mode is removed because the look is fixed. See decision 4.13.
+- The client view opens with a band showing an original line pattern of rails running to the horizon (`assets/rails.svg`). Their logo, licensed display font and hero illustration are not used.
+- Favicon and browser theme colour updated to the dark look.
+- `CLAUDE.md`: the branding rule now allows the colours but still excludes the logo, licensed fonts and illustrations; layout checks no longer include dark mode.
+
 ## [1.2.1] - 2026-10-24
 
 ### Changed
